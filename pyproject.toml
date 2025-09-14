@@ -1,0 +1,29 @@
+[tool.poetry]
+name = "applyr"
+version = "0.1.0"
+description = "Intelligent Job Market Analysis Toolkit - Scrape job postings, generate market insights, and build targeted cover letters"
+authors = ["Cole Morton"]
+readme = "README.md"
+packages = [{include = "applyr"}]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+typer = {extras = ["all"], version = "^0.12.0"}
+requests = "^2.31.0"
+beautifulsoup4 = "^4.12.0"
+lxml = "^4.9.0"
+markdown = "^3.5.0"
+weasyprint = "^66.0"
+pandas = "^2.0.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.0"
+black = "^23.0"
+isort = "^5.12"
+
+[tool.poetry.scripts]
+applyr = "applyr.cli:app"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
