@@ -188,7 +188,7 @@ def aggregate_command(
 def pdf_command(
     input_path: Path = typer.Argument(
         ...,
-        help="Input markdown file or directory containing markdown files"
+        help="Input markdown/HTML file or directory containing markdown/HTML files"
     ),
     output: Optional[Path] = typer.Option(
         None, "--output", "-o",
@@ -204,10 +204,10 @@ def pdf_command(
     ),
     batch: bool = typer.Option(
         False, "--batch", "-b",
-        help="Process all markdown files in a directory"
+        help="Process all markdown and HTML files in a directory"
     ),
 ):
-    """📄 Convert markdown files to PDF with custom CSS styling
+    """📄 Convert markdown and HTML files to PDF with custom CSS styling
     
     Supports single file conversion or batch processing of entire directories.
     """
@@ -223,7 +223,7 @@ def pdf_command(
             
         output_dir = output or input_path.parent / f"{input_path.name}_pdfs"
         
-        console.print(f"[bold blue]📦 Batch converting markdown files from {input_path}[/bold blue]")
+        console.print(f"[bold blue]📦 Batch converting markdown and HTML files from {input_path}[/bold blue]")
         
         results = converter.batch_convert(
             input_path,
@@ -256,15 +256,15 @@ def pdf_command(
             console.print(f"[red]❌ Error: File not found: {input_path}[/red]")
             raise typer.Exit(1)
             
-        if not input_path.suffix == '.md':
-            console.print(f"[red]❌ Error: Input must be a markdown file (.md)[/red]")
+        if input_path.suffix.lower() not in ['.md', '.html']:
+            console.print(f"[red]❌ Error: Input must be a markdown (.md) or HTML (.html) file[/red]")
             raise typer.Exit(1)
             
         output_pdf = output or input_path.with_suffix('.pdf')
         
         console.print(f"[bold blue]📄 Converting {input_path} to PDF[/bold blue]")
         
-        success = converter.convert_markdown_to_pdf(
+        success = converter.convert_to_pdf(
             input_path,
             output_pdf,
             css_file,
@@ -278,7 +278,7 @@ def pdf_command(
 def resume_formats_command(
     input_path: Path = typer.Argument(
         ...,
-        help="Input resume markdown file"
+        help="Input resume markdown or HTML file"
     ),
     output_dir: Optional[Path] = typer.Option(
         None, "--output-dir", "-o",
@@ -289,7 +289,7 @@ def resume_formats_command(
         help="Comma-separated list of formats: sensylate,executive,ats,professional,minimal,technical,heebo-premium"
     ),
 ):
-    """📄 Generate multiple professional resume formats from a single markdown file
+    """📄 Generate multiple professional resume formats from a single markdown or HTML file
     
     Creates high-quality resume PDFs in 6 professional formats optimized for different use cases.
     All formats include centered SVG brand text (2x size) for perfect font consistency.
@@ -315,8 +315,8 @@ def resume_formats_command(
         console.print(f"[red]❌ Error: Input file not found: {input_path}[/red]")
         raise typer.Exit(1)
     
-    if not input_path.suffix == '.md':
-        console.print(f"[red]❌ Error: Input must be a markdown file (.md)[/red]")
+    if input_path.suffix.lower() not in ['.md', '.html']:
+        console.print(f"[red]❌ Error: Input must be a markdown (.md) or HTML (.html) file[/red]")
         raise typer.Exit(1)
     
     # Default output directory
@@ -359,7 +359,7 @@ def resume_formats_command(
         
         console.print(f"[blue]  → {format_name}: {output_pdf.name}[/blue]")
         
-        success = converter.convert_markdown_to_pdf(
+        success = converter.convert_to_pdf(
             input_path,
             output_pdf,
             css_file=css_file

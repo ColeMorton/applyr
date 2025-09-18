@@ -34,7 +34,7 @@ except ImportError:
 
 
 class PDFConverter:
-    """Convert markdown files to PDF with custom CSS styling support"""
+    """Convert markdown and HTML files to PDF with custom CSS styling support"""
     
     def __init__(self, console: Optional[Console] = None):
         """Initialize PDF converter with optional console for output"""
@@ -42,6 +42,82 @@ class PDFConverter:
         self.md = markdown.Markdown(extensions=['extra', 'codehilite', 'toc', 'tables', 'md_in_html'])
         self.font_config = FontConfiguration() if FONT_CONFIG_AVAILABLE else None
         
+    def convert_to_pdf(
+        self, 
+        input_file: Path,
+        output_pdf: Path,
+        css_file: Optional[Path] = None,
+        css_string: Optional[str] = None
+    ) -> bool:
+        """
+        Convert a markdown or HTML file to PDF with optional CSS styling
+        
+        Args:
+            input_file: Path to the input markdown or HTML file
+            output_pdf: Path for the output PDF file
+            css_file: Optional path to a CSS file for styling
+            css_string: Optional CSS string for inline styling
+            
+        Returns:
+            bool: True if conversion successful, False otherwise
+        """
+        # Detect file type and route to appropriate method
+        file_extension = input_file.suffix.lower()
+        
+        if file_extension == '.html':
+            return self.convert_html_to_pdf(input_file, output_pdf, css_file, css_string)
+        elif file_extension == '.md':
+            return self.convert_markdown_to_pdf(input_file, output_pdf, css_file, css_string)
+        else:
+            self.console.print(f"[red]❌ Error: Unsupported file type: {file_extension}. Only .md and .html files are supported.[/red]")
+            return False
+    
+    def convert_html_to_pdf(
+        self, 
+        html_file: Path,
+        output_pdf: Path,
+        css_file: Optional[Path] = None,
+        css_string: Optional[str] = None
+    ) -> bool:
+        """
+        Convert an HTML file to PDF with optional CSS styling
+        
+        Args:
+            html_file: Path to the input HTML file
+            output_pdf: Path for the output PDF file
+            css_file: Optional path to a CSS file for styling
+            css_string: Optional CSS string for inline styling
+            
+        Returns:
+            bool: True if conversion successful, False otherwise
+        """
+        # Read HTML content
+        if not html_file.exists():
+            self.console.print(f"[red]❌ Error: HTML file not found: {html_file}[/red]")
+            return False
+            
+        with open(html_file, 'r', encoding='utf-8') as f:
+            html_content = f.read()
+        
+        # Try WeasyPrint first if available
+        if WEASYPRINT_AVAILABLE:
+            try:
+                return self._convert_html_with_weasyprint(html_file, html_content, output_pdf, css_file, css_string)
+            except Exception as e:
+                self.console.print(f"[yellow]⚠️  WeasyPrint failed: {e}[/yellow]")
+                self.console.print("[blue]🔄 Trying fallback method with ReportLab...[/blue]")
+        
+        # Fall back to ReportLab
+        if REPORTLAB_AVAILABLE:
+            try:
+                return self._convert_html_with_reportlab(html_file, html_content, output_pdf)
+            except Exception as e:
+                self.console.print(f"[red]❌ ReportLab fallback failed: {e}[/red]")
+                return False
+        
+        self.console.print("[red]❌ No PDF conversion libraries available. Please install weasyprint or reportlab[/red]")
+        return False
+
     def convert_markdown_to_pdf(
         self, 
         markdown_file: Path,
@@ -215,6 +291,129 @@ class PDFConverter:
         self.console.print(f"[green]✅ PDF created with ReportLab: {output_pdf}[/green]")
         return True
     
+    def _convert_html_with_weasyprint(
+        self, 
+        html_file: Path, 
+        html_content: str, 
+        output_pdf: Path, 
+        css_file: Optional[Path] = None, 
+        css_string: Optional[str] = None
+    ) -> bool:
+        """Convert HTML using WeasyPrint with enhanced link and font handling"""
+        
+        # Check if content has proper HTML structure
+        if not html_content.strip().startswith('<!DOCTYPE') and not html_content.strip().startswith('<html'):
+            # Wrap in basic HTML structure if needed
+            html_content = f"""
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <meta charset="utf-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <base href="https://colemorton.com/">
+                <title>{html_file.stem}</title>
+            </head>
+            <body>
+                {html_content}
+            </body>
+            </html>
+            """
+        
+        # Create HTML object with proper base_url for link resolution
+        html = HTML(string=html_content, base_url='https://colemorton.com/')
+        
+        # Prepare CSS with WeasyPrint link optimization
+        css_objects = []
+        
+        # Add WeasyPrint-specific link handling CSS
+        weasyprint_css = self._get_weasyprint_optimized_css()
+        
+        # Add default CSS for better formatting
+        if self.font_config:
+            # WeasyPrint with FontConfiguration
+            css_objects.append(CSS(string=weasyprint_css, font_config=self.font_config))
+            css_objects.append(CSS(string=self._get_default_css(), font_config=self.font_config))
+            
+            # Add custom CSS from file if provided
+            if css_file and css_file.exists():
+                css_objects.append(CSS(filename=str(css_file), font_config=self.font_config))
+            
+            # Add inline CSS if provided
+            if css_string:
+                css_objects.append(CSS(string=css_string, font_config=self.font_config))
+        else:
+            # WeasyPrint 66.0+ integrated font handling
+            css_objects.append(CSS(string=weasyprint_css))
+            css_objects.append(CSS(string=self._get_default_css()))
+            
+            # Add custom CSS from file if provided
+            if css_file and css_file.exists():
+                css_objects.append(CSS(filename=str(css_file)))
+            
+            # Add inline CSS if provided
+            if css_string:
+                css_objects.append(CSS(string=css_string))
+        
+        # Generate PDF with optimization settings
+        output_pdf.parent.mkdir(parents=True, exist_ok=True)
+        
+        # Write PDF with enhanced settings for links and fonts
+        write_options = {
+            'stylesheets': css_objects,
+            'optimize_images': True,
+            'presentational_hints': True
+        }
+        
+        if self.font_config:
+            write_options['font_config'] = self.font_config
+            
+        html.write_pdf(output_pdf, **write_options)
+        
+        self.console.print(f"[green]✅ PDF created from HTML with WeasyPrint: {output_pdf}[/green]")
+        return True
+    
+    def _convert_html_with_reportlab(self, html_file: Path, html_content: str, output_pdf: Path) -> bool:
+        """Simple HTML conversion using ReportLab"""
+        
+        # Create PDF
+        output_pdf.parent.mkdir(parents=True, exist_ok=True)
+        doc = SimpleDocTemplate(str(output_pdf), pagesize=A4, 
+                               rightMargin=72, leftMargin=72, 
+                               topMargin=72, bottomMargin=18)
+        
+        # Get styles
+        styles = getSampleStyleSheet()
+        story = []
+        
+        # Parse HTML and convert to reportlab paragraphs
+        import re
+        
+        # Remove HTML tags for simple text extraction
+        text_content = re.sub('<[^<]+?>', '', html_content)
+        text_content = html.unescape(text_content)
+        
+        # Split into paragraphs and add to story
+        paragraphs = text_content.split('\n\n')
+        for para_text in paragraphs:
+            if para_text.strip():
+                # Determine style based on content
+                if any(para_text.strip().startswith(tag) for tag in ['h1', 'h2', 'h3', 'H1', 'H2', 'H3']):
+                    style = styles['Heading1']
+                elif para_text.strip().startswith('-') or para_text.strip().startswith('*'):
+                    style = styles['Normal']
+                else:
+                    style = styles['Normal']
+                
+                para = Paragraph(para_text.strip(), style)
+                story.append(para)
+                story.append(Spacer(1, 12))
+        
+        # Build PDF
+        doc.build(story)
+        
+        self.console.print(f"[green]✅ PDF created from HTML with ReportLab: {output_pdf}[/green]")
+        return True
+    
     def batch_convert(
         self,
         input_dir: Path,
@@ -223,16 +422,16 @@ class PDFConverter:
         css_string: Optional[str] = None
     ) -> dict:
         """
-        Convert all markdown files in a directory to PDFs
+        Convert all markdown and HTML files in a directory to PDFs
         
         Args:
-            input_dir: Directory containing markdown files
+            input_dir: Directory containing markdown and HTML files
             output_dir: Directory for output PDF files
             css_file: Optional CSS file for styling all PDFs
             css_string: Optional CSS string for styling all PDFs
             
         Returns:
-            dict: Dictionary of {markdown_file: success_bool}
+            dict: Dictionary of {input_file: success_bool}
         """
         results = {}
         
@@ -240,23 +439,30 @@ class PDFConverter:
             self.console.print(f"[red]❌ Error: Input directory not found: {input_dir}[/red]")
             return results
             
+        # Find both markdown and HTML files
         markdown_files = list(input_dir.glob("*.md"))
+        html_files = list(input_dir.glob("*.html"))
+        all_files = markdown_files + html_files
         
-        if not markdown_files:
-            self.console.print(f"[yellow]⚠️  No markdown files found in: {input_dir}[/yellow]")
+        if not all_files:
+            self.console.print(f"[yellow]⚠️  No markdown or HTML files found in: {input_dir}[/yellow]")
             return results
         
-        self.console.print(f"[blue]🔄 Converting {len(markdown_files)} markdown files to PDF...[/blue]")
+        file_count = len(all_files)
+        md_count = len(markdown_files)
+        html_count = len(html_files)
         
-        for md_file in markdown_files:
-            output_pdf = output_dir / f"{md_file.stem}.pdf"
-            success = self.convert_markdown_to_pdf(
-                md_file,
+        self.console.print(f"[blue]🔄 Converting {file_count} files to PDF ({md_count} markdown, {html_count} HTML)...[/blue]")
+        
+        for input_file in all_files:
+            output_pdf = output_dir / f"{input_file.stem}.pdf"
+            success = self.convert_to_pdf(
+                input_file,
                 output_pdf,
                 css_file,
                 css_string
             )
-            results[md_file] = success
+            results[input_file] = success
             
         return results
     
