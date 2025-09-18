@@ -9,9 +9,9 @@
 <span class="contact-item">✉️ cole.morton@hotmail.com</span>
 </div>
 <div class="contact-row">
-<span class="contact-item">💼 [LinkedIn Profile](https://linkedin.com/in/cole-morton-72300745)</span>
-<span class="contact-item">🌐 [Personal Website](https://colemorton.com)</span>
-<span class="contact-item">💻 [GitHub Portfolio](https://github.com/colemorton)</span>
+<span class="contact-item">💼 <a href="https://linkedin.com/in/cole-morton-72300745">LinkedIn Profile</a></span>
+<span class="contact-item">🌐 <a href="https://colemorton.com">Personal Website</a></span>
+<span class="contact-item">💻 <a href="https://github.com/colemorton">GitHub Portfolio</a></span>
 </div>
 </div>
 
@@ -21,7 +21,8 @@
 
 Senior Software Engineer with 11+ years building production systems across fintech, healthtech, and digital commerce. Expert in AI-augmented development practices, having architected and deployed enterprise-grade content systems processing 18+ financial APIs with institutional-quality outputs. Recently relocated to Brisbane from Berlin, bringing global perspective and modern development approaches to Australia's thriving tech ecosystem.
 
-**Core Competencies:**
+### Core Competencies
+
 - Architected production systems handling 100+ institutional-grade financial analyses
 - Pioneer in AI-orchestration development with 21-command Claude integration system
 - Full-stack expertise across React, TypeScript, Node.js, Python ecosystems
@@ -29,6 +30,8 @@ Senior Software Engineer with 11+ years building production systems across finte
 - Active GitHub contributor (daily 1+ years): 28,500+ lines of maintained code
 
 ---
+
+<div class="new-page"></div>
 
 ## Technical Skills
 
@@ -90,6 +93,8 @@ Senior Software Engineer with 11+ years building production systems across finte
 
 ---
 
+<div class="new-page"></div>
+
 ## Professional Experience
 
 <div class="experience-item">
@@ -122,68 +127,150 @@ Led executive-level technical initiatives building production-grade financial an
 </div>
 </div>
 
-### **Senior Software Engineer** | Oetker Digital GmbH
-*July 2018 - October 2020* | Berlin, Germany
+<div class="experience-item">
+<div class="experience-header">
+<h3 class="job-title">Senior Software Engineer</h3>
+<div class="company-info">
+<span class="company-name">Oetker Digital GmbH</span>
+<span class="job-duration">July 2018 - October 2020</span>
+<span class="job-location">Berlin, Germany</span>
+</div>
+</div>
 
+<div class="job-description">
 Delivered multiple high-impact projects in fast-paced product environment, adapting quickly to diverse technology stacks and business requirements.
+</div>
 
-**Key Achievements:**
-- Led frontend architecture decisions for multi-brand e-commerce platform serving millions of users
-- Implemented GraphQL migration reducing API calls by 60% and improving page load times
-- Mentored junior developers in React best practices and modern JavaScript patterns
-- Delivered 15+ production features meeting aggressive deadlines without compromising quality
+<div class="achievements">
+<h4 class="achievements-title">Key Achievements:</h4>
+<ul class="achievement-list">
+<li class="achievement-item"><strong>Frontend Architecture:</strong> Led frontend architecture decisions for multi-brand e-commerce platform serving millions of users</li>
+<li class="achievement-item"><strong>GraphQL Migration:</strong> Implemented GraphQL migration reducing API calls by 60% and improving page load times</li>
+<li class="achievement-item"><strong>Technical Mentorship:</strong> Mentored junior developers in React best practices and modern JavaScript patterns</li>
+<li class="achievement-item"><strong>Feature Delivery:</strong> Delivered 15+ production features meeting aggressive deadlines without compromising quality</li>
+</ul>
+</div>
 
-**Technologies:** React, Vue.js, TypeScript, GraphQL, Node.js, AWS, Docker
+<div class="technologies">
+<strong>Technologies:</strong> <span class="tech-stack">React, Vue.js, TypeScript, GraphQL, Node.js, AWS, Docker</span>
+</div>
+</div>
 
-### **Senior Frontend Developer** | Panorama Berlin
-*March 2018 - June 2018* | Berlin, Germany
+<div class="experience-item">
+<div class="experience-header">
+<h3 class="job-title">Senior Frontend Developer</h3>
+<div class="company-info">
+<span class="company-name">Panorama Berlin</span>
+<span class="job-duration">March 2018 - June 2018</span>
+<span class="job-location">Berlin, Germany</span>
+</div>
+</div>
 
+<div class="job-description">
 Led development of innovative mobile-first Progressive Web Application for major fashion events.
+</div>
 
-**Key Achievements:**
-- Architected offline-capable PWA with QR scanning, enhancing attendee experience for 5,000+ users
-- Implemented service workers achieving 100% offline functionality for critical features
-- Open-sourced Peach UI component library, adopted by 3 internal teams
+<div class="achievements">
+<h4 class="achievements-title">Key Achievements:</h4>
+<ul class="achievement-list">
+<li class="achievement-item"><strong>PWA Architecture:</strong> Architected offline-capable PWA with QR scanning, enhancing attendee experience for 5,000+ users</li>
+<li class="achievement-item"><strong>Service Workers:</strong> Implemented service workers achieving 100% offline functionality for critical features</li>
+<li class="achievement-item"><strong>Open Source Contribution:</strong> Open-sourced Peach UI component library, adopted by 3 internal teams</li>
+</ul>
+</div>
 
-**Technologies:** React, Apollo GraphQL, Service Workers, PWA, Mobile-first design
+<div class="technologies">
+<strong>Technologies:</strong> <span class="tech-stack">React, Apollo GraphQL, Service Workers, PWA, Mobile-first design</span>
+</div>
+</div>
 
-### **Senior Software Developer** | CrossLend GmbH (Fintech)
-*July 2015 - June 2016* | Berlin/Luxembourg
+<div class="experience-item">
+<div class="experience-header">
+<h3 class="job-title">Senior Software Developer</h3>
+<div class="company-info">
+<span class="company-name">CrossLend GmbH (Fintech)</span>
+<span class="job-duration">July 2015 - June 2016</span>
+<span class="job-location">Berlin/Luxembourg</span>
+</div>
+</div>
 
+<div class="job-description">
 Contributed to core lending platform handling €50M+ in transactions with focus on reliability and performance.
+</div>
 
-**Key Achievements:**
-- Developed real-time trading dashboard processing 1,000+ transactions per minute
-- Implemented comprehensive test suite achieving 95% code coverage
-- Reduced deployment time by 70% through CI/CD pipeline optimization
+<div class="achievements">
+<h4 class="achievements-title">Key Achievements:</h4>
+<ul class="achievement-list">
+<li class="achievement-item"><strong>Real-time Trading Dashboard:</strong> Developed real-time trading dashboard processing 1,000+ transactions per minute</li>
+<li class="achievement-item"><strong>Test Coverage:</strong> Implemented comprehensive test suite achieving 95% code coverage</li>
+<li class="achievement-item"><strong>CI/CD Optimization:</strong> Reduced deployment time by 70% through CI/CD pipeline optimization</li>
+</ul>
+</div>
 
-**Technologies:** React, Redux, Node.js, PostgreSQL, TDD, CI/CD
+<div class="technologies">
+<strong>Technologies:</strong> <span class="tech-stack">React, Redux, Node.js, PostgreSQL, TDD, CI/CD</span>
+</div>
+</div>
 
-### **Software Developer** | Charm Health
-*January 2012 - April 2013* | Brisbane, Australia
+<div class="experience-item">
+<div class="experience-header">
+<h3 class="job-title">Software Developer</h3>
+<div class="company-info">
+<span class="company-name">Charm Health</span>
+<span class="job-duration">January 2012 - April 2013</span>
+<span class="job-location">Brisbane, Australia</span>
+</div>
+</div>
 
+<div class="job-description">
 Built enterprise healthcare solution for Chris O'Brien Lifehouse at Royal Prince Alfred Hospital, Sydney.
+</div>
 
-**Key Achievements:**
-- Developed patient management modules serving 10,000+ cancer patients
-- Implemented real-time data synchronization using SignalR
-- Achieved 99.9% uptime for critical healthcare systems
+<div class="achievements">
+<h4 class="achievements-title">Key Achievements:</h4>
+<ul class="achievement-list">
+<li class="achievement-item"><strong>Patient Management:</strong> Developed patient management modules serving 10,000+ cancer patients</li>
+<li class="achievement-item"><strong>Real-time Synchronization:</strong> Implemented real-time data synchronization using SignalR</li>
+<li class="achievement-item"><strong>System Reliability:</strong> Achieved 99.9% uptime for critical healthcare systems</li>
+</ul>
+</div>
 
-**Technologies:** .NET, Silverlight, WCF, SignalR, Entity Framework, SQL Server
+<div class="technologies">
+<strong>Technologies:</strong> <span class="tech-stack">.NET, Silverlight, WCF, SignalR, Entity Framework, SQL Server</span>
+</div>
+</div>
 
-### **Software Developer** | ISAC New Zealand Ltd
-*October 2009 - January 2012* | Auckland, New Zealand
+<div class="experience-item">
+<div class="experience-header">
+<h3 class="job-title">Software Developer</h3>
+<div class="company-info">
+<span class="company-name">ISAC New Zealand Ltd</span>
+<span class="job-duration">October 2009 - January 2012</span>
+<span class="job-location">Auckland, New Zealand</span>
+</div>
+</div>
 
+<div class="job-description">
 Developed commercial freight tracking system for DHL Global Freight and internal time management tools.
+</div>
 
-**Key Achievements:**
-- Built Door2More freight tracking system processing 50,000+ shipments monthly
-- Reduced manual tracking time by 80% through automation
-- Designed scalable architecture supporting international expansion
+<div class="achievements">
+<h4 class="achievements-title">Key Achievements:</h4>
+<ul class="achievement-list">
+<li class="achievement-item"><strong>Door2More System:</strong> Built Door2More freight tracking system processing 50,000+ shipments monthly</li>
+<li class="achievement-item"><strong>Process Automation:</strong> Reduced manual tracking time by 80% through automation</li>
+<li class="achievement-item"><strong>Scalable Architecture:</strong> Designed scalable architecture supporting international expansion</li>
+</ul>
+</div>
 
-**Technologies:** ASP.NET MVC, C#, SQL Server, Entity Framework, jQuery
+<div class="technologies">
+<strong>Technologies:</strong> <span class="tech-stack">ASP.NET MVC, C#, SQL Server, Entity Framework, jQuery</span>
+</div>
+</div>
 
 ---
+
+<div class="section-no-break" markdown="1">
 
 ## Entrepreneurial Ventures
 
@@ -192,14 +279,22 @@ Developed commercial freight tracking system for DHL Global Freight and internal
 
 Founded non-profit blockchain cooperative exploring decentralized economy participation, demonstrating early adoption of emerging technologies and community leadership.
 
+</div>
+
 ---
+
+<div class="section-no-break" markdown="1">
 
 ## Education
 
 **Diploma in Software Development**  
 Computer Power Institute | 2008 - 2009 | Auckland, New Zealand
 
+</div>
+
 ---
+
+<div class="section-no-break" markdown="1">
 
 ## Additional Information
 
@@ -207,3 +302,5 @@ Computer Power Institute | 2008 - 2009 | Auckland, New Zealand
 - **Languages:** English (Native), German (Working Proficiency), Esperanto (Limited)
 - **Work Rights:** Full Australian work rights (New Zealand citizen)
 - **Location:** Brisbane-based, open to hybrid arrangements
+
+</div>

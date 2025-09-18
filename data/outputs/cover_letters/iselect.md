@@ -4,7 +4,7 @@ I am writing to express my strong interest in the Software Engineer position at 
 
 ## Why I'm a Strong Match for iSelect
 
-Your requirement for engineers who can "build great software" with expertise in **React, JavaScript, Node.js, and AWS** aligns directly with my core technical strengths. Having spent the past year building Sensylate—a financial analysis platform that **integrates 18+ third-party APIs** to deliver institutional-grade insights—I understand exactly the kind of scalable, reliable systems needed for comparison services at iSelect's scale.
+Your requirement for engineers who can "build great software" with expertise in **React, JavaScript, Node.js, and AWS** aligns directly with my core technical strengths. I've spent the past year building Sensylate, a financial analysis platform that **integrates 18+ third-party APIs** to deliver institutional-grade insights. I understand exactly the kind of scalable, reliable systems needed for comparison services at iSelect's scale.
 
 The merger with Compare the Market presents fascinating technical challenges around platform consolidation, data unification, and architectural modernization. My experience transitioning from monolithic systems to microservices architectures at multiple Berlin startups has prepared me well for these exact challenges.
 
@@ -35,7 +35,7 @@ My career has progressively built toward the intersection of software engineerin
 
 ## What I Bring to iSelect
 
-Beyond technical skills, I understand the critical importance of building systems that earn consumer trust when handling financial decisions. My recent work has taught me that comparison services aren't just about data aggregation—they're about presenting complex information in ways that empower confident decision-making.
+Beyond technical skills, I understand the critical importance of building systems that earn consumer trust when handling financial decisions. My recent work has taught me that comparison services aren't just about data aggregation, they're about presenting complex information in ways that empower confident decision-making.
 
 I'm particularly excited by iSelect's focus on **AI and multi-agent systems**. My experience with AI orchestration and automated content generation directly applies to enhancing comparison algorithms and creating more intelligent advisory services. I see tremendous potential in using AI not to replace human advisors but to augment their capabilities and scale personalized guidance.
 

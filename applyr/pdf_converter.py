@@ -39,7 +39,7 @@ class PDFConverter:
     def __init__(self, console: Optional[Console] = None):
         """Initialize PDF converter with optional console for output"""
         self.console = console or Console()
-        self.md = markdown.Markdown(extensions=['extra', 'codehilite', 'toc', 'tables'])
+        self.md = markdown.Markdown(extensions=['extra', 'codehilite', 'toc', 'tables', 'md_in_html'])
         self.font_config = FontConfiguration() if FONT_CONFIG_AVAILABLE else None
         
     def convert_markdown_to_pdf(

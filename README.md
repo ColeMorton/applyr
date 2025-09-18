@@ -43,12 +43,14 @@ applyr transforms job hunting from guesswork into data-driven strategy by:
 - **Quality assurance**: Content filtering, metadata validation, error handling
 - **Testing utilities**: Comprehensive test scripts for validation
 
-### PDF Export Capabilities
-- **Markdown to PDF conversion** with professional formatting
-- **Custom CSS styling** support for personalized document appearance
-- **Batch PDF generation** for entire directories of markdown files
-- **Pre-built style templates** including professional and minimal themes
-- **Page numbering and formatting** optimized for printing and sharing
+### Professional PDF Export System
+- **6 custom CSS templates**: sensylate (brand-consistent), executive (high-impact), ats (applicant tracking system optimized), professional (balanced), minimal (clean), heebo-premium (variable font showcase)
+- **SVG brand text integration** with centered "Cole Morton" branding (2x size, perfect font consistency)
+- **WeasyPrint engine** for professional HTML/CSS to PDF conversion with font support
+- **Batch processing capabilities** for entire directories with progress tracking
+- **Quality validation system** with file size analysis and optimization recommendations
+- **Clickable links preserved** in PDF output with proper link handling
+- **Print optimization** with proper page breaks, margins, and professional formatting
 
 ### Application Tracking System
 - **Centralized job database** with CSV backend for application management
@@ -104,11 +106,17 @@ python scripts/job_scraper/test_single_job.py
 # Convert single file
 applyr pdf README.md
 
-# Convert with custom CSS
-applyr pdf README.md --css-file applyr/styles/professional.css
+# Generate all resume formats at once
+applyr resume-formats data/raw/resume.md
+
+# Convert with specific template
+applyr pdf resume.md --css-file applyr/styles/executive.css
 
 # Batch convert entire directory
 applyr pdf data/outputs/cover_letters --batch --output output_pdfs/
+
+# Validate PDF quality
+applyr validate-pdf resume_executive.pdf --detailed
 ```
 
 ## 📁 Data Structure
@@ -237,33 +245,57 @@ python scripts/job_scraper/aggregate_jobs.py --date 20250915
 python scripts/job_scraper/aggregate_jobs.py --input-dir custom_jobs --output-file market_analysis.md
 ```
 
-### PDF Generation
+### Professional PDF Generation
 
-**Convert Individual Files:**
+**Resume Format Generation:**
 ```bash
-# Basic conversion
+# Generate all 6 professional resume formats
+applyr resume-formats data/raw/resume.md
+
+# Generate specific formats only
+applyr resume-formats resume.md --formats "sensylate,executive,ats"
+
+# Custom output directory
+applyr resume-formats resume.md --output-dir pdfs/resumes/
+```
+
+**Individual File Conversion:**
+```bash
+# Basic conversion with automatic template
 applyr pdf data/outputs/cover_letters/squiz.md
 
-# With professional styling
-applyr pdf data/outputs/cover_letters/squiz.md --css-file applyr/styles/professional.css
+# Brand-consistent styling (matches colemorton.com)
+applyr pdf cover_letter.md --css-file applyr/styles/sensylate.css
+
+# Executive presentation style
+applyr pdf resume.md --css-file applyr/styles/executive.css
+
+# ATS-optimized format
+applyr pdf resume.md --css-file applyr/styles/ats.css
 
 # Custom output location
 applyr pdf README.md --output docs/README.pdf
-
-# Inline CSS styling
-applyr pdf README.md --css "body { font-family: Georgia; }"
 ```
 
-**Batch PDF Conversion:**
+**Batch Processing:**
 ```bash
-# Convert all cover letters to PDFs
+# Convert all cover letters with progress tracking
 applyr pdf data/outputs/cover_letters --batch
 
 # Convert job descriptions with minimal styling
 applyr pdf data/outputs/job_descriptions --batch --css-file applyr/styles/minimal.css
 
-# Custom output directory
-applyr pdf data/outputs/cover_letters --batch --output pdfs/cover_letters/
+# Custom output directory with specific template
+applyr pdf data/outputs/cover_letters --batch --output pdfs/cover_letters/ --css-file applyr/styles/professional.css
+```
+
+**Quality Validation:**
+```bash
+# Basic PDF validation
+applyr validate-pdf resume_executive.pdf
+
+# Detailed analysis with optimization recommendations
+applyr validate-pdf resume_sensylate.pdf --detailed
 ```
 
 ### Application Tracking
@@ -409,8 +441,19 @@ colemorton.com
 ### Python Architecture
 - **Core Engine**: `seek_scraper.py` (435 lines) - Main scraping logic
 - **Aggregation**: `aggregate_jobs.py` (420 lines) - Market intelligence generation
+- **PDF Converter**: `pdf_converter.py` (534 lines) - WeasyPrint-based PDF generation with quality validation
+- **CLI Interface**: `cli.py` (787 lines) - Comprehensive command-line interface with 11 commands
 - **Batch Processing**: `batch_scrape_jobs.py` - Automated workflow execution
-- **Testing Suite**: `test_single_job.py`, `test_aggregator.py` - Quality assurance
+- **Testing Suite**: `test_single_job.py`, `test_aggregator.py`, `test_pdf_converter.py` - Quality assurance
+
+### PDF Generation Architecture
+- **WeasyPrint Engine**: Professional HTML/CSS to PDF conversion with font embedding support
+- **Template System**: 6 custom CSS templates with consistent brand integration
+- **SVG Brand Text**: Vector-based "Cole Morton" text ensuring perfect font consistency
+- **Link Preservation**: Maintains clickable links in PDF output with proper href handling
+- **Quality Metrics**: File size analysis, optimization recommendations, and quality scoring
+- **Font Integration**: Support for Google Fonts, system fonts, and custom font files
+- **Print Optimization**: Proper page breaks, margins, headers, footers for professional printing
 
 ### Anti-Bot Measures
 - Custom browser headers and user-agent spoofing
@@ -428,22 +471,26 @@ colemorton.com
 
 ```
 applyr/
-├── README.md                   # This documentation
-├── CLAUDE.md                   # AI assistant guidance
+├── README.md                   # This comprehensive documentation
+├── CLAUDE.md                   # AI assistant guidance with PDF implementation details
 ├── LICENSE                     # Project license
 ├── pyproject.toml              # Poetry configuration
 ├── poetry.lock                 # Poetry lock file
 ├── applyr/                     # Main application package
 │   ├── __init__.py
-│   ├── cli.py                  # CLI interface with Typer
+│   ├── cli.py                  # CLI interface with Typer (11 commands, 787 lines)
 │   ├── database.py             # Application tracking database
-│   ├── pdf_converter.py        # PDF conversion module
+│   ├── pdf_converter.py        # PDF conversion module (534 lines)
 │   ├── scraper.py              # Job scraping functionality
 │   ├── batch.py                # Batch processing
 │   ├── aggregator.py           # Market intelligence
-│   └── styles/                 # CSS templates for PDFs
-│       ├── professional.css    # Professional PDF style
-│       └── minimal.css         # Minimal PDF style
+│   └── styles/                 # Professional CSS templates with SVG brand integration
+│       ├── sensylate.css       # Brand-consistent (matches colemorton.com)
+│       ├── executive.css       # High-impact executive presentation
+│       ├── ats.css             # ATS-optimized format
+│       ├── professional.css    # Balanced professional styling
+│       ├── minimal.css         # Clean minimalist design
+│       └── heebo-premium.css   # Premium variable font showcase
 ├── tests/                      # Test suite
 │   ├── __init__.py
 │   ├── test_database.py        # Database operation tests
@@ -474,7 +521,8 @@ applyr/
 5. **Add job URLs** to `scripts/job_scraper/job_urls.txt`
 6. **Run batch processing**: `applyr batch` or `python scripts/job_scraper/batch_scrape_jobs.py`
 7. **Generate analysis**: `applyr aggregate` or `python scripts/job_scraper/aggregate_jobs.py`
-8. **Convert to PDF**: `applyr pdf <markdown-file>`
+8. **Convert to PDF**: `applyr pdf <markdown-file>` or `applyr resume-formats <resume.md>`
+9. **Validate PDF quality**: `applyr validate-pdf <pdf-file> --detailed`
 
 ### Testing
 ```bash
@@ -482,7 +530,7 @@ applyr/
 pytest
 
 # Test PDF converter specifically
-pytest tests/test_pdf_converter.py
+pytest tests/test_pdf_converter.py -v
 
 # Test database operations
 pytest tests/test_database.py
@@ -500,6 +548,9 @@ python scripts/job_scraper/test_aggregator.py
 - **API Integration**: RESTful API for programmatic access
 - **Real-time Alerts**: Notification system for new matching positions
 - **Cover Letter Optimization**: A/B testing and response rate tracking
+- **Additional PDF Templates**: Industry-specific templates (tech, finance, creative)
+- **Interactive PDFs**: Form fields and interactive elements for digital applications
+- **Multi-language Support**: PDF generation with international character sets
 
 ### Current Limitations
 - **Single Source**: Currently SEEK-only (Australian market focus)
@@ -555,6 +606,58 @@ applyr pdf README.md --css-file applyr/styles/professional.css
 # Clean up old applications periodically
 applyr cleanup --days 30
 ```
+
+## 📖 Complete CLI Reference
+
+applyr provides 11 comprehensive commands for complete job search workflow management:
+
+### Core Commands
+
+| Command | Purpose | Example |
+|---------|---------|----------|
+| `scrape` | Scrape individual or batch job URLs | `applyr scrape --url https://seek.com.au/job/87066700` |
+| `batch` | Process multiple jobs from file | `applyr batch --urls-file job_urls.txt --delay 3.0` |
+| `aggregate` | Generate market intelligence reports | `applyr aggregate --input-dir job_descriptions/` |
+| `add-job` | Add job by SEEK ID with validation | `applyr add-job 87066700 --priority high --notes "Great match"` |
+
+### PDF Generation Commands
+
+| Command | Purpose | Example |
+|---------|---------|----------|
+| `pdf` | Convert markdown to PDF with templates | `applyr pdf resume.md --css-file styles/executive.css` |
+| `resume-formats` | Generate all 6 resume formats | `applyr resume-formats resume.md --formats "sensylate,executive,ats"` |
+| `validate-pdf` | Analyze PDF quality and optimization | `applyr validate-pdf resume.pdf --detailed` |
+
+### Application Management Commands
+
+| Command | Purpose | Example |
+|---------|---------|----------|
+| `status` | View application pipeline | `applyr status --filter applied --limit 20` |
+| `update-status` | Change job application status | `applyr update-status 87066700 interviewed` |
+| `jobs` | Search and filter job database | `applyr jobs --company "Squiz" --status discovered` |
+| `stats` | Application success rates and analytics | `applyr stats` |
+| `cleanup` | Remove old closed/rejected jobs | `applyr cleanup --days 30 --confirm` |
+
+### Template Options
+
+The `resume-formats` command supports these professional templates:
+
+- **sensylate**: Brand-consistent design matching colemorton.com aesthetic
+- **executive**: High-impact presentation with modern typography 
+- **ats**: Applicant Tracking System optimized format
+- **professional**: Balanced professional styling for general use
+- **minimal**: Clean, simple formatting for minimalist preference  
+- **heebo-premium**: Premium design showcasing variable font features
+
+### Quality Validation Features
+
+The PDF validation system provides:
+
+- **File Size Analysis**: Optimal (200KB), Good (500KB), Large (1MB+) classifications
+- **Quality Scoring**: 0-10 scale based on size, structure, and metadata
+- **Optimization Recommendations**: Template suggestions and size reduction tips
+- **Metadata Extraction**: Page count, encryption status, embedded fonts
+- **Print Readiness**: Margin, page break, and formatting validation
 
 ---
 

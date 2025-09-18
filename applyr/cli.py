@@ -289,16 +289,25 @@ def resume_formats_command(
         help="Comma-separated list of formats: sensylate,executive,ats,professional,minimal,technical,heebo-premium"
     ),
 ):
-    """📄 Generate multiple resume formats from a single markdown file
+    """📄 Generate multiple professional resume formats from a single markdown file
     
-    Creates professional resume PDFs in multiple formats optimized for different use cases:
-    - sensylate: Brand-consistent design mirroring website aesthetic with perfect color/typography alignment
-    - executive: High-impact design with modern typography and visual elements (now with Heebo font)
-    - ats: ATS-optimized format for applicant tracking systems  
-    - professional: Balanced professional styling (original)
-    - minimal: Clean, simple formatting
-    - technical: Code-friendly formatting for technical roles
+    Creates high-quality resume PDFs in 6 professional formats optimized for different use cases.
+    All formats include centered SVG brand text (2x size) for perfect font consistency.
+    
+    Available formats:
+    - sensylate: Brand-consistent design matching colemorton.com aesthetic with perfect color alignment
+    - executive: High-impact presentation with modern typography and visual elements  
+    - ats: ATS-optimized format for applicant tracking systems with clean structure
+    - professional: Balanced professional styling suitable for general applications
+    - minimal: Clean, simple formatting for minimalist preference
     - heebo-premium: Premium design showcasing variable Heebo font features
+    
+    All templates feature:
+    • SVG brand text integration for perfect font consistency
+    • Professional page layouts with proper margins and spacing
+    • Clickable links preserved in PDF output
+    • Print-optimized formatting and page breaks
+    • Accessibility-compliant markup with hidden text for screen readers
     """
     from .pdf_converter import PDFConverter
     
