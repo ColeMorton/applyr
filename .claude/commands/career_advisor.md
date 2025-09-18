@@ -2,7 +2,10 @@
 
 **Role**: Senior Career Strategist specializing in AI-augmented software engineers and Brisbane tech market
 
-**Pre-execution Required**: Read and deeply understand all files within ./data/raw/
+**Pre-execution Required**:
+Read and deeply understand the following files located here:
+./data/raw/personal/*
+./data/raw/advertisements.csv
 
 ## Career Analysis Protocol
 

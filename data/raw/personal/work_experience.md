@@ -5,9 +5,7 @@
 *Jul 2018 - Oct 2020 · 2 yrs 4 mos*  
 *Berlin Area, Germany*
 
-I work in a highly dynamic environment on a multitude of various projects and technologies ranging from HTML, CSS to React, Vue, GraphQL, Typescript, Node and much more. This environment requires us to be incredibly flexible and product-focused as well as, efficient and productive in order to meet multiple deadlines.
-
-I work in a highly dynamic environment on a multitude of various projects and technologies ranging from HTML, CSS to React, Vue, GraphQL, Typescript, Node and much more. This environment requires us to be incredibly flexible and product-focused as well as, efficient and productive in order to meet multiple deadlines.
+I worked in a highly dynamic environment on a multitude of various projects and technologies ranging from HTML, CSS to React, Vue, GraphQL, Typescript, Node and much more. This environment requires us to be incredibly flexible and product-focused as well as, efficient and productive in order to meet multiple deadlines.
 
 ## Founder
 **Taupemist non-profit cooperative organisation · Self-employed**  
@@ -16,9 +14,7 @@ I work in a highly dynamic environment on a multitude of various projects and te
 
 Taupemist is a non-profit cooperative organisation, and a digital identity created to participate as a positive actor in current and emerging decentralised economies.
 
-Taupemist is a non-profit cooperative organisation, and a digital identity created to participate as a positive actor in current and emerging decentralised economies.
-
-TaupeMist/TaupemistTaupeMist/Taupemist  
+TaupeMist/TaupemistTaupeMist/Taupemist
 The official Taupemist non-profit cooperative organisationThe official Taupemist non-profit cooperative organisation
 
 ## Senior Software Developer
@@ -27,35 +23,18 @@ The official Taupemist non-profit cooperative organisationThe official Taupemist
 *Berlin Area, Germany*
 
 I work at Panorama Berlin as the lead front-end developer and am responsible for the development of a brand-new mobile-first PWA using React, Apollo GraphQL, and service workers.
-I also oversee development of Peach which is an open-source mono-repo project for creative UI component libraries.
-
-I work at Panorama Berlin as the lead front-end developer and am responsible for the development of a brand-new mobile-first PWA using React, Apollo GraphQL, and service workers. I also oversee development of Peach which is an open-source mono-repo project for creative UI component libraries.
-
-Antigua UI component libraryAntigua UI component library
-
-panorama-berlin/Peachpanorama-berlin/Peach  
-Peach - Panorama Berlin's mono-repo for open-source UI components and theming.Peach - Panorama Berlin's mono-repo for open-source UI components and theming.
 
 ## Senior Frontend Developer
 **Advertile Mobile · Full-time**  
 *May 2017 - Nov 2017 · 7 mos*  
 *Berlin Area, Germany · On-site*
 
-I was employed as a Senior Frontend Developer responsible for the AppBounty IOS application.
-I was a member of an extremely tight-knit, friendly and intelligent team with a strong emphasis on supporting each other and meeting our target objectives with high efficiency.
-I was engaged in all areas of the SDLC, however, I believe that my ability to drive new, high-quality features from inception through to deployment at a high velocity was my greatest asset.
-
 I was employed as a Senior Frontend Developer responsible for the AppBounty IOS application. I was a member of an extremely tight-knit, friendly and intelligent team with a strong emphasis on supporting each other and meeting our target objectives with high efficiency. I was engaged in all areas of the SDLC, however, I believe that my ability to drive new, high-quality features from inception through to deployment at a high velocity was my greatest asset.
-
-Reference LetterReference Letter  
-Reference LetterReference Letter
 
 ## Senior Frontend Developer
 **Market Logic Software**  
 *Oct 2016 - Mar 2017 · 6 mos*  
-*Berlin Area, Germany*
-
-During my time here, I developed a search UI using ReactJS, Styled Components, Redux, Redux-Saga, ImmutableJS, Reselect and Normalizr, using the latest design standards and ES7. 
+*Berlin Area, Germany* 
 
 During my time here, I developed a search UI using ReactJS, Styled Components, Redux, Redux-Saga, ImmutableJS, Reselect and Normalizr, using the latest design standards and ES7. 
 
@@ -63,9 +42,6 @@ During my time here, I developed a search UI using ReactJS, Styled Components, R
 **CrossLend GmbH**  
 *Jul 2015 - Jun 2016 · 1 yr*  
 *Berlin/Luxemburg*
-
-I worked with a small team of highly intelligent and motivated javascript developers at Crosslend GmbH.
-By using a combination of TDD and CI, we were able to produce a high-quality product with new features added daily.
 
 I worked with a small team of highly intelligent and motivated javascript developers at Crosslend GmbH. By using a combination of TDD and CI, we were able to produce a high-quality product with new features added daily.
 
