@@ -1,11 +1,21 @@
 {
   "parser": "html",
-  "printWidth": 100,
+  "printWidth": 140,
   "tabWidth": 2,
   "useTabs": false,
-  "bracketSameLine": false,
-  "htmlWhitespaceSensitivity": "css",
+  "bracketSameLine": true,
+  "htmlWhitespaceSensitivity": "strict",
   "endOfLine": "lf",
   "singleAttributePerLine": false,
-  "embeddedLanguageFormatting": "auto"
+  "embeddedLanguageFormatting": "off",
+  "overrides": [
+    {
+      "files": "*.html",
+      "options": {
+        "printWidth": 140,
+        "htmlWhitespaceSensitivity": "strict",
+        "bracketSameLine": true
+      }
+    }
+  ]
 }

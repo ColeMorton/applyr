@@ -303,7 +303,7 @@ class HTMLProcessor:
 </html>"""
     
     def _extract_body_content(self, complete_html: str) -> str:
-        """Extract body content from complete HTML document, preserving indentation"""
+        """Extract body content from complete HTML document, preserving Prettier's native indentation"""
         import re
         
         # Find the body content between <body> and </body> tags
@@ -314,60 +314,15 @@ class HTMLProcessor:
         if match:
             body_content = match.group(1)
             
-            # Only remove leading/trailing newlines, preserve indentation
+            # Only remove leading/trailing newlines, preserve Prettier's native indentation
             # Strip only newlines from start and end, not spaces
             body_content = body_content.strip('\n\r')
             
-            # Apply proper nested indentation manually
-            body_content = self._apply_nested_indentation(body_content)
-            
+            # Let Prettier handle all indentation - no custom logic needed
             return body_content
         else:
             # Fallback: if we can't find body tags, return original content
             return complete_html
-    
-    def _apply_nested_indentation(self, html_content: str) -> str:
-        """Apply proper nested indentation to HTML content"""
-        import re
-        
-        lines = html_content.split('\n')
-        indented_lines = []
-        indent_level = 0
-        indent_size = 2  # 2 spaces per level
-        
-        # Tags that should not increase indent level for their content (inline elements)
-        inline_tags = {'span', 'a', 'strong', 'em', 'code', 'i', 'b', 'small'}
-        
-        for line in lines:
-            stripped_line = line.strip()
-            
-            if not stripped_line:
-                indented_lines.append('')
-                continue
-            
-            # Check for closing tags first (decrease indent before processing line)
-            closing_tags = re.findall(r'</(\w+)>', stripped_line)
-            for tag in closing_tags:
-                if tag.lower() not in inline_tags:
-                    indent_level = max(0, indent_level - 1)
-            
-            # Apply current indentation to the line
-            current_indent = ' ' * (indent_level * indent_size)
-            indented_lines.append(current_indent + stripped_line)
-            
-            # Check for opening tags (increase indent after processing line)
-            # Only process block-level elements, ignore inline elements
-            opening_tags = re.findall(r'<(\w+)[^>]*>', stripped_line)
-            for tag in opening_tags:
-                if tag.lower() not in inline_tags:
-                    # Check if this tag is self-closing or immediately closed on the same line
-                    tag_pattern = f'<{tag}[^>]*>.*?</{tag}>'
-                    self_closing_pattern = f'<{tag}[^>]*/>'
-                    
-                    if not re.search(tag_pattern, stripped_line, re.IGNORECASE) and not re.search(self_closing_pattern, stripped_line, re.IGNORECASE):
-                        indent_level += 1
-        
-        return '\n'.join(indented_lines)
     
     def _lint_with_html_eslint(self, html_content: str, source_path: Optional[Path], weasyprint_context: bool = False) -> Tuple[str, List[str]]:
         """Lint and auto-fix HTML using html-eslint"""
