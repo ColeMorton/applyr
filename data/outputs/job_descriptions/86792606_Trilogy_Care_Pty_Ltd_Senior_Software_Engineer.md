@@ -49,7 +49,7 @@ Extensive experience in frontend or full-stack development using Vue, React, Typ
 
 Strong experience with React Native and Expo for mobile development (iOS/Android)
 
-Proficient in REST API integration and using tools like VS Code with CoPilot, Cursor, or Devin
+Proficient in REST API integration and using tools like VSCode with CoPilot, Cursor, or Devin
 
 Experienced with Git workflows and Agile delivery environments
 

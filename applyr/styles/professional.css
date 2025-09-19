@@ -57,16 +57,16 @@
 /* Page setup */
 @page {
     size: A4;
-    margin: 2.5cm;
+    margin: 2cm;
     @bottom-right {
         content: counter(page) " of " counter(pages);
-        font-size: 10pt;
+        font-size: 9pt;
         color: var(--color-text-light);
         font-family: 'Heebo', 'Helvetica Neue', Arial, sans-serif;
     }
     @bottom-left {
         content: "colemorton.com";
-        font-size: 8pt;
+        font-size: 9pt;
         color: var(--color-text-light);
         font-family: var(--font-brand);
         font-weight: 400;
@@ -78,7 +78,7 @@
 body {
     font-family: 'Heebo', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-size: 11pt;
-    line-height: 1.8;
+    line-height: 1.5;
     color: var(--color-text);
     text-align: justify;
     background-color: var(--color-body);
@@ -103,7 +103,7 @@ body {
     height: 40pt; /* Maintains aspect ratio */
     
     /* Position adjustment to match original transform */
-    transform: translateY(-5px);
+    transform: translateX(10px);
     
     /* Ensure proper display */
     display: inline-block;
@@ -130,7 +130,6 @@ h1 {
 h2 {
     font-size: 18pt;
     color: var(--color-text-dark);
-    margin-top: 1.2em;
 }
 
 h3 {
@@ -156,7 +155,7 @@ a {
     color: var(--color-primary-data);
     text-decoration: underline;
     text-decoration-thickness: 1px;
-    text-underline-offset: 2px;
+    text-underline-offset: 3px;
     font-weight: 500;
     border: none;
     outline: none;
@@ -344,10 +343,16 @@ img {
     margin-bottom: 1em;
 }
 
+.skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4em;
+}
+
 .skill-tag {
     background-color: var(--color-light);
     padding: 0.3em 0.8em;
-    border-radius: 15px;
+    border-radius: 2px;
     font-size: 9pt;
     color: var(--color-text);
 }

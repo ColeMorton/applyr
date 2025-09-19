@@ -1,0 +1,11 @@
+{
+  "parser": "html",
+  "printWidth": 100,
+  "tabWidth": 2,
+  "useTabs": false,
+  "bracketSameLine": false,
+  "htmlWhitespaceSensitivity": "css",
+  "endOfLine": "lf",
+  "singleAttributePerLine": false,
+  "embeddedLanguageFormatting": "auto"
+}

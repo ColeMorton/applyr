@@ -55,14 +55,20 @@
 /* Page setup with standard margins */
 @page {
     size: A4;
-    margin: 2.5cm;
-    /* Minimal attribution for ATS compatibility - only on multi-page documents */
+    margin: 2cm;
     @bottom-right {
-        content: counter(page) > 1 ? "colemorton.com" : "";
-        font-size: 7pt;
+        content: counter(page) " of " counter(pages);
+        font-size: 9pt;
         color: var(--color-text-light);
-        font-family: Arial, sans-serif;
-        opacity: 0.5;
+        font-family: 'Heebo', 'Helvetica Neue', Arial, sans-serif;
+    }
+    @bottom-left {
+        content: "colemorton.com";
+        font-size: 9pt;
+        color: var(--color-text-light);
+        font-family: var(--font-brand);
+        font-weight: 400;
+        opacity: 0.6;
     }
 }
 
@@ -95,7 +101,7 @@ body {
     height: 40pt; /* Maintains aspect ratio */
     
     /* Position adjustment to match original transform */
-    transform: translateY(-5px);
+    transform: translateX(-10px);
     
     /* Ensure proper display */
     display: inline-block;
@@ -120,11 +126,23 @@ body {
     margin-bottom: 1em;
 }
 
+.header-title span {
+    display: inline;
+    white-space: nowrap;
+}
+
+.header-title span:first-of-type::after {
+    content: ' • ';
+}
+
+.header-title span:last-of-type {
+    display: block;
+}
+
 .contact-info {
     text-align: center;
-    margin-bottom: 2em;
-    border-bottom: 1px solid var(--color-border);
-    padding-bottom: 1em;
+    padding-bottom: 0.5em;
+    margin-bottom: 1em;
 }
 
 .contact-row {
@@ -155,17 +173,20 @@ body {
 /* Section Headers - Standard ATS Format */
 h1 {
     font-size: 24pt;
-    margin: 0;
+    color: var(--color-text-dark);
+    border-bottom: 3px solid var(--color-primary-data);
+    padding-bottom: 0.5em;
+    margin-bottom: 1em;
 }
 
 h2 {
     font-size: 16pt;
     font-weight: 700;
     color: var(--color-text-dark);
-    margin: 2em 0 1em 0;
-    padding-bottom: 0.2em;
-    border-bottom: 2px solid var(--color-text-dark);
-    text-transform: uppercase;
+    /* margin: 0 0 1em 0; */
+    /* padding-bottom: 0.2em; */
+    /* border-bottom: 2px solid var(--color-text-dark); */
+    /* text-transform: uppercase; */
     letter-spacing: 0.5px;
 }
 
@@ -206,24 +227,23 @@ h2 + p {
     font-weight: 700;
     color: var(--color-text-dark);
     margin-bottom: 0.5em;
-    text-transform: uppercase;
 }
 
 .skill-tags {
-    line-height: 1.8;
+    line-height: 1.5;
 }
 
 .skill-tag {
-    font-size: 11pt;
+    font-size: 12pt;
     color: var(--color-text);
     margin-right: 0.5em;
     font-weight: normal;
 }
 
-.skill-tag::after {
+/* .skill-tag::after {
     content: ' •';
     color: var(--color-text-light);
-}
+} */
 
 .skill-tag:last-child::after {
     content: '';
@@ -362,6 +382,7 @@ a {
     color: var(--color-text-dark);
     text-decoration: underline;
     text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
     font-weight: 500;
     border: none;
     outline: none;

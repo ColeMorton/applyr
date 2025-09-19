@@ -4,6 +4,7 @@ from pathlib import Path
 from typing import Optional, Union
 import markdown
 from rich.console import Console
+from .html_processor import HTMLProcessor
 
 # Try to import weasyprint, fall back to reportlab if it fails
 try:
@@ -41,13 +42,15 @@ class PDFConverter:
         self.console = console or Console()
         self.md = markdown.Markdown(extensions=['extra', 'codehilite', 'toc', 'tables', 'md_in_html'])
         self.font_config = FontConfiguration() if FONT_CONFIG_AVAILABLE else None
+        self.html_processor = HTMLProcessor(console=self.console)
         
     def convert_to_pdf(
         self, 
         input_file: Path,
         output_pdf: Path,
         css_file: Optional[Path] = None,
-        css_string: Optional[str] = None
+        css_string: Optional[str] = None,
+        skip_lint: bool = False
     ) -> bool:
         """
         Convert a markdown or HTML file to PDF with optional CSS styling
@@ -57,6 +60,7 @@ class PDFConverter:
             output_pdf: Path for the output PDF file
             css_file: Optional path to a CSS file for styling
             css_string: Optional CSS string for inline styling
+            skip_lint: Skip HTML processing and validation
             
         Returns:
             bool: True if conversion successful, False otherwise
@@ -65,9 +69,9 @@ class PDFConverter:
         file_extension = input_file.suffix.lower()
         
         if file_extension == '.html':
-            return self.convert_html_to_pdf(input_file, output_pdf, css_file, css_string)
+            return self.convert_html_to_pdf(input_file, output_pdf, css_file, css_string, skip_lint)
         elif file_extension == '.md':
-            return self.convert_markdown_to_pdf(input_file, output_pdf, css_file, css_string)
+            return self.convert_markdown_to_pdf(input_file, output_pdf, css_file, css_string, skip_lint)
         else:
             self.console.print(f"[red]❌ Error: Unsupported file type: {file_extension}. Only .md and .html files are supported.[/red]")
             return False
@@ -77,7 +81,8 @@ class PDFConverter:
         html_file: Path,
         output_pdf: Path,
         css_file: Optional[Path] = None,
-        css_string: Optional[str] = None
+        css_string: Optional[str] = None,
+        skip_lint: bool = False
     ) -> bool:
         """
         Convert an HTML file to PDF with optional CSS styling
@@ -87,6 +92,7 @@ class PDFConverter:
             output_pdf: Path for the output PDF file
             css_file: Optional path to a CSS file for styling
             css_string: Optional CSS string for inline styling
+            skip_lint: Skip HTML processing and validation
             
         Returns:
             bool: True if conversion successful, False otherwise
@@ -98,6 +104,29 @@ class PDFConverter:
             
         with open(html_file, 'r', encoding='utf-8') as f:
             html_content = f.read()
+        
+        # Process HTML with auto-formatting and validation
+        if not skip_lint:
+            self.console.print("[blue]🔧 Processing HTML for validation and formatting...[/blue]")
+            processed_html, changes = self.html_processor.process_html(html_content, html_file, skip_lint)
+            
+            if changes:
+                self.console.print("[green]✨ HTML processing completed:[/green]")
+                for change in changes:
+                    self.console.print(f"[green]  • {change}[/green]")
+                
+                # Write formatted content back to source file
+                if processed_html != html_content:
+                    try:
+                        with open(html_file, 'w', encoding='utf-8') as f:
+                            f.write(processed_html)
+                        self.console.print(f"[green]📝 Updated source file: {html_file.name}[/green]")
+                    except Exception as e:
+                        self.console.print(f"[yellow]⚠️  Could not update source file: {e}[/yellow]")
+            else:
+                self.console.print("[green]✅ HTML is already well-formatted[/green]")
+            
+            html_content = processed_html
         
         # Try WeasyPrint first if available
         if WEASYPRINT_AVAILABLE:
@@ -123,7 +152,8 @@ class PDFConverter:
         markdown_file: Path,
         output_pdf: Path,
         css_file: Optional[Path] = None,
-        css_string: Optional[str] = None
+        css_string: Optional[str] = None,
+        skip_lint: bool = False
     ) -> bool:
         """
         Convert a markdown file to PDF with optional CSS styling
@@ -133,6 +163,7 @@ class PDFConverter:
             output_pdf: Path for the output PDF file
             css_file: Optional path to a CSS file for styling
             css_string: Optional CSS string for inline styling
+            skip_lint: Skip HTML processing and validation
             
         Returns:
             bool: True if conversion successful, False otherwise
@@ -148,7 +179,7 @@ class PDFConverter:
         # Try WeasyPrint first if available
         if WEASYPRINT_AVAILABLE:
             try:
-                return self._convert_with_weasyprint(markdown_file, markdown_content, output_pdf, css_file, css_string)
+                return self._convert_with_weasyprint(markdown_file, markdown_content, output_pdf, css_file, css_string, skip_lint)
             except Exception as e:
                 self.console.print(f"[yellow]⚠️  WeasyPrint failed: {e}[/yellow]")
                 self.console.print("[blue]🔄 Trying fallback method with ReportLab...[/blue]")
@@ -156,7 +187,7 @@ class PDFConverter:
         # Fall back to ReportLab
         if REPORTLAB_AVAILABLE:
             try:
-                return self._convert_with_reportlab(markdown_file, markdown_content, output_pdf)
+                return self._convert_with_reportlab(markdown_file, markdown_content, output_pdf, skip_lint)
             except Exception as e:
                 self.console.print(f"[red]❌ ReportLab fallback failed: {e}[/red]")
                 return False
@@ -170,7 +201,8 @@ class PDFConverter:
         markdown_content: str, 
         output_pdf: Path, 
         css_file: Optional[Path] = None, 
-        css_string: Optional[str] = None
+        css_string: Optional[str] = None,
+        skip_lint: bool = False
     ) -> bool:
         """Convert using WeasyPrint with enhanced link and font handling"""
         # Convert markdown to HTML
@@ -191,6 +223,18 @@ class PDFConverter:
         </body>
         </html>
         """
+        
+        # Process HTML with auto-formatting and validation
+        if not skip_lint:
+            self.console.print("[blue]🔧 Processing generated HTML for validation and formatting...[/blue]")
+            processed_html, changes = self.html_processor.process_html(full_html, markdown_file, skip_lint)
+            
+            if changes:
+                self.console.print("[green]✨ HTML processing completed:[/green]")
+                for change in changes:
+                    self.console.print(f"[green]  • {change}[/green]")
+            
+            full_html = processed_html
         
         # Create HTML object with proper base_url for link resolution
         html = HTML(string=full_html, base_url='https://colemorton.com/')
@@ -245,10 +289,18 @@ class PDFConverter:
         self.console.print(f"[green]✅ PDF created with WeasyPrint: {output_pdf}[/green]")
         return True
     
-    def _convert_with_reportlab(self, markdown_file: Path, markdown_content: str, output_pdf: Path) -> bool:
+    def _convert_with_reportlab(self, markdown_file: Path, markdown_content: str, output_pdf: Path, skip_lint: bool = False) -> bool:
         """Simple conversion using ReportLab"""
         # Convert markdown to HTML first
         html_content = self.md.convert(markdown_content)
+        
+        # Process HTML with validation if not skipped
+        if not skip_lint:
+            self.console.print("[blue]🔧 Processing generated HTML for validation...[/blue]")
+            processed_html, changes = self.html_processor.process_html(html_content, markdown_file, skip_lint)
+            if changes:
+                self.console.print("[green]✨ HTML processing completed with ReportLab fallback[/green]")
+            html_content = processed_html
         
         # Create PDF
         output_pdf.parent.mkdir(parents=True, exist_ok=True)
@@ -419,7 +471,8 @@ class PDFConverter:
         input_dir: Path,
         output_dir: Path,
         css_file: Optional[Path] = None,
-        css_string: Optional[str] = None
+        css_string: Optional[str] = None,
+        skip_lint: bool = False
     ) -> dict:
         """
         Convert all markdown and HTML files in a directory to PDFs
@@ -429,6 +482,7 @@ class PDFConverter:
             output_dir: Directory for output PDF files
             css_file: Optional CSS file for styling all PDFs
             css_string: Optional CSS string for styling all PDFs
+            skip_lint: Skip HTML processing and validation
             
         Returns:
             dict: Dictionary of {input_file: success_bool}
@@ -460,7 +514,8 @@ class PDFConverter:
                 input_file,
                 output_pdf,
                 css_file,
-                css_string
+                css_string,
+                skip_lint
             )
             results[input_file] = success
             

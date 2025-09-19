@@ -133,6 +133,11 @@ body {
     text-transform: uppercase;
 }
 
+.header-title span {
+    display: block;
+    white-space: nowrap;
+}
+
 .contact-info {
     text-align: center;
     margin-bottom: 2em;

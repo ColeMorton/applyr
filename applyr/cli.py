@@ -206,12 +206,37 @@ def pdf_command(
         False, "--batch", "-b",
         help="Process all markdown and HTML files in a directory"
     ),
+    skip_lint: bool = typer.Option(
+        False, "--skip-lint",
+        help="Skip HTML processing and validation"
+    ),
+    no_css: bool = typer.Option(
+        False, "--no-css",
+        help="Disable default CSS styling (forces unstyled output)"
+    ),
 ):
-    """📄 Convert markdown and HTML files to PDF with custom CSS styling
+    """📄 Convert markdown and HTML files to PDF with automatic CSS styling
     
+    Automatically applies sensylate.css styling for resume/CV files. Use --no-css to disable.
     Supports single file conversion or batch processing of entire directories.
+    
+    Examples:
+      pdf resume.html                    # Auto-styled with sensylate.css
+      pdf resume.html --no-css           # Unstyled output
+      pdf document.html                  # No styling (general content)
+      pdf resume.html -c executive.css   # Custom styling
     """
     from .pdf_converter import PDFConverter
+    
+    def _get_default_css_for_file(input_path: Path) -> Optional[Path]:
+        """Determine appropriate default CSS based on file content/name"""
+        # Check if this appears to be a resume/CV file
+        path_str = str(input_path).lower()
+        if any(keyword in path_str for keyword in ['resume', 'cv']):
+            default_css = Path("applyr/styles/sensylate.css")
+            if default_css.exists():
+                return default_css
+        return None
     
     converter = PDFConverter(console)
     
@@ -229,7 +254,8 @@ def pdf_command(
             input_path,
             output_dir,
             css_file,
-            css_string
+            css_string,
+            skip_lint
         )
         
         successful = sum(1 for success in results.values() if success)
@@ -262,13 +288,31 @@ def pdf_command(
             
         output_pdf = output or input_path.with_suffix('.pdf')
         
+        # Implement CSS precedence logic: explicit CSS > default CSS > no CSS
+        final_css_file = css_file
+        final_css_string = css_string
+        
+        if not no_css and not css_file and not css_string:
+            # No explicit CSS provided and default styling not disabled
+            default_css = _get_default_css_for_file(input_path)
+            if default_css:
+                final_css_file = default_css
+                console.print(f"[blue]🎨 Applying default styling: {default_css.name}[/blue]")
+                console.print("[dim]   Use --no-css to disable default styling[/dim]")
+        elif no_css:
+            # Explicit disable of styling
+            final_css_file = None
+            final_css_string = None
+            console.print("[dim]🚫 Default styling disabled[/dim]")
+        
         console.print(f"[bold blue]📄 Converting {input_path} to PDF[/bold blue]")
         
         success = converter.convert_to_pdf(
             input_path,
             output_pdf,
-            css_file,
-            css_string
+            final_css_file,
+            final_css_string,
+            skip_lint
         )
         
         if not success:
@@ -287,6 +331,10 @@ def resume_formats_command(
     formats: Optional[str] = typer.Option(
         "sensylate,executive,ats,professional", "--formats", "-f",
         help="Comma-separated list of formats: sensylate,executive,ats,professional,minimal,technical,heebo-premium"
+    ),
+    skip_lint: bool = typer.Option(
+        False, "--skip-lint",
+        help="Skip HTML processing and validation"
     ),
 ):
     """📄 Generate multiple professional resume formats from a single markdown or HTML file
@@ -362,7 +410,8 @@ def resume_formats_command(
         success = converter.convert_to_pdf(
             input_path,
             output_pdf,
-            css_file=css_file
+            css_file=css_file,
+            skip_lint=skip_lint
         )
         
         results[format_name] = {
@@ -495,6 +544,280 @@ def validate_pdf_command(
     
     # File path info
     console.print(f"\n[dim]📁 File: {pdf_path.absolute()}[/dim]")
+
+@app.command("format-html")
+def format_html_command(
+    input_path: Path = typer.Argument(
+        ...,
+        help="HTML file or directory containing HTML files to format and validate"
+    ),
+    output: Optional[Path] = typer.Option(
+        None, "--output", "-o",
+        help="Output file or directory (default: overwrites input)"
+    ),
+    skip_lint: bool = typer.Option(
+        False, "--skip-lint", 
+        help="Skip all formatting and validation"
+    ),
+    show_capabilities: bool = typer.Option(
+        False, "--capabilities",
+        help="Show available HTML processing capabilities"
+    ),
+):
+    """🔧 Format and validate HTML files for WeasyPrint compatibility
+    
+    Requires professional tools: Prettier for formatting and html-eslint for validation.
+    Fails fast if dependencies are missing - install with npm to enable processing.
+    """
+    from .html_processor import HTMLProcessor
+    
+    processor = HTMLProcessor(console)
+    
+    if show_capabilities:
+        capabilities = processor.get_processing_capabilities()
+        console.print("[bold blue]🔧 HTML Processing Capabilities[/bold blue]")
+        
+        cap_table = Table(show_header=True)
+        cap_table.add_column("Tool", style="bold")
+        cap_table.add_column("Available", justify="center")
+        cap_table.add_column("Features")
+        
+        cap_table.add_row(
+            "Node.js", 
+            "[green]✅[/green]" if capabilities['node_js'] else "[red]❌[/red]",
+            "Required for html-eslint and Prettier"
+        )
+        cap_table.add_row(
+            "html-eslint", 
+            "[green]✅[/green]" if capabilities['html_eslint'] else "[red]❌[/red]",
+            "Auto-fixing HTML validation issues"
+        )
+        cap_table.add_row(
+            "Prettier", 
+            "[green]✅[/green]" if capabilities['prettier'] else "[red]❌[/red]",
+            "Professional HTML formatting"
+        )
+        cap_table.add_row(
+            "Fail-Fast Mode", 
+            "[green]✅[/green]",
+            "Professional tools required (no fallbacks)"
+        )
+        cap_table.add_row(
+            "WeasyPrint Rules", 
+            "[green]✅[/green]",
+            "PDF generation compatibility checks"
+        )
+        
+        console.print(cap_table)
+        
+        if not capabilities['node_js'] or not capabilities['html_eslint']:
+            console.print(f"\n[yellow]💡 {processor.install_instructions()}[/yellow]")
+        
+        return
+    
+    if not input_path.exists():
+        console.print(f"[red]❌ Error: Path not found: {input_path}[/red]")
+        raise typer.Exit(1)
+    
+    if input_path.is_file():
+        # Single file processing
+        if input_path.suffix.lower() != '.html':
+            console.print(f"[red]❌ Error: Input must be an HTML (.html) file[/red]")
+            raise typer.Exit(1)
+        
+        output_file = output or input_path
+        
+        console.print(f"[bold blue]🔧 Processing HTML file: {input_path.name}[/bold blue]")
+        
+        # Read input file
+        with open(input_path, 'r', encoding='utf-8') as f:
+            html_content = f.read()
+        
+        # Process HTML
+        processed_content, changes = processor.process_html(
+            html_content, 
+            input_path, 
+            skip_lint=skip_lint
+        )
+        
+        # Write output
+        with open(output_file, 'w', encoding='utf-8') as f:
+            f.write(processed_content)
+        
+        if changes:
+            console.print("[green]✨ HTML processing completed:[/green]")
+            for change in changes:
+                console.print(f"[green]  • {change}[/green]")
+            console.print(f"[green]📄 Formatted HTML saved to: {output_file}[/green]")
+        else:
+            console.print("[green]✅ HTML is already well-formatted[/green]")
+    
+    else:
+        # Directory processing
+        if not input_path.is_dir():
+            console.print(f"[red]❌ Error: {input_path} is not a valid file or directory[/red]")
+            raise typer.Exit(1)
+        
+        html_files = list(input_path.glob("*.html"))
+        if not html_files:
+            console.print(f"[yellow]⚠️  No HTML files found in {input_path}[/yellow]")
+            return
+        
+        output_dir = output or input_path
+        if output != input_path:
+            output_dir.mkdir(parents=True, exist_ok=True)
+        
+        console.print(f"[bold blue]📦 Processing {len(html_files)} HTML files from {input_path}[/bold blue]")
+        
+        results = {}
+        
+        for html_file in track(html_files, description="Processing HTML files..."):
+            try:
+                # Read file
+                with open(html_file, 'r', encoding='utf-8') as f:
+                    html_content = f.read()
+                
+                # Process HTML
+                processed_content, changes = processor.process_html(
+                    html_content, 
+                    html_file, 
+                    skip_lint=skip_lint
+                )
+                
+                # Write output
+                output_file = output_dir / html_file.name
+                with open(output_file, 'w', encoding='utf-8') as f:
+                    f.write(processed_content)
+                
+                results[html_file.name] = {
+                    'success': True,
+                    'changes': len(changes),
+                    'changes_list': changes
+                }
+                
+            except Exception as e:
+                console.print(f"[red]❌ Error processing {html_file.name}: {e}[/red]")
+                results[html_file.name] = {
+                    'success': False,
+                    'changes': 0,
+                    'error': str(e)
+                }
+        
+        # Summary
+        successful = sum(1 for r in results.values() if r['success'])
+        total_changes = sum(r.get('changes', 0) for r in results.values())
+        
+        summary_table = Table(title="HTML Processing Summary")
+        summary_table.add_column("Metric", style="cyan")
+        summary_table.add_column("Count", style="green")
+        
+        summary_table.add_row("Files Processed", str(len(html_files)))
+        summary_table.add_row("Successful", str(successful))
+        summary_table.add_row("Failed", str(len(results) - successful))
+        summary_table.add_row("Total Changes", str(total_changes))
+        
+        console.print(summary_table)
+        
+        if successful > 0:
+            console.print(f"\n[green]✅ HTML files processed and saved to: {output_dir}[/green]")
+
+@app.command("format-export")
+def format_export_command(
+    input_path: Path = typer.Argument(
+        ...,
+        help="HTML file to format and export with WeasyPrint-optimized processing"
+    ),
+):
+    """🔧 Format HTML file and export to data/outputs/ with WeasyPrint compatibility
+    
+    Applies professional HTML formatting and validation using WeasyPrint-optimized
+    configurations, then exports the processed file to data/outputs/ preserving
+    the original directory structure.
+    
+    Examples:
+      format-export data/raw/personal/resume.html    # → data/outputs/personal/resume.html
+      format-export path/to/document.html           # → data/outputs/path/to/document.html
+      format-export file.html                       # → data/outputs/file.html
+    """
+    from .html_processor import HTMLProcessor
+    
+    def _calculate_output_path(input_path: Path) -> Path:
+        """Calculate output path preserving directory structure under data/outputs/"""
+        # Convert input path to absolute to normalize it
+        abs_input = input_path.resolve()
+        
+        # If the input is under data/raw/, strip the data/raw/ prefix
+        try:
+            rel_to_raw = abs_input.relative_to(Path.cwd() / "data" / "raw")
+            return Path("data/outputs") / rel_to_raw
+        except ValueError:
+            # Input is not under data/raw/, preserve full relative structure
+            return Path("data/outputs") / input_path
+    
+    # Validate input file
+    if not input_path.exists():
+        console.print(f"[red]❌ Error: HTML file not found: {input_path}[/red]")
+        raise typer.Exit(1)
+    
+    if not input_path.is_file():
+        console.print(f"[red]❌ Error: Path is not a file: {input_path}[/red]")
+        raise typer.Exit(1)
+    
+    if input_path.suffix.lower() != '.html':
+        console.print(f"[red]❌ Error: Input must be an HTML (.html) file[/red]")
+        raise typer.Exit(1)
+    
+    # Calculate output path
+    output_path = _calculate_output_path(input_path)
+    
+    # Create output directory
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    
+    console.print(f"[bold blue]🔧 Processing HTML with WeasyPrint optimization[/bold blue]")
+    console.print(f"[blue]📁 Input:  {input_path}[/blue]")
+    console.print(f"[blue]📁 Output: {output_path}[/blue]")
+    
+    # Read input file
+    try:
+        with open(input_path, 'r', encoding='utf-8') as f:
+            html_content = f.read()
+    except Exception as e:
+        console.print(f"[red]❌ Error reading input file: {e}[/red]")
+        raise typer.Exit(1)
+    
+    # Process HTML with forced WeasyPrint mode
+    processor = HTMLProcessor(console, weasyprint_mode=True)
+    
+    try:
+        processed_content, changes = processor.process_html(
+            html_content, 
+            input_path, 
+            skip_lint=False
+        )
+    except RuntimeError as e:
+        console.print(f"[red]❌ Processing failed: {e}[/red]")
+        raise typer.Exit(1)
+    except Exception as e:
+        console.print(f"[red]❌ Unexpected error during processing: {e}[/red]")
+        raise typer.Exit(1)
+    
+    # Write output file
+    try:
+        with open(output_path, 'w', encoding='utf-8') as f:
+            f.write(processed_content)
+    except Exception as e:
+        console.print(f"[red]❌ Error writing output file: {e}[/red]")
+        raise typer.Exit(1)
+    
+    # Report results
+    if changes:
+        console.print("\n[green]✨ HTML processing completed with changes:[/green]")
+        for change in changes:
+            console.print(f"[green]  • {change}[/green]")
+    else:
+        console.print("\n[green]✅ HTML processed (no changes needed)[/green]")
+    
+    console.print(f"[green]📄 Formatted HTML exported to: {output_path}[/green]")
 
 @app.command("status")
 def status_command(
