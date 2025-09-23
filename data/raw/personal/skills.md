@@ -39,6 +39,12 @@ These skills have been validated through peer endorsements on LinkedIn:
 - **Domain**: Finance, Quantitative Analysis, AI-driven content generation
 - **Tools**: GitHub, VSCode
 
+### Taupemist Cooperative (2017-2020)
+**Non-profit Cooperative Organisation**
+- **Focus**: Blockchain, Decentralized Economy Participation
+- **Technologies**: Decentralized systems, Community leadership
+- **Location**: Global
+
 ## Skills by Company Experience
 
 ### Oetker Digital GmbH (2018-2020)

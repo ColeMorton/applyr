@@ -12,7 +12,7 @@ I'm excited to start a new career in Brisbane's thriving tech scene, and now tha
 
 **Situation**: I was employed at CharmHealth in Brisbane as a full-stack .NET developer, working on critical healthcare systems for multiple hospitals in the region.
 
-**Task**: My initial responsibility involved using WCF API services to generate and update drug lists for multiple hospitals. Shortly after, I had the honor of working with a very high-profile team of contractors hired to build an oncology and patient management system for the new Prince Alfred hospital in Sydney.
+**Task**: My initial responsibility involved using WCF API services to generate and update drug lists for multiple hospitals. Shortly after, I had the honor of working with a very high-profile team of contractors hired to build an oncology and patient management system for the Chris O'Brien Lifehouse at the Royal Prince Alfred Hospital in Sydney.
 
 **Action**: I ensured that strict regulatory compliance was a core criterion baked into all business logic, understanding the critical nature of healthcare software where accuracy could impact patient outcomes.
 
@@ -32,7 +32,7 @@ I'm excited to start a new career in Brisbane's thriving tech scene, and now tha
 
 **Situation**: At Panorama Berlin, I was tasked with building a React Native app for a fashion show as the sole developer.
 
-**Task**: The primary purpose of this app was to provide a payment solution for both event staff and attendees. Event staff would scan QR codes on the attendees' app, and there was a sizable backlog of features requested by each booth at the event.
+**Task**: The primary purpose of this app was to provide a QR ticket scanning solution for the fashion event. Event staff would scan ticket QR codes on the attendees' app, and there was a sizable backlog of features requested by each booth at the event.
 
 **Action**: Due to time constraints, it was prudent to focus primarily on the core QR scanning feature to ensure it was highly robust. I made a compromise that allowed each booth to integrate with the existing QR scanning feature to provide promotions and special offers to attendees, rather than building separate features for each request.
 

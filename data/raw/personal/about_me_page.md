@@ -50,8 +50,8 @@ I bring engineering rigor to market analysis, systematically processing financia
 
 **Technical Excellence**:
 
-- **Backend**: Python 3.9+ with sophisticated service orchestration, 
-- **Frontend**: Modern Astro 5.7.8, React 19.1.0, TailwindCSS 4.1.4 stack
+- **Backend**: Python 3.10 with sophisticated service orchestration, 
+- **Frontend**: Modern Astro 5.12+, React 19, TailwindCSS 4 stack
 - **AI Orchestration**: 21-command Claude AI integration with four-tier classification system
 - **Data Processing**: Contract-first pipeline with 18+ API integrations and intelligent multi-level caching
 - **Quality Framework**: Institutional-grade validation with 9.0+ confidence thresholds, automated compliance checking

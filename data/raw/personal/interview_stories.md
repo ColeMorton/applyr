@@ -50,7 +50,7 @@ These stories contain sensitive details and should not be shared publicly or ref
 ### 2. Decision-Making Under Pressure: Feature Prioritization
 **Question Types**: Decision-making, pressure handling, prioritization, project management
 
-**Situation**: At Panorama Berlin, I was the sole developer tasked with building a React Native app for a major fashion show. The app needed to provide a payment solution for both event staff and attendees, with staff scanning QR codes on attendees' devices.
+**Situation**: At Panorama Berlin, I was the sole developer tasked with building a React Native app for a major fashion show. The app needed to provide a QR ticket scanning solution for the event, with staff scanning QR codes on attendees' devices.
 
 **Task**: There was a sizable backlog of feature requests from each booth at the event, but we were working under extremely tight deadlines. I had to decide between trying to build everything requested or focusing on core functionality to ensure reliability.
 
