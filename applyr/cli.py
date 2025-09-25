@@ -1005,7 +1005,7 @@ def cleanup_command(
 
 @app.command("add-job")
 def add_job_command(
-    job_id: str = typer.Argument(..., help="8-digit SEEK job ID to add"),
+    job_ids: str = typer.Argument(..., help="8-digit SEEK job ID(s) - single or comma-separated"),
     priority: Optional[str] = typer.Option(
         "medium", "--priority", "-p",
         help="Job priority: high, medium, low"
@@ -1019,95 +1019,193 @@ def add_job_command(
         help="Skip duplicate confirmation prompt"
     ),
 ):
-    """📋 Add a new job by SEEK job ID
-    
-    Scrape and add a job to the database using just the job ID.
-    Constructs the SEEK URL automatically and processes the job.
+    """📋 Add job(s) by SEEK job ID
+
+    Scrape and add one or more jobs to the database using job IDs.
+    Accepts single ID or comma-separated list of IDs.
+
+    Examples:
+        applyr add-job 87066700
+        applyr add-job 87278332,87277607,87066700
     """
     import re
     from .database import ApplicationDatabase, Priority
     from .scraper import scrape_jobs
-    
-    # Validate job_id format (8-digit numeric)
-    if not re.match(r'^\d{8}$', job_id):
-        console.print("[red]❌ Error: Job ID must be exactly 8 digits[/red]")
-        console.print(f"[red]   Provided: '{job_id}'[/red]")
-        console.print("[yellow]💡 Example: applyr add-job 87066700[/yellow]")
+    from rich.progress import Progress, SpinnerColumn, TextColumn
+
+    # Parse comma-separated job IDs
+    job_id_list = [jid.strip() for jid in job_ids.split(',')]
+
+    # Validate all job IDs
+    invalid_ids = []
+    for job_id in job_id_list:
+        if not re.match(r'^\d{8}$', job_id):
+            invalid_ids.append(job_id)
+
+    if invalid_ids:
+        console.print("[red]❌ Error: Invalid job ID format[/red]")
+        for invalid_id in invalid_ids:
+            console.print(f"[red]   Invalid: '{invalid_id}' (must be exactly 8 digits)[/red]")
+        console.print("[yellow]💡 Example: applyr add-job 87066700 or applyr add-job 87278332,87277607[/yellow]")
         raise typer.Exit(1)
     
     # Validate priority
     priority_map = {
         'high': Priority.HIGH,
-        'medium': Priority.MEDIUM, 
+        'medium': Priority.MEDIUM,
         'low': Priority.LOW
     }
-    
+
     if priority.lower() not in priority_map:
         console.print(f"[red]❌ Error: Invalid priority '{priority}'[/red]")
         console.print("[yellow]Valid priorities: high, medium, low[/yellow]")
         raise typer.Exit(1)
-    
+
     priority_enum = priority_map[priority.lower()]
-    
+
     # Initialize database
     database = ApplicationDatabase(console=console)
-    
-    # Check for duplicates
-    if database.job_exists(job_id):
-        console.print(f"[yellow]⚠️  Job {job_id} already exists in database[/yellow]")
-        
-        if not force:
-            # Show existing job details
+
+    # Process multiple jobs
+    if len(job_id_list) > 1:
+        console.print(f"[bold blue]📋 Processing {len(job_id_list)} jobs[/bold blue]")
+
+    # Check for duplicates and prepare URLs
+    urls_to_process = []
+    duplicate_jobs = []
+
+    for job_id in job_id_list:
+        if database.job_exists(job_id) and not force:
             existing_job = database.get_job(job_id)
             if existing_job:
-                console.print(f"[dim]Existing: {existing_job['company_name']} - {existing_job['job_title']} ({existing_job['status']})[/dim]")
-            
-            if not typer.confirm("Do you want to re-scrape and update this job?"):
-                console.print("[blue]Operation cancelled[/blue]")
-                return
-        
-        console.print("[blue]Proceeding to re-scrape existing job...[/blue]")
-    
-    # Construct SEEK URL
-    seek_url = f"https://www.seek.com.au/job/{job_id}"
-    console.print(f"[blue]🔍 Scraping job from: {seek_url}[/blue]")
-    
-    # Use existing scraper infrastructure
-    try:
-        results = scrape_jobs([seek_url], Path("data/outputs/job_descriptions"), 2.0, console, database)
-        
-        success = results.get(seek_url, False)
-        
-        if success:
-            # Update priority and notes if provided
-            update_kwargs = {}
-            if priority != "medium":  # Only update if not default
-                update_kwargs['priority'] = priority_enum
-            if notes:
-                update_kwargs['notes'] = notes
-            
-            if update_kwargs:
-                database.update_job(job_id, **update_kwargs)
-            
-            # Show success message with job details
-            job = database.get_job(job_id)
-            if job:
-                console.print(f"\n[bold green]✅ Successfully added job {job_id}![/bold green]")
-                console.print(f"[green]Company:[/green] {job['company_name']}")
-                console.print(f"[green]Title:[/green] {job['job_title']}")
-                console.print(f"[green]Status:[/green] {job['status']}")
-                console.print(f"[green]Priority:[/green] {job['priority']}")
-                if notes:
-                    console.print(f"[green]Notes:[/green] {notes}")
-                    
-                console.print(f"\n[dim]💡 Use 'applyr update-status {job_id} applied' when you apply to this job[/dim]")
-            else:
-                console.print(f"[green]✅ Job {job_id} added successfully[/green]")
+                duplicate_jobs.append((job_id, existing_job['company_name'], existing_job['job_title'], existing_job['status']))
         else:
-            console.print(f"[red]❌ Failed to scrape job {job_id}[/red]")
+            urls_to_process.append(f"https://www.seek.com.au/job/{job_id}")
+
+    # Handle duplicates confirmation for multiple jobs
+    if duplicate_jobs and not force:
+        console.print(f"[yellow]⚠️  {len(duplicate_jobs)} job(s) already exist in database:[/yellow]")
+        for job_id, company, title, status in duplicate_jobs:
+            console.print(f"[dim]  {job_id}: {company} - {title} ({status})[/dim]")
+
+        if not typer.confirm("\nDo you want to re-scrape these existing jobs?"):
+            console.print("[blue]Skipping existing jobs...[/blue]")
+        else:
+            # Add duplicate URLs to processing list
+            for job_id, _, _, _ in duplicate_jobs:
+                urls_to_process.append(f"https://www.seek.com.au/job/{job_id}")
+    elif duplicate_jobs and force:
+        # Force mode - add all duplicates
+        for job_id, _, _, _ in duplicate_jobs:
+            urls_to_process.append(f"https://www.seek.com.au/job/{job_id}")
+
+    if not urls_to_process:
+        console.print("[yellow]No new jobs to process[/yellow]")
+        return
+
+    # Process all jobs with existing scraper infrastructure
+    console.print(f"[blue]🔍 Scraping {len(urls_to_process)} job(s)...[/blue]")
+
+    try:
+        results = scrape_jobs(urls_to_process, Path("data/outputs/job_descriptions"), 2.0, console, database)
+
+        # Process results and update database
+        successful_jobs = []
+        failed_jobs = []
+
+        for url in urls_to_process:
+            job_id = url.split('/')[-1]
+            success = results.get(url, False)
+
+            if success:
+                # Update priority and notes if provided
+                update_kwargs = {}
+                if priority != "medium":  # Only update if not default
+                    update_kwargs['priority'] = priority_enum
+                if notes:
+                    update_kwargs['notes'] = notes
+
+                if update_kwargs:
+                    database.update_job(job_id, **update_kwargs)
+
+                # Fetch job details for summary
+                job = database.get_job(job_id)
+                if job:
+                    successful_jobs.append({
+                        'job_id': job_id,
+                        'company': job['company_name'],
+                        'title': job['job_title'],
+                        'status': job['status'],
+                        'priority': job['priority']
+                    })
+                else:
+                    successful_jobs.append({
+                        'job_id': job_id,
+                        'company': 'Unknown',
+                        'title': 'Unknown',
+                        'status': 'discovered',
+                        'priority': priority_enum.value
+                    })
+            else:
+                failed_jobs.append(job_id)
+
+        # Display results summary
+        if len(job_id_list) == 1 and successful_jobs:
+            # Single job - use original detailed output
+            job = successful_jobs[0]
+            console.print(f"\n[bold green]✅ Successfully added job {job['job_id']}![/bold green]")
+            console.print(f"[green]Company:[/green] {job['company']}")
+            console.print(f"[green]Title:[/green] {job['title']}")
+            console.print(f"[green]Status:[/green] {job['status']}")
+            console.print(f"[green]Priority:[/green] {job['priority']}")
+            if notes:
+                console.print(f"[green]Notes:[/green] {notes}")
+            console.print(f"\n[dim]💡 Use 'applyr update-status {job['job_id']} applied' when you apply to this job[/dim]")
+        elif len(job_id_list) > 1:
+            # Multiple jobs - display summary table
+            console.print("\n[bold]📊 Processing Results[/bold]")
+
+            if successful_jobs:
+                table = Table(title=f"✅ Successfully Added ({len(successful_jobs)} jobs)")
+                table.add_column("Job ID", style="cyan")
+                table.add_column("Company", style="blue")
+                table.add_column("Title", style="white")
+                table.add_column("Status", style="green")
+                table.add_column("Priority", style="yellow")
+
+                for job in successful_jobs:
+                    table.add_row(
+                        job['job_id'],
+                        job['company'][:30] + '...' if len(job['company']) > 30 else job['company'],
+                        job['title'][:40] + '...' if len(job['title']) > 40 else job['title'],
+                        job['status'],
+                        job['priority']
+                    )
+
+                console.print(table)
+
+            if failed_jobs:
+                console.print(f"\n[red]❌ Failed to scrape {len(failed_jobs)} job(s):[/red]")
+                for job_id in failed_jobs:
+                    console.print(f"[red]   • {job_id}[/red]")
+                console.print("[yellow]💡 Failures could be due to:[/yellow]")
+                console.print("[yellow]   • Invalid job ID[/yellow]")
+                console.print("[yellow]   • Job posting has been removed[/yellow]")
+                console.print("[yellow]   • Network connectivity issues[/yellow]")
+
+            # Summary stats
+            console.print(f"\n[bold blue]Summary:[/bold blue]")
+            console.print(f"[green]✓ Successful: {len(successful_jobs)}[/green]")
+            console.print(f"[red]✗ Failed: {len(failed_jobs)}[/red]")
+
+            if successful_jobs:
+                console.print(f"\n[dim]💡 Use 'applyr update-status <job-id> applied' when you apply to these jobs[/dim]")
+        elif failed_jobs:
+            # All jobs failed
+            console.print(f"\n[red]❌ Failed to scrape all {len(failed_jobs)} job(s)[/red]")
             console.print("[yellow]💡 This could be due to:[/yellow]")
-            console.print("[yellow]   • Invalid job ID[/yellow]")
-            console.print("[yellow]   • Job posting has been removed[/yellow]")
+            console.print("[yellow]   • Invalid job IDs[/yellow]")
+            console.print("[yellow]   • Job postings have been removed[/yellow]")
             console.print("[yellow]   • Network connectivity issues[/yellow]")
             console.print("[yellow]   • SEEK anti-bot measures[/yellow]")
             raise typer.Exit(1)

@@ -1,69 +1,54 @@
 ## Dear iSelect Hiring Team,
 
-I am writing to express my strong interest in the Software Engineer position at iSelect. As a full-stack developer with **11+ years of commercial experience** who recently relocated to Brisbane from Berlin, I'm excited by the opportunity to contribute to a platform that helps millions of Australians make better financial decisions.
+I'm writing to express my strong interest in the Software Engineer position at iSelect Ltd. As a Brisbane-based full-stack developer with **11+ years of commercial experience**, I'm excited to contribute to your mission of helping millions of Australians find the right financial and household products through trusted comparison services.
 
-## Why I'm a Strong Match for iSelect
+## Perfect Technical Stack Alignment
 
-Your requirement for engineers who can "build great software" with expertise in **React, JavaScript, Node.js, and AWS** aligns directly with my core technical strengths. I've spent the past year building Sensylate, a financial analysis platform that **integrates 18+ third-party APIs** to deliver institutional-grade insights. I understand exactly the kind of scalable, reliable systems needed for comparison services at iSelect's scale.
+Your requirement for engineers with expertise in **JavaScript (React) and Node.js** aligns perfectly with my experience:
 
-The merger with Compare the Market presents fascinating technical challenges around platform consolidation, data unification, and architectural modernization. My experience transitioning from monolithic systems to microservices architectures at multiple Berlin startups has prepared me well for these exact challenges.
+- **JavaScript**: 11+ years with 19 LinkedIn endorsements, from .NET enterprise foundations to modern React/TypeScript stacks
+- **React**: 8+ years from first exposure at CrossLend FinTech (2015) to current React 19 with Astro 5.12+ on [colemorton.com](https://colemorton.com)
+- **Full-Stack Development**: Proven experience building both financial user interfaces and backend systems with regulatory compliance
+- **Agile Methodologies**: 7 LinkedIn endorsements with practical Scrum/Kanban experience, implementing TDD at CrossLend during team scaling from 3→20+ developers
+- **AI & Multi-Agent Systems**: Current specialization with sophisticated AI agent orchestration system generating 100+ analyses through multi-phase workflows
+- **SOLID Principles**: Primary skill with 11+ years applying clean architecture patterns in enterprise-scale production systems
 
-## Relevant Technical & Domain Experience
+Your emphasis on **AI and multi-agent systems** directly aligns with my current AI-augmented development focus on [Sensylate](https://github.com/ColeMorton/sensylate), while **Agile** matches my primary commercial workflow experience.
 
-My career has progressively built toward the intersection of software engineering and financial services:
+While I have a strong foundation in OOP through 3.7 years of C#/.NET enterprise development, I'm excited to apply this architectural understanding to Java environments. My regulated industry background provides excellent context for understanding secure, scalable enterprise systems.
 
-**API Integration & Data Processing Expertise**:
-- Built [Sensylate](https://github.com/ColeMorton/sensylate), integrating **18+ financial and market data APIs** with intelligent caching and validation
-- Implemented contract-driven data pipelines ensuring accuracy and reliability at scale
-- Created comprehensive error handling and retry mechanisms for third-party service failures
+## Modern Development & Collaboration Excellence
 
-**Full-Stack Development Excellence**:
-- **React/TypeScript**: Primary frontend stack for the past 5+ years across multiple companies
-- **Node.js**: Extensive backend experience building RESTful APIs and microservices
-- **AWS**: Deployed production systems using Lambda, S3, API Gateway (requiring refresh but foundational knowledge strong)
-- **Java/C#**: While Java isn't my primary language, I have **3 years of C#/.NET experience** providing strong OOP foundation
+Your emphasis on **"collaborate widely with product owners, PMs, and architects, explaining tech in plain language"** resonates strongly with my cross-functional experience:
 
-**Financial Services Domain Knowledge**:
-- At **CrossLend GmbH** (Berlin fintech), developed lending platform interfaces requiring precision accuracy
-- Deep understanding of financial products, risk assessment, and regulatory compliance
-- Built systematic approaches to financial data validation and quality assurance
+- **Cross-Team Collaboration**: At Oetker Digital, worked across multiple teams in fast-paced, adaptive environment with seamless collaboration between business and technical stakeholders
+- **Client-Facing Technical Communication**: Led frontend project for major German banking client at Dievision, translating technical requirements into business-friendly solutions
+- **Team Leadership & Knowledge Sharing**: Successfully scaled CrossLend development team from 3 to 20+ developers while maintaining platform stability and maintaining CI/CD practices
 
-**Collaborative Team Experience**:
-- Worked across **12+ teams** throughout my career using Agile/Scrum methodologies
-- At **Oetker Digital**, collaborated across multiple projects in highly dynamic environment
-- Consistently bridged technical and business stakeholders to deliver customer value
+This collaborative approach directly supports your culture of turning ideas into working solutions while maintaining the high engineering standards essential for financial services.
 
-## What I Bring to iSelect
+## Regulated Industry Expertise
 
-Beyond technical skills, I understand the critical importance of building systems that earn consumer trust when handling financial decisions. My recent work has taught me that comparison services aren't just about data aggregation, they're about presenting complex information in ways that empower confident decision-making.
+My experience with compliance-critical systems directly aligns with financial services requirements:
 
-I'm particularly excited by iSelect's focus on **AI and multi-agent systems**. My experience with AI orchestration and automated content generation directly applies to enhancing comparison algorithms and creating more intelligent advisory services. I see tremendous potential in using AI not to replace human advisors but to augment their capabilities and scale personalized guidance.
+- **Healthcare Compliance**: Built oncology and patient management system for Chris O'Brien Lifehouse at Royal Prince Alfred Hospital, where regulatory compliance was core to all business logic
+- **FinTech Regulatory**: Maintained platform stability and regulatory compliance at CrossLend GmbH (Jul 2015 - Jun 2016), navigating German financial regulations
 
-## Cultural Alignment & Commitment to Melbourne
+This combination of healthcare and FinTech compliance experience provides unique understanding of the accuracy, precision, and trust requirements essential for financial comparison services.
 
-While currently Brisbane-based, I'm prepared to relocate to Melbourne for the right opportunity. Having spent 12 years in Berlin's tech scene, I understand the value of being present with the team, especially during significant technical transformations. Your Collins Square location and hybrid work arrangements (including the 9-day fortnight option) align well with my work-life balance priorities.
+## Brisbane Establishment & Immediate Availability
 
-I'm drawn to iSelect's mission of making complex financial decisions simpler for everyday Australians. After years in European markets, I'm eager to contribute to Australia's tech ecosystem while applying international perspectives to local challenges.
+Earlier this year, my wife and I relocated to Brisbane to be closer to family and put down roots. I'm fully committed to Australia's thriving tech market and immediately available to contribute to your team and drive your mission.
 
-## Next Steps
+Thank you for considering my application. I'm available for immediate start and happy to demonstrate my capabilities.
 
-I would welcome the opportunity to discuss how my unique combination of:
-- Deep technical expertise in your core stack
-- Extensive API integration and financial systems experience  
-- Fresh perspectives from international markets
-- Genuine passion for consumer-focused technology
+Best regards,
 
-...can contribute to iSelect's continued evolution as Australia's trusted comparison platform.
+**Cole Morton**
 
-Thank you for considering my application. I'm available for immediate start and happy to demonstrate my capabilities through technical discussions, pair programming, or building a sample integration showcasing real iSelect use cases.
-
-Best regards,  
-Cole Morton
-
-[LinkedIn](https://www.linkedin.com/in/cole-morton-72300745/) | [GitHub](https://github.com/ColeMorton) | [Website](https://www.colemorton.com)  
-📧 cole.morton@hotmail.com | 📱 041 558 3331  
-📍 Currently in Brisbane, willing to relocate to Melbourne
-
----
-
-**Note:** I understand this role may involve regulated financial comparisons. I'm committed to obtaining any necessary certifications and adhering to all compliance requirements. My systematic approach to data accuracy and validation, demonstrated through Sensylate's institutional-grade quality standards, aligns well with the precision required in financial services.
+📍 Brisbane, QLD
+📞 041 558 3331
+✉️ cole.morton@hotmail.com
+🌐 [colemorton.com](https://colemorton.com)
+💼 [linkedin.com/in/cole-morton](https://www.linkedin.com/in/cole-morton-72300745/)
+📂 [github.com/colemorton](https://github.com/colemorton)

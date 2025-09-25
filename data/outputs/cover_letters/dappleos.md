@@ -18,4 +18,4 @@ Looking forward to discussing how my unique blend of AI expertise and genuine pa
 I look forward to hearing from you,
 Cole Morton
 
-cole.morton.com
+colemorton.com
