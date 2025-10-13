@@ -20,6 +20,10 @@ pandas = "^2.0.0"
 pytest = "^7.0"
 black = "^23.0"
 isort = "^5.12"
+pytest-cov = "^7.0.0"
+pytest-mock = "^3.15.1"
+responses = "^0.25.8"
+freezegun = "^1.5.5"
 
 [tool.poetry.scripts]
 applyr = "applyr.cli:app"
@@ -27,3 +31,24 @@ applyr = "applyr.cli:app"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_functions = ["test_*"]
+addopts = "--cov=applyr --cov-report=html --cov-report=term-missing --cov-report=xml"
+
+[tool.coverage.run]
+source = ["applyr"]
+omit = ["tests/*", "*/__pycache__/*", "applyr/__init__.py"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+    "pass"
+]
+precision = 2

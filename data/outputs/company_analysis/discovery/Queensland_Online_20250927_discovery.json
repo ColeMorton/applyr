@@ -1,0 +1,262 @@
+{
+  "discovery_metadata": {
+    "analysis_id": "queensland_online_20250927",
+    "company_name": "Queensland Online",
+    "analysis_type": "company_intelligence_discovery",
+    "discovery_date": "2025-09-27",
+    "analyst": "Claude Code Intelligence System",
+    "discovery_version": "1.0",
+    "data_collection_period": "2022-2025",
+    "confidence_threshold": 0.7,
+    "schema_version": "company_analysis_discovery_v1.0"
+  },
+  "company_foundation_intelligence": {
+    "company_history": {
+      "founding_story": "No verifiable information found regarding the founding story of Queensland Online through comprehensive multi-source search across Australian business registers, government databases, and public information sources.",
+      "founding_date": "Unknown - not found in available public records",
+      "founding_location": "Queensland, Australia (inferred from company name)",
+      "business_evolution": "No documented business evolution timeline available in accessible public records or business intelligence databases.",
+      "confidence_score": 0.15
+    },
+    "mission_vision_values": {
+      "mission": "No publicly available mission statement identified through comprehensive search of corporate websites, business directories, and public documentation.",
+      "vision": "No publicly available vision statement found in accessible corporate communications or business publications.",
+      "core_values": [],
+      "cultural_assessment": "Unable to assess corporate culture due to absence of publicly available information about the company's operations, employee communications, or organizational documentation.",
+      "confidence_score": 0.10
+    },
+    "business_model": {
+      "revenue_streams": [],
+      "target_market": "Unknown - no verifiable information about target customer segments or market positioning found in available sources.",
+      "value_proposition": "No publicly documented value proposition or competitive positioning statements identified.",
+      "pricing_model": "No pricing information or business model details available in public sources.",
+      "confidence_score": 0.05
+    },
+    "corporate_structure": {
+      "legal_entity": "Queensland Online (unverified entity name)",
+      "registration_number": "No ABN or ACN found in Australian Business Register searches",
+      "headquarters": "Queensland, Australia (location inferred from name only)",
+      "subsidiaries": [],
+      "organizational_hierarchy": "No corporate structure information available in public records or business intelligence sources.",
+      "confidence_score": 0.12
+    },
+    "leadership_team": {
+      "key_executives": [],
+      "board_composition": [],
+      "management_background": "No leadership team information found in publicly accessible sources, professional networks, or corporate communications.",
+      "confidence_score": 0.08
+    }
+  },
+  "business_operations_intelligence": {
+    "product_service_portfolio": {
+      "primary_services": [],
+      "service_differentiation": "No information available about service offerings or competitive differentiation strategies.",
+      "market_positioning": "Unable to determine market position due to absence of publicly available business information or industry recognition.",
+      "confidence_score": 0.05
+    },
+    "target_customers": {
+      "primary_segments": [],
+      "customer_demographics": "No customer information or target market data found in available public sources.",
+      "market_reach": "Geographic or market coverage cannot be determined from available information sources.",
+      "confidence_score": 0.05
+    },
+    "technology_infrastructure": {
+      "technology_stack": [],
+      "platforms_supported": "No technical infrastructure information available in public documentation or technology databases.",
+      "development_approach": "No information about development methodologies or technical approaches found in accessible sources.",
+      "confidence_score": 0.05
+    },
+    "geographic_presence": {
+      "primary_markets": [
+        "Queensland, Australia (inferred from company name)"
+      ],
+      "office_locations": [],
+      "market_coverage": "Unable to verify geographic presence or market coverage through available information sources.",
+      "confidence_score": 0.20
+    },
+    "partnership_ecosystem": {
+      "strategic_partnerships": [],
+      "technology_partners": [],
+      "distribution_channels": "No partnership or distribution information found in publicly accessible business databases or announcements.",
+      "confidence_score": 0.05
+    }
+  },
+  "market_positioning_intelligence": {
+    "industry_classification": {
+      "primary_sector": "Unknown - industry classification cannot be determined from available information",
+      "sub_sector": "Unknown",
+      "naics_code": "Unknown",
+      "industry_focus": "Cannot determine industry focus without verifiable business information.",
+      "confidence_score": 0.05
+    },
+    "competitive_landscape": {
+      "market_position": "Unable to assess market position due to absence of verifiable company information or industry presence data.",
+      "direct_competitors": [],
+      "competitive_advantages": [],
+      "market_differentiation": "No competitive positioning or differentiation strategies identified in available sources.",
+      "confidence_score": 0.05
+    },
+    "market_share_analysis": {
+      "market_size": "Cannot determine relevant market size without industry classification or service portfolio information.",
+      "growth_trajectory": "No growth or performance data available in public business intelligence sources.",
+      "market_trends": [],
+      "confidence_score": 0.05
+    },
+    "brand_reputation": {
+      "public_perception": "No public perception data, media coverage, or brand recognition information found in accessible sources.",
+      "media_coverage": "No media coverage, press releases, or public announcements identified through comprehensive search.",
+      "customer_satisfaction": "No customer feedback, testimonials, or satisfaction metrics available in public sources.",
+      "industry_recognition": "No awards, certifications, or industry recognition found in professional or trade publications.",
+      "confidence_score": 0.05
+    },
+    "innovation_initiatives": {
+      "technology_investments": [],
+      "research_development": "No R&D activities, technology investments, or innovation initiatives documented in available sources.",
+      "innovation_culture": "Unable to assess innovation culture without access to corporate communications or employee information.",
+      "confidence_score": 0.05
+    }
+  },
+  "corporate_intelligence": {
+    "recent_news_developments": {
+      "major_announcements": [],
+      "press_releases": [],
+      "media_coverage": "No recent news coverage, press releases, or corporate announcements found through comprehensive media search.",
+      "confidence_score": 0.05
+    },
+    "strategic_initiatives": {
+      "growth_strategy": "No publicly available strategic planning documents or growth initiatives identified.",
+      "market_expansion": "No market expansion activities or strategic moves documented in accessible business intelligence sources.",
+      "technology_roadmap": "No technology strategy or development roadmap information available in public sources.",
+      "confidence_score": 0.05
+    },
+    "regulatory_compliance": {
+      "transport_standards": "Unable to determine regulatory compliance status without industry classification or operational information.",
+      "government_oversight": "No regulatory oversight information or compliance documentation found in government databases.",
+      "compliance_status": "Cannot assess compliance status without verifiable business registration or operational data.",
+      "regulatory_framework": [],
+      "confidence_score": 0.05
+    },
+    "esg_initiatives": {
+      "environmental_programs": [],
+      "social_responsibility": [],
+      "governance_practices": [],
+      "confidence_score": 0.05
+    }
+  },
+  "data_quality_metrics": {
+    "overall_confidence_score": 0.08,
+    "data_completeness": 0.05,
+    "source_reliability": 0.85,
+    "cross_validation_score": 0.10,
+    "intelligence_gaps": [
+      "No verifiable company registration found in Australian Business Register (ABN Lookup)",
+      "No corporate website or online presence identified through comprehensive web search",
+      "No business listing found in Australian Securities and Investments Commission (ASIC) registers",
+      "No media coverage, press releases, or public announcements located",
+      "No professional network profiles or employee information discovered",
+      "No customer reviews, testimonials, or business references found",
+      "No industry publications or trade directory listings identified",
+      "No government contract databases or procurement records located",
+      "No technology platform profiles or development community presence found",
+      "No social media presence or digital marketing activities detected"
+    ],
+    "enhancement_priorities": [
+      "Verify company legal status and registration through direct ASIC database search",
+      "Conduct expanded name variations search including common misspellings and abbreviations",
+      "Search Queensland state business registers and local government databases",
+      "Investigate possible dormant or dissolved company status",
+      "Cross-reference with historical business directories and archived records",
+      "Verify through professional services and industry association membership databases",
+      "Check trademark and intellectual property registrations for related business names",
+      "Investigate possible subsidiary or parent company relationships",
+      "Search for any related business activities under different legal entities",
+      "Confirm current operational status or cessation of business activities"
+    ]
+  },
+  "multi_source_validation": {
+    "primary_sources": [
+      "Australian Business Register (ABN Lookup) - no results found",
+      "Australian Securities and Investments Commission (ASIC) company search - no results found",
+      "Google Search across multiple query variations - no relevant results",
+      "Queensland Government business directories - no listings found",
+      "Professional networking platforms (LinkedIn, industry sites) - no profiles found",
+      "Business intelligence databases and directories - no entries located",
+      "Media and news publication searches - no coverage identified",
+      "Technology platform registrations and developer communities - no presence found"
+    ],
+    "cross_referenced_data": [
+      "Negative verification across multiple authoritative Australian business databases",
+      "Consistent absence of company information across diverse information sources",
+      "No conflicting data found as no verifiable company information exists in accessible sources",
+      "Queensland technology sector mapping does not include this entity",
+      "Australian startup and SME databases contain no matching records",
+      "Government procurement and contractor databases show no relevant entries"
+    ],
+    "validation_confidence": 0.95,
+    "source_health_score": 0.92
+  },
+  "competitive_analysis": {
+    "direct_competitors_analysis": [],
+    "competitive_advantages": [],
+    "market_vulnerabilities": [
+      "Unable to establish market presence or competitive position due to absence of verifiable company information",
+      "No demonstrated business operations or customer relationships identified",
+      "Lack of digital presence may indicate limited market engagement or operational status",
+      "Absence from government and industry databases suggests potential compliance or registration issues"
+    ]
+  },
+  "discovery_insights": {
+    "key_findings": [
+      "Comprehensive multi-source intelligence collection found no verifiable information about a company called 'Queensland Online'",
+      "Systematic search across Australian business registers (ABN Lookup, ASIC) returned no matching company registrations",
+      "Extensive web search using multiple name variations and industry contexts yielded no relevant company results",
+      "Queensland technology sector analysis reveals robust ecosystem but no entity matching this name",
+      "Absence of digital footprint, media coverage, or professional network presence unusual for active businesses",
+      "Search methodology validated through successful retrieval of comparable Queensland technology companies",
+      "High confidence (95%) that no publicly accessible information exists for this entity name"
+    ],
+    "strategic_implications": [
+      "Company may not exist as a registered business entity in Australia",
+      "Possible dormant, dissolved, or never-registered business name",
+      "May operate under different legal entity name or business structure",
+      "Could represent sole trader or unregistered business activity",
+      "Potential for confusion with similarly named entities or services"
+    ],
+    "intelligence_priorities": [
+      "Verify exact company name spelling and legal structure with primary source",
+      "Determine if entity operates under alternative business name or trading name",
+      "Investigate possible historical operations or business succession",
+      "Confirm current operational status through direct inquiry if contact information available",
+      "Assess need for expanded search parameters or alternative identification methods"
+    ],
+    "risk_assessment": [
+      "High uncertainty regarding legal business status and operational legitimacy",
+      "Inability to verify regulatory compliance or business registration status",
+      "No financial performance data or business stability indicators available",
+      "Cannot assess operational capabilities or service delivery capacity",
+      "Lack of verifiable information may indicate compliance or transparency concerns"
+    ]
+  },
+  "contextual_intelligence": {
+    "queensland_technology_sector": {
+      "sector_overview": "Queensland maintains a robust technology sector with numerous registered and active companies providing IT services, software development, and digital solutions across Brisbane, Gold Coast, and regional areas.",
+      "sector_companies_identified": [
+        "Digital8 - Brisbane web design and marketing",
+        "Excite Media - Award-winning marketing agency Brisbane",
+        "Queensland Computers - IT and print solutions",
+        "Essential Tech - Brisbane managed IT services",
+        "Pronto Software - Australian business management software",
+        "Network Technologies Queensland (NTQ) - IT support Brisbane",
+        "Elevate Technology - Managed IT services Brisbane"
+      ],
+      "sector_characteristics": "Well-established companies maintain strong online presence, government registrations, and public business profiles",
+      "registration_patterns": "Active Queensland technology companies consistently appear in ABN Lookup, maintain corporate websites, and have verifiable business operations"
+    },
+    "search_methodology_validation": {
+      "search_effectiveness": "Search methodology successfully identified multiple Queensland technology companies, validating approach comprehensiveness",
+      "source_reliability": "Australian government databases (ABN, ASIC) provide authoritative business registration information",
+      "coverage_completeness": "Multi-source approach covered business registers, web presence, media coverage, and industry databases",
+      "negative_result_confidence": "High confidence (95%) that systematic search would identify any substantial business entity with this name"
+    }
+  }
+}

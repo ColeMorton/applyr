@@ -31,14 +31,31 @@
 - 4.0-5.9: Significant template deviations requiring correction
 - 0.0-3.9: Major template non-conformance or missing critical sections
 
-#### 1.1 Template Quality Standards Assessment
+#### 1.1 Bullet Points Library Compliance Validation
+**CRITICAL VALIDATION**: All bullet points must use standardized library content
+- **Technical Stack Bullets**: Verify all {TECH_BULLET_*} variables use exact text from cover_letter.md Technical Stack Bullet Points Library
+- **Domain Experience Bullets**: Confirm all {DOMAIN_BULLET_*} variables match Domain Experience Bullet Points Library exactly
+- **Brisbane Establishment Bullets**: Validate all {BRISBANE_BULLET_*} variables use Brisbane Establishment Bullet Points Library text
+- **No Custom Variations**: Flag any modifications, paraphrasing, or custom versions of library bullets
+- **Selection Appropriateness**: Assess whether chosen bullets are relevant to specific job requirements
+- **Library Currency**: Verify bullets reference most current version of library in cover_letter.md
+
+**Bullet Points Library Compliance Scoring:**
+- 10.0: Perfect library adherence with all bullets matching exactly and appropriately selected
+- 8.0-9.9: Minor selection issues but exact text compliance maintained
+- 6.0-7.9: Some inappropriate selections but library text preserved
+- 4.0-5.9: Custom modifications detected requiring correction to library standards
+- 2.0-3.9: Significant deviations from library with multiple custom variations
+- 0.0-1.9: Complete disregard for library standards or major factual modifications
+
+#### 1.2 Template Quality Standards Assessment
 - **Optimal Length Check**: Verify 45-60 lines as specified in template
 - **Structure Quality**: Assess clear headers, scannable format, bold emphasis per template
 - **Personalization Quality**: Evaluate mission connection, cultural alignment, growth stage awareness per template standards
 - **Company Type Alignment**: Verify appropriate template company-type guidance was applied
 - **Conditional Section Appropriateness**: Validate correct conditional sections for role level and company type
 
-#### 1.2 Primary Data Source Validation
+#### 1.3 Primary Data Source Validation
 - **advertisements.csv Verification**: Confirm job_id exists with complete metadata
 - **Job Description File Integrity**: Validate file exists at expected location with proper naming
 - **Cover Letter File Verification**: Confirm cover letter exists for target company
@@ -52,13 +69,13 @@
 - 4.0-5.9: Significant data gaps requiring attention
 - 0.0-3.9: Critical files missing or corrupted data
 
-#### 1.3 Data Completeness Assessment
+#### 1.4 Data Completeness Assessment
 - **Job Requirements Extraction**: Parse technical stack, experience level, industry domain
 - **Company Information Validation**: Verify company name, location, role details
 - **Cover Letter Content Analysis**: Extract all factual claims for verification
 - **Contact Information Validation**: Verify email, phone, portfolio links accuracy
 
-#### 1.4 Company Analysis Discovery & Verification
+#### 1.5 Company Analysis Discovery & Verification
 - **Company Analysis Search**: Locate matching company analysis files in `data/outputs/company_analysis/*.md`
 - **File Discovery Protocol**: Search for files matching company name with variations (Ltd, Pty Ltd, Technologies, etc.)
 - **Analysis Recency Validation**: Check analysis file timestamp for currency (prefer recent analysis)
@@ -122,10 +139,12 @@ Create detailed mapping between cover letter claims and verifiable experience:
 ### Phase 3: Template-Based Technical Stack Alignment Analysis
 
 #### 3.1 Template Technical Alignment Validation
-- **Template Variable Accuracy**: Verify {TECH_STACK_REQUIREMENTS}, {PRIMARY_TECH_1}, {PRIMARY_TECH_2} are accurately populated
-- **Technical Experience Claims**: Validate {YEARS_EXPERIENCE}, {SPECIFIC_PROJECTS} match cole agent evidence
-- **Learning Statement Validation**: Assess appropriateness of {LEARNING_STATEMENT} and {SKILL_TO_DEVELOP}
-- **Technology Foundation Claims**: Verify {FOUNDATION_SKILL} positioning is evidence-based
+- **Template Variable Accuracy**: Verify {TECH_STACK_REQUIREMENTS} accurately lists job requirements
+- **Bullet Point Selection**: Validate {TECH_BULLET_1}, {TECH_BULLET_2}, {TECH_BULLET_3}, {TECH_BULLET_4} are selected from Reusable Bullet Points Library
+- **Domain Bullet Validation**: Confirm {DOMAIN_BULLET_1}, {DOMAIN_BULLET_2}, {DOMAIN_BULLET_3} match library standards
+- **Brisbane Bullet Verification**: Ensure {BRISBANE_BULLET_1}, {BRISBANE_BULLET_2} use standardized location messaging
+- **Learning Statement Validation**: Assess appropriateness of {LEARNING_STATEMENT} and {SKILL_TO_DEVELOP} if present
+- **Library Compliance Check**: Verify all bullet points match exactly with no custom modifications
 
 #### 3.2 Positioning Accuracy Evaluation
 - **Seniority Level Alignment**: Experience level vs role requirements
@@ -204,9 +223,8 @@ Technical_Confidence = (
 ### Phase 6: Template-Based Strategic Positioning Verification
 
 #### 6.1 Template Value Proposition Validation
-- **Template Variable Population**: Verify {KEY_STRENGTH_1}, {KEY_STRENGTH_2}, {KEY_STRENGTH_3} are evidence-based and quantified
-- **Next Steps Section Validation**: Assess {SPECIFIC_EVIDENCE}, {QUANTIFIED_ACHIEVEMENT}, {UNIQUE_DIFFERENTIATOR} accuracy
-- **Company Goal Alignment**: Validate {SPECIFIC_COMPANY_GOAL} connects appropriately to business analysis insights
+- **Company Goal Alignment**: Validate company mission connection aligns appropriately with business analysis insights
+- **Strategic Positioning**: Assess how technical capabilities are positioned relative to job requirements
 **Verify each unique value proposition against documented evidence:**
 - **Greenfield Transformation Experience**: Sensylate and project development verification
 - **Design-Technical Bridge Capability**: Personal brand and design work validation
@@ -243,24 +261,24 @@ Technical_Confidence = (
 ### Category-Specific Weighting
 ```
 Overall_Confidence = (
-    (Template_Conformance * 0.25) +
+    (Template_Conformance * 0.20) +
+    (Bullet_Points_Library_Compliance * 0.15) +
     (Factual_Accuracy * 0.25) +
     (Technical_Alignment * 0.20) +
     (Content_Quality * 0.15) +
-    (Strategic_Positioning * 0.10) +
-    (Company_Analysis_Integration * 0.05)
+    (Strategic_Positioning * 0.05)
 )
 ```
 
 **Template Conformance Weight Explanation:**
-- **25% Weight**: Template adherence is critical for consistent quality and structure
+- **20% Weight**: Template adherence is critical for consistent quality and structure
 - **Foundation Validation**: Template conformance enables all other quality assessments
-- **Quality Multiplier**: Perfect template adherence enhances confidence in all other categories
 
-**Company Analysis Integration Weight Explanation:**
-- **12% Weight**: Significant impact on positioning quality when analysis available
-- **Zero Impact When Unavailable**: Scoring redistributed proportionally when no analysis exists
-- **Enhancement Factor**: Company analysis can elevate overall confidence by providing strategic context
+**Bullet Points Library Compliance Weight Explanation:**
+- **15% Weight**: Ensures consistency and evidence-based accuracy across all cover letters
+- **Quality Standardization**: Library compliance eliminates variation and maintains professional standards
+- **Evidence Preservation**: Pre-verified bullets maintain factual accuracy standards
+
 
 ## JSON Validation Report Structure
 
@@ -285,6 +303,15 @@ Overall_Confidence = (
       "template_variables_populated": 18,
       "template_variables_missing": 2,
       "section_order_correct": true
+    },
+    "bullet_points_library_compliance": {
+      "score": 9.3,
+      "tech_bullets_library_match": true,
+      "domain_bullets_library_match": true,
+      "brisbane_bullets_library_match": true,
+      "custom_variations_detected": 0,
+      "inappropriate_selections": 0,
+      "library_currency_verified": true
     },
     "conditional_sections": {
       "score": 8.8,
@@ -537,6 +564,8 @@ Overall_Confidence = (
 ## Risk Detection Framework
 
 ### Critical Risk Indicators
+- **Bullet Points Library Non-Compliance**: Custom variations, modifications, or complete disregard for standardized library bullets
+- **Template Variable Population Errors**: Incorrect use of new bullet point variables or reverting to old variable system
 - **Factual Inaccuracies**: Unverifiable employment dates, false company associations, mathematical timeline errors
 - **Evidence Citation Failures**: Major claims without supporting cole agent evidence references
 - **Mathematical Inaccuracies**: Timeline calculations, quantity claims, or experience duration errors
@@ -583,4 +612,4 @@ Overall_Confidence = (
 
 This validation specialist provides template-driven institutional-grade quality assurance, ensuring TEMPLATE.md conformance, factual precision, and strategic positioning effectiveness before application submission.
 
-**CRITICAL VALIDATION PRINCIPLE**: All validation criteria are derived from TEMPLATE.md as the single source of truth. Template conformance is the foundation for all quality assessments and confidence scoring.
+**CRITICAL VALIDATION PRINCIPLE**: All validation criteria are derived from TEMPLATE.md as the single source of truth and the Reusable Bullet Points Library in cover_letter.md. Template conformance and bullet points library compliance are the foundation for all quality assessments and confidence scoring.

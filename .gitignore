@@ -205,3 +205,9 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# Personal/sensitive files
+data/outputs/reach_out/paul_smith_reach_out.md
+data/raw/LinkedIn Profile - Paul Smith.pdf
+data/raw/personal/paul_smith.md
+data/outputs/career_strategy_paul_smith_transmax.md

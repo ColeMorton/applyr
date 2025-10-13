@@ -1,0 +1,341 @@
+{
+  "validation_summary": {
+    "overall_confidence": 6.2,
+    "job_id": "86999769",
+    "company": "Peoplebank Australia QLD",
+    "role": "Senior Software Developer",
+    "cover_letter_file": "peoplebank_australia_qld.md",
+    "validation_timestamp": "2025-09-29T11:30:00Z",
+    "validator_version": "2.0_template_driven",
+    "total_claims_validated": 18,
+    "template_version": "2025-09-25",
+    "recruitment_context": true
+  },
+  "template_conformance": {
+    "overall_score": 8.8,
+    "structure_adherence": {
+      "score": 9.1,
+      "required_sections_present": true,
+      "template_variables_populated": 16,
+      "template_variables_missing": 0,
+      "section_order_correct": true,
+      "recruitment_adaptations_applied": true
+    },
+    "conditional_sections": {
+      "score": 9.2,
+      "role_level_appropriate": true,
+      "company_type_alignment": "recruitment_agency",
+      "conditional_sections_included": ["Professional Approach & Industry Alignment"],
+      "conditional_sections_skipped": ["Cultural Alignment"],
+      "recruitment_template_usage": "correct"
+    },
+    "quality_standards": {
+      "score": 8.9,
+      "optimal_length": "47 lines (within 45-60 range)",
+      "clear_headers": true,
+      "scannable_format": true,
+      "bold_emphasis_appropriate": true,
+      "professional_contact_complete": true
+    },
+    "personalization_quality": {
+      "score": 8.2,
+      "mission_connection": 8.5,
+      "cultural_alignment": 8.0,
+      "growth_stage_awareness": 8.3,
+      "industry_expertise_relevance": 8.1,
+      "location_advantage_emphasized": true,
+      "recruitment_professional_positioning": 8.4
+    },
+    "recruitment_template_adherence": {
+      "score": 9.0,
+      "professional_approach_section": true,
+      "agency_partnership_positioning": true,
+      "client_success_reference": true,
+      "generic_professionalism_maintained": true
+    }
+  },
+  "data_verification": {
+    "job_data_integrity": {
+      "score": 10.0,
+      "job_file_exists": true,
+      "csv_record_complete": true,
+      "naming_convention_correct": true
+    },
+    "personal_data_consistency": {
+      "score": 7.1,
+      "cole_agent_consultation": true,
+      "employment_timeline_verified": true,
+      "technical_claims_validated": 10,
+      "technical_claims_flagged": 8
+    },
+    "company_analysis_discovery": {
+      "score": 9.2,
+      "analysis_file_found": true,
+      "analysis_file_path": "data/outputs/company_analysis/Peoplebank_Australia_QLD_20250929.md",
+      "analysis_currency": "recent",
+      "analysis_completeness": 9.2,
+      "company_name_match": "exact"
+    },
+    "cross_reference_accuracy": {
+      "score": 8.0,
+      "resume_alignment": 8.2,
+      "portfolio_consistency": 8.0,
+      "linkedin_match": 7.8,
+      "company_analysis_consistency": 8.1
+    }
+  },
+  "factual_accuracy": {
+    "overall_score": 5.8,
+    "evidence_citation_analysis": {
+      "score": 6.5,
+      "claims_with_evidence": 12,
+      "unsupported_claims": 6,
+      "evidence_quote_accuracy": 8.1,
+      "philosophical_claims_flagged": 2
+    },
+    "mathematical_accuracy": {
+      "score": 3.2,
+      "timeline_calculations_verified": 3,
+      "timeline_calculation_errors": 5,
+      "quantity_precision_score": 4.1,
+      "range_accuracy_score": 2.8,
+      "major_discrepancies": [
+        "React experience: Claims 6+ years, documented 4.4 years",
+        "Node.js experience: Claims 4+ years, documented 2.3 years"
+      ]
+    },
+    "language_precision": {
+      "score": 6.8,
+      "marketing_language_detected": 4,
+      "embellishment_words_flagged": 2,
+      "fact_first_structure_score": 7.2,
+      "technical_precision_score": 6.4,
+      "unsubstantiated_metrics": ["99% system uptime"]
+    },
+    "employment_timeline": {
+      "score": 9.1,
+      "claims_verified": 6,
+      "claims_flagged": 1,
+      "date_consistency": true,
+      "duration_calculations_accurate": true
+    },
+    "technical_experience": {
+      "score": 4.7,
+      "react_experience": 3.0,
+      "typescript_experience": 9.0,
+      "nodejs_experience": 2.0,
+      "aws_gap_acknowledgment": 10.0,
+      "microservices_positioning": 6.5
+    },
+    "project_detail_accuracy": {
+      "score": 8.5,
+      "singular_plural_accuracy": 8.8,
+      "project_description_precision": 8.2,
+      "hospital_name_accuracy": 8.0
+    },
+    "education_claims": {
+      "score": 10.0,
+      "degree_verified": true,
+      "certifications_accurate": true
+    },
+    "location_statements": {
+      "score": 10.0,
+      "brisbane_residence": true,
+      "work_rights_verified": true,
+      "availability_accurate": true,
+      "family_connections_verified": true
+    }
+  },
+  "technical_alignment": {
+    "overall_score": 8.1,
+    "required_skills_match": {
+      "percentage": 78.5,
+      "typescript_alignment": 9.0,
+      "nodejs_alignment": 6.5,
+      "react_alignment": 8.8,
+      "aws_microservices_gap": 4.0,
+      "devops_cicd_positioning": 7.5
+    },
+    "positioning_accuracy": {
+      "score": 8.3,
+      "seniority_alignment": 8.5,
+      "leadership_claims": 9.8,
+      "mentoring_capability": 8.0,
+      "gap_acknowledgment": 9.5
+    },
+    "learning_capability": {
+      "score": 8.7,
+      "evidence_provided": true,
+      "realistic_timeline": true,
+      "foundation_skills_strong": true
+    }
+  },
+  "content_quality": {
+    "overall_score": 8.6,
+    "professional_tone": {
+      "score": 9.1,
+      "confidence_level": "appropriate",
+      "enthusiasm_balance": "excellent",
+      "recruitment_professionalism": "strong"
+    },
+    "grammar_accuracy": {
+      "score": 9.5,
+      "errors_found": 0,
+      "readability_score": 9.2
+    },
+    "structure_flow": {
+      "score": 8.2,
+      "logical_progression": true,
+      "section_balance": "good",
+      "conclusion_strength": 8.5
+    },
+    "contact_information": {
+      "score": 10.0,
+      "email_verified": true,
+      "portfolio_accessible": true,
+      "linkedin_current": true,
+      "phone_number_formatted": true
+    }
+  },
+  "strategic_positioning": {
+    "overall_score": 8.1,
+    "value_propositions": {
+      "technical_stack_alignment": {
+        "score": 6.8,
+        "evidence": ["React experience overstated", "Node.js experience overstated", "TypeScript accurate"],
+        "credibility": "mixed"
+      },
+      "team_leadership": {
+        "score": 9.8,
+        "evidence": ["CrossLend 3→20+ scaling fully documented"],
+        "credibility": "excellent"
+      },
+      "regulated_industry_expertise": {
+        "score": 8.9,
+        "evidence": ["Healthcare compliance", "FinTech regulatory experience"],
+        "credibility": "strong"
+      },
+      "brisbane_commitment": {
+        "score": 10.0,
+        "evidence": ["Current residence", "Family ties", "Work rights"],
+        "credibility": "verified"
+      }
+    },
+    "competitive_advantage": {
+      "score": 7.8,
+      "unique_differentiators": 4,
+      "market_positioning": "strong",
+      "authenticity": 6.9
+    },
+    "recruitment_positioning": {
+      "score": 8.7,
+      "professional_adaptability": 8.5,
+      "technical_competency": 7.8,
+      "agency_partnership_approach": 9.0,
+      "client_ready_presentation": 8.9
+    }
+  },
+  "company_analysis_integration": {
+    "overall_score": 7.9,
+    "analysis_utilization": {
+      "score": 7.6,
+      "strategic_context_integration": 7.8,
+      "market_leadership_acknowledgment": 7.5,
+      "scale_advantage_connection": 8.0,
+      "government_expertise_leverage": 7.2
+    },
+    "integration_quality": {
+      "score": 8.1,
+      "natural_integration": true,
+      "forced_references": false,
+      "strategic_value_added": 8.3
+    },
+    "missed_opportunities": {
+      "count": 3,
+      "severity": "minor",
+      "opportunities": [
+        "Could reference Peoplebank's 34-year government track record for stability positioning",
+        "Missed opportunity to connect with their AI & automation integration focus",
+        "Could leverage their 4,000+ annual placements scale for candidate quality positioning"
+      ]
+    },
+    "accuracy_verification": {
+      "score": 9.0,
+      "business_context_accuracy": 9.1,
+      "market_position_accuracy": 8.9,
+      "company_intelligence_appropriateness": 9.0
+    }
+  },
+  "risk_flags": [
+    {
+      "category": "factual_accuracy",
+      "severity": "high",
+      "issue": "React experience overstated by 25% (claims 6+ years, documented 4.4 years)",
+      "recommendation": "Revise to accurate '4+ years React experience'"
+    },
+    {
+      "category": "factual_accuracy",
+      "severity": "high",
+      "issue": "Node.js experience overstated by 74% (claims 4+ years, documented 2.3 years)",
+      "recommendation": "Revise to accurate '2+ years Node.js experience'"
+    },
+    {
+      "category": "technical_claims",
+      "severity": "medium",
+      "issue": "Unsubstantiated '99% system uptime' metric with no documented basis",
+      "recommendation": "Remove specific percentage or provide evidence"
+    },
+    {
+      "category": "technical_alignment",
+      "severity": "medium",
+      "issue": "Node.js falsely claimed at CrossLend and Sensylate",
+      "recommendation": "Limit Node.js claims to verified Oetker Digital experience"
+    }
+  ],
+  "recommendations": [
+    {
+      "priority": "critical",
+      "category": "mathematical_accuracy",
+      "action": "Correct React experience to '4+ years' based on documented timeline",
+      "confidence_impact": "+1.2"
+    },
+    {
+      "priority": "critical",
+      "category": "mathematical_accuracy",
+      "action": "Correct Node.js experience to '2+ years' based on verified experience",
+      "confidence_impact": "+1.5"
+    },
+    {
+      "priority": "high",
+      "category": "evidence_verification",
+      "action": "Remove unsubstantiated '99% uptime' claim",
+      "confidence_impact": "+0.8"
+    },
+    {
+      "priority": "medium",
+      "category": "company_intelligence",
+      "action": "Leverage Peoplebank's government sector expertise for stability positioning",
+      "confidence_impact": "+0.3"
+    },
+    {
+      "priority": "low",
+      "category": "technical_positioning",
+      "action": "Emphasize distributed systems foundation for AWS transition",
+      "confidence_impact": "+0.2"
+    }
+  ],
+  "validation_notes": [
+    "Strong template adherence with correct recruitment adaptations applied",
+    "Excellent team leadership claims fully supported by documentation",
+    "Brisbane establishment and work rights thoroughly verified",
+    "Critical mathematical inaccuracies in technical experience timelines",
+    "Company analysis integration good but missed strategic opportunities",
+    "Professional tone and structure appropriate for recruitment context",
+    "AWS gap honestly acknowledged with reasonable learning positioning"
+  ],
+  "revised_confidence_potential": {
+    "with_critical_fixes": 8.4,
+    "with_all_recommendations": 8.9,
+    "authentication_score_improvement": "+2.7 points possible"
+  }
+}

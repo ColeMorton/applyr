@@ -1,31 +1,61 @@
 job_id,company_name,job_title,source,status,priority,date_discovered,date_applied,date_closed,notes,salary_min,salary_max,location,url,rank
-86777578,Ray White AKG,Full-Time Web Developer,SEEK,discovered,medium,2025-09-12,,,Migrated from SEEK scraping on 2025-09-12,,,,https://www.seek.com.au/job/86777578,14
-87058062,GritCode,Grad to Mid-Level Engineers - 100% Remote - Multiple positions,SEEK,applied,medium,2025-09-12,,,Migrated from SEEK scraping on 2025-09-12,,,,https://www.seek.com.au/job/87058062,1
-87086246,Troocoo,Software Engineer,SEEK,discovered,medium,2025-09-12,,,Migrated from SEEK scraping on 2025-09-12,,,,https://www.seek.com.au/job/87086246,8
-87069151,Aspirante,Senior UI Developer,SEEK,discovered,medium,2025-09-12,,,Migrated from SEEK scraping on 2025-09-12,,,,https://www.seek.com.au/job/87069151,7
-87066700,iSelect Ltd,Software Engineer,SEEK,applied,medium,2025-09-12,2025-09-12,,Testing force flag,,,,https://www.seek.com.au/job/87066700,3
-86875657,FinXL IT Professional Services,UX-UI Developer,SEEK,writing_cover_letter,medium,2025-09-12,,,Migrated from SEEK scraping on 2025-09-12,,,,https://www.seek.com.au/job/86875657,
-86892541,DIY Tiles,Wordpress Web Developer,SEEK,discovered,medium,2025-09-12,,,Migrated from SEEK scraping on 2025-09-12,,,,https://www.seek.com.au/job/86892541,19
-86318117,Enzen Pty Ltd,Full-Stack Software Developers (AI) JavaScript X2 Positions,SEEK,discovered,medium,2025-09-12,,,Migrated from SEEK scraping on 2025-09-02,,,,https://www.seek.com.au/job/86318117,12
+86777578,Ray White AKG,Full-Time Web Developer,SEEK,closed,medium,2025-09-12,,,Migrated from SEEK scraping on 2025-09-12,,,,https://www.seek.com.au/job/86777578,26.0
+87058062,GritCode,Grad to Mid-Level Engineers - 100% Remote - Multiple positions,SEEK,applied,medium,2025-09-12,,,Migrated from SEEK scraping on 2025-09-12,,,,https://www.seek.com.au/job/87058062,
+87086246,Troocoo,Software Engineer,SEEK,closed,medium,2025-09-12,,,Migrated from SEEK scraping on 2025-09-12,,,,https://www.seek.com.au/job/87086246,6.0
+87069151,Aspirante,Senior UI Developer,SEEK,applied,medium,2025-09-12,,,Migrated from SEEK scraping on 2025-09-12,,,,https://www.seek.com.au/job/87069151,
+87066700,iSelect Ltd,Software Engineer,SEEK,phone_call,medium,2025-09-12,2025-09-12,,Testing force flag,,,,https://www.seek.com.au/job/87066700,
+86875657,FinXL IT Professional Services,UX-UI Developer,SEEK,applied,medium,2025-09-12,,,Migrated from SEEK scraping on 2025-09-12,,,,https://www.seek.com.au/job/86875657,
+86892541,DIY Tiles,Wordpress Web Developer,SEEK,discovered,medium,2025-09-12,,,Migrated from SEEK scraping on 2025-09-12,,,,https://www.seek.com.au/job/86892541,27.0
+86318117,Enzen Pty Ltd,Full-Stack Software Developers (AI) JavaScript X2 Positions,SEEK,closed,medium,2025-09-12,,,Migrated from SEEK scraping on 2025-09-02,,,,https://www.seek.com.au/job/86318117,12.0
 86588210,Felix Software,Software Engineer,SEEK,applied,medium,2025-09-12,2025-09-02,,Migrated from SEEK scraping on 2025-09-02,,,,https://www.seek.com.au/job/86588210,
-86406521,Private Advertiser,Junior Full-stack Developer,SEEK,closed,medium,2025-09-12,,,Migrated from SEEK scraping on 2025-09-02,,,,https://www.seek.com.au/job/86406521,17
+86406521,Private Advertiser,Junior Full-stack Developer,SEEK,closed,medium,2025-09-12,,,Migrated from SEEK scraping on 2025-09-02,,,,https://www.seek.com.au/job/86406521,
 86891660,FSoft Pty. Ltd,Senior Web Developer,SEEK,rejected,medium,2025-09-12,2025-09-02,,Migrated from SEEK scraping on 2025-09-02,,,,https://www.seek.com.au/job/86891660,
 86876585,Aurion Corporation Pty Ltd,Senior Developer,SEEK,applied,medium,2025-09-12,2025-09-02,,Migrated from SEEK scraping on 2025-09-02,,,,https://www.seek.com.au/job/86876585,
-86326281,Superloop,Software Developer,SEEK,discovered,medium,2025-09-12,,,Migrated from SEEK scraping on 2025-09-02,,,,https://www.seek.com.au/job/86326281,11
-86792606,Trilogy Care Pty Ltd,Senior Software Engineer,SEEK,second_round,medium,2025-09-12,2025-09-02,,Migrated from SEEK scraping on 2025-09-02,,,,https://www.seek.com.au/job/86792606,
-86418322,PRA,Senior Frontend Developer,SEEK,closed,medium,2025-09-12,,,Migrated from SEEK scraping on 2025-09-02,,,,https://www.seek.com.au/job/86418322,1.0
+86326281,Superloop,Software Developer,SEEK,closed,medium,2025-09-12,,,Migrated from SEEK scraping on 2025-09-02,,,,https://www.seek.com.au/job/86326281,9.0
+86792606,Trilogy Care Pty Ltd,Senior Software Engineer,SEEK,rejected,medium,2025-09-12,2025-09-02,,Migrated from SEEK scraping on 2025-09-02,,,,https://www.seek.com.au/job/86792606,
+86418322,PRA,Senior Frontend Developer,SEEK,closed,medium,2025-09-12,,,Migrated from SEEK scraping on 2025-09-02,,,,https://www.seek.com.au/job/86418322,
 86764912,foundU,Senior Front-End Developer,SEEK,rejected,medium,2025-09-12,2025-09-02,,Migrated from SEEK scraping on 2025-09-02,,,,https://www.seek.com.au/job/86764912,
-86741747,AutumnCRM Pty Ltd,Senior Software Engineer,SEEK,rejected,medium,2025-09-12,,,Migrated from SEEK scraping on 2025-09-02,,,,https://www.seek.com.au/job/86741747,4
+86741747,AutumnCRM Pty Ltd,Senior Software Engineer,SEEK,rejected,medium,2025-09-12,,,Migrated from SEEK scraping on 2025-09-02,,,,https://www.seek.com.au/job/86741747,
 86398474,Squiz Australia Pty Ltd,Software Engineer (Typescript/React/Node/AWS),SEEK,rejected,medium,2025-09-12,2025-09-02,,Migrated from SEEK scraping on 2025-09-02,,,,https://www.seek.com.au/job/86398474,
-86218557,SPENNA PTY LTD,UI/UX Developer & Tech Development Lead,SEEK,discovered,medium,2025-09-12,,,Migrated from SEEK scraping on 2025-09-02,,,,https://www.seek.com.au/job/86218557,5
-86387606,Jacobi Strategies Pty Ltd,Front End Software Engineer (React/Java),SEEK,discovered,medium,2025-09-12,,,Migrated from SEEK scraping on 2025-09-02,,,,https://www.seek.com.au/job/86387606,9
+86218557,SPENNA PTY LTD,UI/UX Developer & Tech Development Lead,SEEK,closed,medium,2025-09-12,,,Migrated from SEEK scraping on 2025-09-02,,,,https://www.seek.com.au/job/86218557,
+86387606,Jacobi Strategies Pty Ltd,Front End Software Engineer (React/Java),SEEK,closed,medium,2025-09-12,,,Migrated from SEEK scraping on 2025-09-02,,,,https://www.seek.com.au/job/86387606,7.0
 86524100,Squiz Australia Pty Ltd,Tech/Principal Lead Engineer - Typescript/Node/React/AWS - Contract,SEEK,rejected,medium,2025-09-12,2025-09-02,,Migrated from SEEK scraping on 2025-09-02,,,,https://www.seek.com.au/job/86524100,
-86794682,Trilogy Care Pty Ltd,Software Engineer,SEEK,second_round,medium,2025-09-12,2025-09-02,,Migrated from SEEK scraping on 2025-09-02,,,,https://www.seek.com.au/job/86794682,
-87278332,FORWOOD ENTERPRISES PTY LTD,AI Co-Pilot Full Stack Developer,SEEK,applied,medium,2025-09-24,,,,,,,https://www.seek.com.au/job/87278332,2
-87277607,pixevety,Developer,SEEK,discovered,medium,2025-09-24,,,,,,,https://www.seek.com.au/job/87277607,17
-87379538,Uniti Group Limited,Front-End Developer,SEEK,discovered,medium,2025-09-24,,,,,,,https://www.seek.com.au/job/87379538,13
-87315783,Honeysuckle Health,Software Engineer,SEEK,discovered,medium,2025-09-24,,,,,,,https://www.seek.com.au/job/87315783,10
-87221069,iSelect Ltd,Senior Software Engineer (CMS),SEEK,discovered,medium,2025-09-24,,,,,,,https://www.seek.com.au/job/87221069,6
-87226319,Swyftx,Graduate Software Engineer,SEEK,discovered,medium,2025-09-24,,,,,,,https://www.seek.com.au/job/87226319,16
-87350659,KurrawongAI,Software Engineer,SEEK,discovered,medium,2025-09-24,,,,,,,https://www.seek.com.au/job/87350659,15
-87164914,Megaport (Australia) Pty Limited,Frontend Software Engineer,SEEK,discovered,medium,2025-09-24,,,,,,,https://www.seek.com.au/job/87164914,4
+86794682,Trilogy Care Pty Ltd,Software Engineer,SEEK,rejected,medium,2025-09-12,2025-09-02,,Migrated from SEEK scraping on 2025-09-02,,,,https://www.seek.com.au/job/86794682,
+87278332,FORWOOD ENTERPRISES PTY LTD,AI Co-Pilot Full Stack Developer,SEEK,applied,medium,2025-09-24,,,,,,,https://www.seek.com.au/job/87278332,
+87277607,pixevety,Developer,SEEK,discovered,medium,2025-09-24,,,,,,,https://www.seek.com.au/job/87277607,21.0
+87379538,Uniti Group Limited,Front-End Developer,SEEK,discovered,medium,2025-09-24,,,,,,,https://www.seek.com.au/job/87379538,16.0
+87315783,Honeysuckle Health,Software Engineer,SEEK,closed,medium,2025-09-24,,,,,,,https://www.seek.com.au/job/87315783,5.0
+87221069,iSelect Ltd,Senior Software Engineer (CMS),SEEK,phone_call,medium,2025-09-24,,,,,,,https://www.seek.com.au/job/87221069,
+87226319,Swyftx,Graduate Software Engineer,SEEK,discovered,medium,2025-09-24,,,,,,,https://www.seek.com.au/job/87226319,25.0
+87164914,Megaport (Australia) Pty Limited,Frontend Software Engineer,SEEK,closed,medium,2025-09-24,,,,,,,https://www.seek.com.au/job/87164914,4.0
+87453430,Transmax Pty Ltd,Senior Front-End Developer,SEEK,applied,medium,2025-09-26,,,,,,,https://www.seek.com.au/job/87453430,
+87277902,Rehaula Pty Ltd,Mid to Senior Website Developer,SEEK,discovered,medium,2025-09-27,,,,,,,https://www.seek.com.au/job/87277902,18.0
+87411652,Scrubs Car Detailing,Web Developer (WordPress / Elementor),SEEK,discovered,medium,2025-09-29,,,,,,,https://www.seek.com.au/job/87411652,28.0
+86999769,Peoplebank Australia QLD,Senior Software Developer,SEEK,applied,medium,2025-09-29,,,,,,,https://www.seek.com.au/job/86999769,
+87486358,FORWOOD ENTERPRISES PTY LTD,Senior Mobile Engineer (React Native + Expo / Flutter),SEEK,applied,medium,2025-09-29,,,,,,,https://www.seek.com.au/job/87486358,8.0
+87160720,Moonward,Senior Frontend Developer,SEEK,applied,medium,2025-09-29,,,,,,,https://www.seek.com.au/job/87160720,3.0
+86971771,Deswik,Software Engineer,SEEK,discovered,medium,2025-09-29,,,,,,,https://www.seek.com.au/job/86971771,14.0
+87063286,Buckham & Duffy,Laravel & React Native Developer,SEEK,discovered,medium,2025-09-29,,,,,,,https://www.seek.com.au/job/87063286,20.0
+86902492,Michael Page,Senior Application Developer,SEEK,discovered,medium,2025-09-29,,,,,,,https://www.seek.com.au/job/86902492,15.0
+87079102,UpperGround by Hudson,Senior UI Developer,SEEK,discovered,medium,2025-09-29,,,,,,,https://www.seek.com.au/job/87079102,17.0
+87036833,Real Time,Full Stack Developer,SEEK,discovered,medium,2025-09-29,,,,,,,https://www.seek.com.au/job/87036833,19.0
+87033537,Advice Partners Technology,Mid - Senior Software Engineer,SEEK,discovered,medium,2025-09-29,,,,,,,https://www.seek.com.au/job/87033537,22.0
+87073020,"Talent – Specialists in tech, transformation & beyond",Senior User Interface Developer,SEEK,discovered,medium,2025-09-29,,,,,,,https://www.seek.com.au/job/87073020,23.0
+87187054,P&C Partners Pty Ltd,Software Engineer - Full Stack,SEEK,discovered,medium,2025-09-30,,,,,,,https://www.seek.com.au/job/87187054,24.0
+87133376,Just Digital People,Senior FullStack Engineer / Founding Engineer,SEEK,applied,medium,2025-09-30,,,,,,,https://www.seek.com.au/job/87133376,2.0
+87545275,Codafication,Software Engineer,SEEK,discovered,medium,2025-10-01,,,,,,,https://www.seek.com.au/job/87545275,13.0
+87536589,Edison Talent,Senior Software Developer,SEEK,discovered,medium,2025-10-01,,,,,,,https://www.seek.com.au/job/87536589,1.0
+87617946,Transmax Pty Ltd,Senior Front-End Developer (Design Systems),SEEK,discovered,medium,2025-10-06,,,,,,,https://www.seek.com.au/job/87617946,30.0
+87736899,Zudello Pty Ltd,Javascript Developer,SEEK,discovered,medium,2025-10-13,,,,,,,https://www.seek.com.au/job/87736899,31.0
+87802503,iSelect Ltd,Senior Software Engineer (CMS),SEEK,discovered,medium,2025-10-13,,,,,,,https://www.seek.com.au/job/87802503,32.0
+87763746,iSelect Ltd,Senior Software Engineer,SEEK,discovered,medium,2025-10-13,,,,,,,https://www.seek.com.au/job/87763746,33.0
+87735092,Bluefin Resources Pty Limited,Senior Software Engineer,SEEK,discovered,medium,2025-10-13,,,,,,,https://www.seek.com.au/job/87735092,34.0
+87791633,Youi,Frontend Engineer,SEEK,discovered,medium,2025-10-13,,,,,,,https://www.seek.com.au/job/87791633,35.0
+87695517,Morgan Consulting,UI/UX Developer,SEEK,discovered,medium,2025-10-13,,,,,,,https://www.seek.com.au/job/87695517,36.0
+87773027,iSelect Ltd,Lead Software Engineer,SEEK,discovered,medium,2025-10-13,,,,,,,https://www.seek.com.au/job/87773027,37.0
+87671113,Accentis Pty Ltd,Software Tech Support  / Training / Configuration,SEEK,discovered,medium,2025-10-13,,,,,,,https://www.seek.com.au/job/87671113,29.0
+eh-axcelerate-senior-software-engineer-a5y43,aXcelerate,Senior Software Engineer,Employment Hero,interested,medium,2025-10-13,,,,,,,https://jobs.employmenthero.com/AU/job/axcelerate-senior-software-engineer-a5y43,
+eh-securitease-group-senior-software-engineer-front-end-remote-south-africa-30op5,SecuritEase Group,Senior Software Engineer (Front-End) – Remote South Africa,Employment Hero,discovered,medium,2025-10-13,,,,,,,https://jobs.employmenthero.com/AU/job/securitease-group-senior-software-engineer-front-end-remote-south-africa-30op5,
+eh-veris-software-developer-remote-ktrja,Veris,Software Developer – Remote,Employment Hero,discovered,medium,2025-10-13,,,,,,,https://jobs.employmenthero.com/AU/job/veris-software-developer-remote-ktrja,
+eh-skj-capital-full-stack-developer-online-casino-platform-34fms,SKJ Capital,Full Stack Developer – Online Casino Platform,Employment Hero,discovered,medium,2025-10-13,,,,,,,https://jobs.employmenthero.com/AU/job/skj-capital-full-stack-developer-online-casino-platform-34fms,
+eh-resly-full-stack-developer-hoteltourism-software-remote-kbia0,Resly,Full Stack Developer – Hotel/Tourism Software! – Remote,Employment Hero,discovered,medium,2025-10-13,,,,,,,https://jobs.employmenthero.com/AU/job/resly-full-stack-developer-hoteltourism-software-remote-kbia0,

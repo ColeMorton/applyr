@@ -1,5 +1,7 @@
 # Cover Letter Template
 
+**IMPORTANT**: Use the Reusable Bullet Points Library in `.claude/commands/cover_letter.md` for all `{TECH_BULLET_*}`, `{DOMAIN_BULLET_*}`, and `{BRISBANE_BULLET_*}` variables. This ensures consistency and evidence-based accuracy across all cover letters.
+
 ## Template Structure
 
 ```markdown
@@ -11,10 +13,10 @@ I'm writing to express my strong interest in the {ROLE_TITLE} position at {COMPA
 
 Your {TECH_STACK_REQUIREMENTS} aligns perfectly with my experience:
 
-- **{PRIMARY_TECH_1}**: {YEARS_EXPERIENCE} years with specific examples: {SPECIFIC_PROJECTS}
-- **{PRIMARY_TECH_2}**: {DETAILED_EXPERIENCE_DESCRIPTION}
-- **{SUPPORTING_TECH}**: {RELEVANT_BACKGROUND_CONTEXT}
-- **{MODERN_TOOLS}**: {COMPANY_SPECIFIC_TOOL_CONNECTION}
+- {TECH_BULLET_1}
+- {TECH_BULLET_2}
+- {TECH_BULLET_3}
+- {TECH_BULLET_4}
 
 {LEARNING_STATEMENT}: I'm excited to {SKILL_TO_DEVELOP}, my {FOUNDATION_SKILL} provides an excellent base for quickly mastering your technology stack.
 
@@ -22,9 +24,9 @@ Your {TECH_STACK_REQUIREMENTS} aligns perfectly with my experience:
 
 {OPENING_DOMAIN_STATEMENT}:
 
-- **{INDUSTRY_EXPERIENCE_1}**: {DETAILED_DESCRIPTION_WITH_OUTCOMES}
-- **{INDUSTRY_EXPERIENCE_2}**: {SPECIFIC_ACHIEVEMENTS_AND_CONTEXT}
-- **{REGULATORY_COMPLIANCE}**: {COMPLIANCE_EXPERIENCE_IF_APPLICABLE}
+- {DOMAIN_BULLET_1}
+- {DOMAIN_BULLET_2}
+- {DOMAIN_BULLET_3}
 
 {DOMAIN_EXPERTISE_CONNECTION_TO_COMPANY}
 
@@ -38,23 +40,28 @@ Your {TECH_STACK_REQUIREMENTS} aligns perfectly with my experience:
 
 {CULTURAL_FIT_ELABORATION}
 
+<!-- RECRUITMENT AGENCY ALTERNATIVE: Use this section instead when recruitment=true -->
+<!--
+## Professional Approach & Industry Alignment
+
+{AGENCY_PROFESSIONAL_POSITIONING}:
+
+- **Technical Excellence**: {DEMONSTRATED_TECHNICAL_STANDARDS}
+- **Professional Adaptability**: {TEAM_INTEGRATION_EXAMPLES}
+- **Industry Understanding**: {DOMAIN_SPECIFIC_EXPERIENCE}
+
+{PROFESSIONAL_VERSATILITY_STATEMENT}
+-->
+
 ## Brisbane Establishment & Immediate Availability
 
-{LOCATION_ADVANTAGE_STATEMENT} I'm fully committed to Australia's thriving tech market and immediately available to contribute to your team. {PERSONAL_CONTEXT_IF_RELEVANT}
+{BRISBANE_BULLET_1} {BRISBANE_BULLET_2}
 
-## Next Steps
-
-I would welcome the opportunity to discuss how my combination of:
-- **{KEY_STRENGTH_1}** ({SPECIFIC_EVIDENCE})
-- **{KEY_STRENGTH_2}** ({QUANTIFIED_ACHIEVEMENT})
-- **{KEY_STRENGTH_3}** ({UNIQUE_DIFFERENTIATOR})
-- **{IMMEDIATE_VALUE}** ({AVAILABILITY_STATEMENT})
-
-...can contribute to {COMPANY_NAME}'s {SPECIFIC_COMPANY_GOAL}.
 
 Thank you for considering my application. I'm available for immediate start and happy to demonstrate my capabilities through {RELEVANT_DEMONSTRATION_OFFER}.
 
 Best regards,
+
 **Cole Morton**
 
 📍 Brisbane, QLD
@@ -78,16 +85,19 @@ Best regards,
 
 ### Technical Stack Mapping
 - `{TECH_STACK_REQUIREMENTS}` - List specific technologies mentioned in job posting
-- `{PRIMARY_TECH_1}`, `{PRIMARY_TECH_2}` - Top 2 required technologies you have experience with
-- `{SUPPORTING_TECH}` - Additional relevant technologies
-- `{MODERN_TOOLS}` - AI tools, modern dev practices they mention
-- `{YEARS_EXPERIENCE}` - Specific years for each technology
-- `{SPECIFIC_PROJECTS}` - Concrete examples (Sensylate, CrossLend, etc.)
+- `{TECH_BULLET_1}`, `{TECH_BULLET_2}`, `{TECH_BULLET_3}`, `{TECH_BULLET_4}` - Select from Reusable Bullet Points Library in cover_letter.md
+- `{LEARNING_STATEMENT}` - Optional statement about learning new technologies
+- `{SKILL_TO_DEVELOP}` - Technology to learn
+- `{FOUNDATION_SKILL}` - Related foundation skill
 
 ### Domain & Experience
 - `{DOMAIN_EXPERTISE_SECTION_TITLE}` - Industry-specific section title
-- `{INDUSTRY_EXPERIENCE_1}`, `{INDUSTRY_EXPERIENCE_2}` - Relevant industry background
-- `{REGULATORY_COMPLIANCE}` - If applicable (healthcare, fintech, safety)
+- `{OPENING_DOMAIN_STATEMENT}` - Brief introduction to domain expertise
+- `{DOMAIN_BULLET_1}`, `{DOMAIN_BULLET_2}`, `{DOMAIN_BULLET_3}` - Select from Domain Experience Library in cover_letter.md
+- `{DOMAIN_EXPERTISE_CONNECTION_TO_COMPANY}` - Connect domain experience to company needs
+
+### Brisbane & Location
+- `{BRISBANE_BULLET_1}`, `{BRISBANE_BULLET_2}` - Select from Brisbane Establishment Library in cover_letter.md
 
 ## Conditional Sections (Include Based on Role Type)
 
@@ -132,6 +142,18 @@ Your emphasis on {LEADERSHIP_REQUIREMENT} resonates strongly with my experience.
 - **{PURPOSE_DRIVEN_COMMITMENT}**: {LONG_TERM_COMMITMENT_STATEMENT}
 ```
 
+### For Recruitment Agencies (Use when `recruitment` parameter present)
+```markdown
+## Professional Approach & Industry Alignment
+
+{AGENCY_PROFESSIONAL_CONNECTION}. My experience in {INDUSTRY_DOMAIN} positions me well for your client's requirements:
+
+- **{TECHNICAL_PROFESSIONAL_STANDARD}**: {SPECIFIC_TECHNICAL_DEMONSTRATION}
+- **{INDUSTRY_ADAPTABILITY}**: {CROSS_COMPANY_EXPERIENCE_EXAMPLE}
+- **{PROFESSIONAL_COMMUNICATION}**: {STAKEHOLDER_COLLABORATION_EVIDENCE}
+- **{CLIENT_READY_POSITIONING}**: {PRESENTATION_AND_PROFESSIONALISM_EXAMPLE}
+```
+
 ## Section Templates by Company Type
 
 ### FinTech/Financial Services
@@ -157,6 +179,7 @@ Your emphasis on {LEADERSHIP_REQUIREMENT} resonates strongly with my experience.
 ## Quality Standards Checklist
 
 ### Content Quality
+
 - [ ] **Experience Quantification**: "11+ years" consistently mentioned
 - [ ] **Specific Project References**: Sensylate, CrossLend, CharmHealth with URLs
 - [ ] **Technical Alignment**: Direct mapping of required skills to experience
@@ -164,6 +187,7 @@ Your emphasis on {LEADERSHIP_REQUIREMENT} resonates strongly with my experience.
 - [ ] **Measurable Achievements**: Team scaling, contribution stats, production systems
 
 ### Structure Quality
+
 - [ ] **Optimal Length**: 45-60 lines for engagement balance
 - [ ] **Clear Headers**: Section-based organization with meaningful titles
 - [ ] **Scannable Format**: Bullet points for technical skills and achievements
@@ -171,6 +195,7 @@ Your emphasis on {LEADERSHIP_REQUIREMENT} resonates strongly with my experience.
 - [ ] **Professional Contact**: Complete footer with all relevant links
 
 ### Personalization Quality
+
 - [ ] **Mission Connection**: Demonstrates understanding of company purpose
 - [ ] **Cultural Alignment**: References to company culture and values
 - [ ] **Growth Stage Awareness**: Acknowledgment of company's current phase
@@ -199,25 +224,59 @@ Your emphasis on {LEADERSHIP_REQUIREMENT} resonates strongly with my experience.
 # Template Variations by Role Level
 
 ## Entry-Level/Graduate Focus
+
 - Emphasize learning mindset, modern practices, AI-augmented development
 - Highlight recent projects, GitHub contributions, technology adoption
 - Focus on enthusiasm, adaptability, and growth potential
 
 ## Mid-Level Focus (Default Template)
+
 - Balance experience depth with continued learning
 - Emphasize specific project outcomes and technical versatility
 - Include team collaboration and cross-functional experience
 
 ## Senior-Level Focus
+
 - Lead with leadership experience and team scaling achievements
 - Emphasize architectural decisions, system design, mentoring
 - Include strategic thinking and business impact examples
 
 ## Principal/Staff Focus
+
 - Open with technical leadership and organizational impact
 - Emphasize cross-team collaboration, technical direction setting
 - Include industry expertise, thought leadership, complex problem solving
 
 ---
 
-*Template designed for maximum flexibility while maintaining the quality standards that made iSelect, Forwood, and FSoft the strongest performing cover letters in the analysis.*
+# Recruitment Agency Template Adaptations
+
+## Key Template Modifications for Recruitment Scenarios
+
+- **Opening Section**: Replace company-specific mission connection with professional approach to recruitment partnership
+- **Cultural Alignment**: Use "Professional Approach & Industry Alignment" instead of company-specific cultural fit
+- **Value Propositions**: Focus on technical competency and professional adaptability rather than company culture alignment
+- **Closing**: Reference "your client's success" instead of specific company goals
+
+## Recruitment Variable Examples
+
+```markdown
+{AGENCY_PROFESSIONAL_CONNECTION}: "I'm writing to express my strong interest in the Senior Developer position you're representing. As a Brisbane-based full-stack developer with 11+ years of commercial experience, I'm excited to contribute to your client's mission to drive technological innovation."
+
+{TECHNICAL_PROFESSIONAL_STANDARD}: "Adherence to enterprise-grade coding standards and best practices"
+
+{INDUSTRY_ADAPTABILITY}: "Experience integrating into diverse team structures across FinTech, HealthTech, and enterprise environments"
+
+{PROFESSIONAL_COMMUNICATION}: "Proven stakeholder communication skills demonstrated through client-facing roles and cross-functional collaboration"
+```
+
+## Quality Standards for Recruitment Letters
+
+- **Generic Professionalism**: Maintain professional tone without company-specific assumptions
+- **Technical Focus**: Emphasize technical capabilities over cultural fit
+- **Agency Partnership**: Position as partnership between candidate, agency, and unknown employer
+- **Adaptability Emphasis**: Highlight ability to integrate into various company cultures and environments
+
+---
+
+*Template designed for maximum flexibility while maintaining the quality standards that made iSelect, Forwood, and FSoft the strongest performing cover letters in the analysis. Recruitment agency adaptations ensure professional positioning for unknown employer scenarios while preserving evidence-based quality standards.*

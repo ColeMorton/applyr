@@ -1,0 +1,369 @@
+{
+  "validation_summary": {
+    "overall_confidence": 7.2,
+    "job_id": "87221069",
+    "company": "iSelect Ltd",
+    "role": "Senior Software Engineer (CMS)",
+    "cover_letter_file": "iselect_cms.md",
+    "validation_timestamp": "2025-09-26T08:30:00Z",
+    "validator_version": "2.0_template_driven",
+    "total_claims_validated": 24,
+    "template_version": "2025-09-25"
+  },
+  "template_conformance": {
+    "overall_score": 8.1,
+    "structure_adherence": {
+      "score": 8.5,
+      "required_sections_present": true,
+      "template_variables_populated": 15,
+      "template_variables_missing": 8,
+      "section_order_correct": true,
+      "sections_present": [
+        "Opening Hook",
+        "Technical Stack Alignment",
+        "Domain Expertise",
+        "Cultural Alignment",
+        "Brisbane Establishment",
+        "Next Steps",
+        "Contact Information"
+      ]
+    },
+    "conditional_sections": {
+      "score": 7.8,
+      "role_level_appropriate": true,
+      "company_type_alignment": "enterprise",
+      "conditional_sections_included": ["Enterprise Experience", "Team Leadership"],
+      "conditional_sections_appropriateness": "Good alignment with senior role requirements"
+    },
+    "quality_standards": {
+      "score": 8.9,
+      "optimal_length": "60 lines (at upper limit of 45-60 range)",
+      "clear_headers": true,
+      "scannable_format": true,
+      "bold_emphasis_appropriate": true,
+      "professional_contact_complete": true
+    },
+    "personalization_quality": {
+      "score": 7.2,
+      "mission_connection": 7.5,
+      "cultural_alignment": 6.8,
+      "growth_stage_awareness": 7.3,
+      "industry_expertise_relevance": 7.5,
+      "location_advantage_emphasized": true,
+      "issues": "Limited specific iSelect mission connection, generic enterprise positioning"
+    }
+  },
+  "data_verification": {
+    "job_data_integrity": {
+      "score": 10.0,
+      "job_file_exists": true,
+      "csv_record_complete": true,
+      "naming_convention_correct": true,
+      "file_path": "87221069_iSelect_Ltd_Senior_Software_Engineer_CMS.md"
+    },
+    "personal_data_consistency": {
+      "score": 6.8,
+      "cole_agent_consultation": true,
+      "employment_timeline_verified": true,
+      "technical_claims_validated": 18,
+      "technical_claims_flagged": 6,
+      "major_discrepancies": [
+        "JavaScript experience overstated by 3-4 years",
+        "Next.js experience claim completely unsupported",
+        "Hospital name slightly inaccurate"
+      ]
+    },
+    "company_analysis_discovery": {
+      "score": 9.0,
+      "analysis_file_found": true,
+      "analysis_file_path": "data/outputs/company_analysis/iSelect_Ltd_20250925_synthesis.md",
+      "analysis_currency": "recent",
+      "analysis_completeness": 9.5,
+      "company_name_match": "exact"
+    },
+    "cross_reference_accuracy": {
+      "score": 7.5,
+      "resume_alignment": 7.2,
+      "portfolio_consistency": 8.0,
+      "linkedin_match": 7.8,
+      "company_analysis_consistency": 7.0
+    }
+  },
+  "factual_accuracy": {
+    "overall_score": 6.4,
+    "evidence_citation_analysis": {
+      "score": 5.8,
+      "claims_with_evidence": 14,
+      "unsupported_claims": 10,
+      "evidence_quote_accuracy": 7.2,
+      "philosophical_claims_flagged": 2,
+      "major_issues": [
+        "Next.js claim has zero evidence",
+        "CMS experience positioning lacks specifics",
+        "Marketing team collaboration needs more detail"
+      ]
+    },
+    "mathematical_accuracy": {
+      "score": 5.5,
+      "timeline_calculations_verified": 5,
+      "timeline_calculation_errors": 2,
+      "quantity_precision_score": 6.0,
+      "range_accuracy_score": 5.0,
+      "specific_errors": [
+        "JavaScript: Claimed 15 years, actual 11-12 years",
+        "React: Claimed 9+ years is accurate (9.4 years)",
+        "Overall experience: 11+ years understated (actually 15+ years)"
+      ]
+    },
+    "language_precision": {
+      "score": 7.8,
+      "marketing_language_detected": 3,
+      "embellishment_words_flagged": 2,
+      "fact_first_structure_score": 8.0,
+      "technical_precision_score": 7.5,
+      "issues": [
+        "\"strong foundation for rapidly mastering\" - unsupported learning claim",
+        "\"proven expertise\" - marketing language"
+      ]
+    },
+    "employment_timeline": {
+      "score": 8.5,
+      "claims_verified": 7,
+      "claims_flagged": 1,
+      "date_consistency": true,
+      "duration_calculations_accurate": false,
+      "issue": "JavaScript duration miscalculated"
+    },
+    "technical_experience": {
+      "score": 5.2,
+      "javascript_experience": 6.5,
+      "react_experience": 8.8,
+      "nextjs_claim": 0.0,
+      "cms_positioning": 4.5,
+      "cicd_experience": 9.0,
+      "critical_issue": "Next.js experience claimed but completely absent from documentation"
+    },
+    "project_detail_accuracy": {
+      "score": 7.8,
+      "hospital_project": 8.5,
+      "crosslend_scaling": 9.5,
+      "oetker_collaboration": 6.8,
+      "accuracy_notes": "Hospital name needs 'Chris O'Brien Lifehouse' specification"
+    },
+    "location_statements": {
+      "score": 10.0,
+      "brisbane_residence": true,
+      "work_rights_verified": true,
+      "availability_accurate": true,
+      "wife_architect_verified": true
+    }
+  },
+  "technical_alignment": {
+    "overall_score": 6.8,
+    "required_skills_match": {
+      "percentage": 65.0,
+      "javascript": 8.5,
+      "nextjs": 0.0,
+      "react": 9.0,
+      "html_css": 9.2,
+      "cms_platforms": 2.0,
+      "php": 0.0,
+      "aws": 5.0,
+      "azure_devops": 0.0,
+      "critical_gaps": [
+        "Zero Next.js experience despite claiming proficiency",
+        "No traditional CMS platform experience (WordPress, Drupal, Joomla)",
+        "No PHP experience mentioned",
+        "No Azure DevOps experience"
+      ]
+    },
+    "positioning_accuracy": {
+      "score": 7.2,
+      "seniority_alignment": 8.5,
+      "leadership_claims": 9.0,
+      "gap_acknowledgment": 4.5,
+      "issue": "CMS gap acknowledged but positioned too optimistically"
+    },
+    "learning_capability": {
+      "score": 6.0,
+      "evidence_provided": false,
+      "realistic_timeline": false,
+      "concern": "Claims 'rapidly mastering' CMS without supporting evidence"
+    }
+  },
+  "content_quality": {
+    "overall_score": 8.2,
+    "professional_tone": {
+      "score": 8.5,
+      "confidence_level": "appropriate",
+      "enthusiasm_balance": "good"
+    },
+    "grammar_accuracy": {
+      "score": 9.8,
+      "errors_found": 0,
+      "readability_score": 9.2
+    },
+    "structure_flow": {
+      "score": 8.0,
+      "logical_progression": true,
+      "section_balance": "good",
+      "conclusion_strength": 8.2
+    },
+    "contact_information": {
+      "score": 10.0,
+      "email_verified": true,
+      "portfolio_accessible": true,
+      "linkedin_current": true,
+      "github_current": true
+    }
+  },
+  "strategic_positioning": {
+    "overall_score": 6.5,
+    "value_propositions": {
+      "web_development_expertise": {
+        "score": 7.0,
+        "evidence": ["React proficiency", "JavaScript experience"],
+        "credibility": "moderate",
+        "issue": "Next.js claim undermines credibility"
+      },
+      "enterprise_system_experience": {
+        "score": 8.5,
+        "evidence": ["Healthcare compliance", "Financial services"],
+        "credibility": "strong"
+      },
+      "team_collaboration": {
+        "score": 8.0,
+        "evidence": ["CrossLend scaling", "Mentoring experience"],
+        "credibility": "good"
+      },
+      "brisbane_availability": {
+        "score": 10.0,
+        "evidence": ["Current residence", "Wife's employment"],
+        "credibility": "verified"
+      }
+    },
+    "competitive_advantage": {
+      "score": 5.5,
+      "unique_differentiators": 2,
+      "market_positioning": "weak",
+      "authenticity": 6.0,
+      "concern": "Major skill gaps in core requirements (CMS, PHP, Next.js)"
+    }
+  },
+  "company_analysis_integration": {
+    "overall_score": 4.2,
+    "analysis_utilization": {
+      "score": 3.5,
+      "strategic_context_integration": 3.0,
+      "leadership_alignment": 2.5,
+      "cultural_intelligence_application": 4.5,
+      "competitive_positioning_leverage": 4.0
+    },
+    "integration_quality": {
+      "score": 4.8,
+      "natural_integration": false,
+      "forced_references": true,
+      "strategic_value_added": 4.5
+    },
+    "missed_opportunities": {
+      "count": 5,
+      "severity": "high",
+      "opportunities": [
+        "No mention of Compare the Market relationship/merger",
+        "Missed company values (Drive, Noble Intent, All Together)",
+        "No connection to helping Australians compare products",
+        "Ignored remote work culture and flexible arrangements",
+        "No leverage of financial comparison service expertise"
+      ]
+    },
+    "accuracy_verification": {
+      "score": 7.0,
+      "business_context_accuracy": 6.5,
+      "leadership_profile_accuracy": 7.0,
+      "strategic_direction_accuracy": 7.5
+    }
+  },
+  "risk_flags": [
+    {
+      "category": "technical_alignment",
+      "severity": "critical",
+      "issue": "Next.js experience claimed but completely absent from documentation",
+      "recommendation": "Remove Next.js claim entirely or clarify as adjacent skill",
+      "impact": "Could fail technical screening or interview"
+    },
+    {
+      "category": "factual_accuracy",
+      "severity": "high",
+      "issue": "JavaScript experience overstated by 3-4 years (claimed 15, actual 11-12)",
+      "recommendation": "Correct to '11+ years of JavaScript experience'",
+      "impact": "Damages credibility if verified"
+    },
+    {
+      "category": "technical_alignment",
+      "severity": "high",
+      "issue": "No CMS platform experience (WordPress, Drupal, Joomla) - core requirement",
+      "recommendation": "Be more honest about CMS gap, emphasize quick learning with examples",
+      "impact": "May not pass initial screening"
+    },
+    {
+      "category": "technical_alignment",
+      "severity": "high",
+      "issue": "No PHP experience mentioned despite being requirement",
+      "recommendation": "Address PHP gap directly or find any PHP exposure to mention",
+      "impact": "Missing core requirement"
+    },
+    {
+      "category": "company_alignment",
+      "severity": "medium",
+      "issue": "Generic positioning without iSelect-specific value connection",
+      "recommendation": "Research and integrate iSelect's mission and values",
+      "impact": "Appears as template application"
+    }
+  ],
+  "recommendations": [
+    {
+      "priority": "critical",
+      "category": "factual_correction",
+      "action": "Remove Next.js claim entirely - replace with 'modern React frameworks'",
+      "confidence_impact": "+1.5"
+    },
+    {
+      "priority": "critical",
+      "category": "factual_correction",
+      "action": "Correct JavaScript experience from 15 to 11+ years",
+      "confidence_impact": "+1.0"
+    },
+    {
+      "priority": "high",
+      "category": "technical_positioning",
+      "action": "Address CMS/PHP gaps honestly - emphasize API-driven architecture experience as transferable",
+      "confidence_impact": "+0.8"
+    },
+    {
+      "priority": "high",
+      "category": "company_integration",
+      "action": "Add specific iSelect/Compare the Market mission connection and values alignment",
+      "confidence_impact": "+0.5"
+    },
+    {
+      "priority": "medium",
+      "category": "evidence_enhancement",
+      "action": "Add specific examples of learning new technologies quickly",
+      "confidence_impact": "+0.3"
+    },
+    {
+      "priority": "medium",
+      "category": "detail_correction",
+      "action": "Specify 'Chris O'Brien Lifehouse at Royal Prince Alfred Hospital'",
+      "confidence_impact": "+0.2"
+    }
+  ],
+  "validation_notes": [
+    "Critical factual inaccuracies in core technical claims severely impact credibility",
+    "Missing key technical requirements (CMS platforms, PHP, Azure DevOps) pose screening risk",
+    "Strong enterprise experience somewhat offset by technical gaps",
+    "Poor company-specific integration despite available analysis",
+    "Brisbane location and work rights are strong positives",
+    "Overall positioning too optimistic given significant skill gaps"
+  ]
+}

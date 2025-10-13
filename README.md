@@ -17,10 +17,12 @@ applyr transforms job hunting from guesswork into data-driven strategy by:
 ## 📋 Current Features
 
 ### Job Market Data Collection
+- **Multi-platform support**: SEEK and Employment Hero job boards
 - **25+ job postings analyzed** from SEEK across 23 Australian companies
 - **Automated scraping** with anti-bot measures and respectful rate limiting
 - **Structured data extraction** with metadata preservation and timestamps
 - **Batch processing** capabilities for efficient data collection
+- **Flexible input**: Accepts SEEK job IDs (8 digits) or full URLs from supported platforms
 
 ### Market Intelligence & Analytics
 - **Technology trend analysis**: Identifies most in-demand skills (React, TypeScript, Node.js, AWS)
@@ -211,9 +213,37 @@ The applyr system maintains strict data integrity through its dual storage archi
 
 ## 💼 Usage Examples
 
+### Supported Job Boards
+
+applyr supports multiple job boards with automatic source detection:
+
+| Job Board | Input Format | Example |
+|-----------|--------------|---------|
+| **SEEK** | 8-digit job ID or full URL | `87066700` or `https://www.seek.com.au/job/87066700` |
+| **Employment Hero** | Full URL | `https://jobs.employmenthero.com/AU/job/company-position-id` |
+
+**Job ID Format:**
+- SEEK: 8-digit numeric ID (e.g., `87066700`)
+- Employment Hero: Prefixed slug format (e.g., `eh-axcelerate-senior-software-engineer-a5y43`)
+
 ### Job Market Scraping
 
 **Single Job Analysis:**
+```bash
+# Scrape SEEK job by ID
+applyr add-job 87066700
+
+# Scrape SEEK job by URL
+applyr add-job https://www.seek.com.au/job/87066700
+
+# Scrape Employment Hero job
+applyr add-job https://jobs.employmenthero.com/AU/job/axcelerate-senior-software-engineer-a5y43
+
+# Add multiple jobs at once (mixed sources)
+applyr add-job 87066700,https://jobs.employmenthero.com/AU/job/company-position-xyz
+```
+
+**Legacy scripts (SEEK only):**
 ```bash
 # Scrape specific SEEK job posting
 python scripts/job_scraper/seek_scraper.py --url "https://www.seek.com.au/job/87066700"
@@ -618,7 +648,7 @@ applyr provides 11 comprehensive commands for complete job search workflow manag
 | `scrape` | Scrape individual or batch job URLs | `applyr scrape --url https://seek.com.au/job/87066700` |
 | `batch` | Process multiple jobs from file | `applyr batch --urls-file job_urls.txt --delay 3.0` |
 | `aggregate` | Generate market intelligence reports | `applyr aggregate --input-dir job_descriptions/` |
-| `add-job` | Add job by SEEK ID with validation | `applyr add-job 87066700 --priority high --notes "Great match"` |
+| `add-job` | Add job by ID or URL (SEEK/Employment Hero) | `applyr add-job 87066700` or `applyr add-job https://jobs.employmenthero.com/AU/job/company-position-id` |
 
 ### PDF Generation Commands
 

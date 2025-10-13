@@ -1005,7 +1005,7 @@ def cleanup_command(
 
 @app.command("add-job")
 def add_job_command(
-    job_ids: str = typer.Argument(..., help="8-digit SEEK job ID(s) - single or comma-separated"),
+    job_identifiers: str = typer.Argument(..., help="Job ID(s) or URL(s) - SEEK 8-digit IDs or full job URLs, comma-separated"),
     priority: Optional[str] = typer.Option(
         "medium", "--priority", "-p",
         help="Job priority: high, medium, low"
@@ -1019,34 +1019,44 @@ def add_job_command(
         help="Skip duplicate confirmation prompt"
     ),
 ):
-    """📋 Add job(s) by SEEK job ID
+    """📋 Add job(s) by job ID or URL
 
-    Scrape and add one or more jobs to the database using job IDs.
-    Accepts single ID or comma-separated list of IDs.
+    Scrape and add one or more jobs to the database.
+    Supports SEEK job IDs and full URLs from supported job boards.
+    Accepts single identifier or comma-separated list.
 
     Examples:
         applyr add-job 87066700
-        applyr add-job 87278332,87277607,87066700
+        applyr add-job https://jobs.employmenthero.com/AU/job/axcelerate-senior-software-engineer-a5y43
+        applyr add-job 87278332,https://jobs.employmenthero.com/AU/job/company-position-xyz
     """
     import re
     from .database import ApplicationDatabase, Priority
+    from .scraper_factory import detect_job_source, normalize_to_url
     from .scraper import scrape_jobs
     from rich.progress import Progress, SpinnerColumn, TextColumn
 
-    # Parse comma-separated job IDs
-    job_id_list = [jid.strip() for jid in job_ids.split(',')]
+    # Parse comma-separated job identifiers
+    job_identifier_list = [jid.strip() for jid in job_identifiers.split(',')]
 
-    # Validate all job IDs
-    invalid_ids = []
-    for job_id in job_id_list:
-        if not re.match(r'^\d{8}$', job_id):
-            invalid_ids.append(job_id)
+    # Validate all job identifiers and detect sources
+    invalid_identifiers = []
+    valid_jobs = []
+    for identifier in job_identifier_list:
+        try:
+            source = detect_job_source(identifier)
+            url = normalize_to_url(identifier, source)
+            valid_jobs.append({'identifier': identifier, 'source': source, 'url': url})
+        except ValueError as e:
+            invalid_identifiers.append((identifier, str(e)))
 
-    if invalid_ids:
-        console.print("[red]❌ Error: Invalid job ID format[/red]")
-        for invalid_id in invalid_ids:
-            console.print(f"[red]   Invalid: '{invalid_id}' (must be exactly 8 digits)[/red]")
-        console.print("[yellow]💡 Example: applyr add-job 87066700 or applyr add-job 87278332,87277607[/yellow]")
+    if invalid_identifiers:
+        console.print("[red]❌ Error: Invalid job identifier format[/red]")
+        for invalid_id, error in invalid_identifiers:
+            console.print(f"[red]   Invalid: '{invalid_id}' - {error}[/red]")
+        console.print("[yellow]💡 Examples:[/yellow]")
+        console.print("[yellow]   SEEK: applyr add-job 87066700[/yellow]")
+        console.print("[yellow]   Employment Hero: applyr add-job https://jobs.employmenthero.com/AU/job/company-position-id[/yellow]")
         raise typer.Exit(1)
     
     # Validate priority
@@ -1067,20 +1077,26 @@ def add_job_command(
     database = ApplicationDatabase(console=console)
 
     # Process multiple jobs
-    if len(job_id_list) > 1:
-        console.print(f"[bold blue]📋 Processing {len(job_id_list)} jobs[/bold blue]")
+    if len(valid_jobs) > 1:
+        console.print(f"[bold blue]📋 Processing {len(valid_jobs)} jobs[/bold blue]")
 
     # Check for duplicates and prepare URLs
     urls_to_process = []
     duplicate_jobs = []
 
-    for job_id in job_id_list:
-        if database.job_exists(job_id) and not force:
+    for job_info in valid_jobs:
+        url = job_info['url']
+        # Extract job_id from URL using the appropriate scraper
+        from .scraper_factory import create_scraper
+        scraper, _ = create_scraper(job_info['identifier'], delay=2.0, database=database)
+        job_id = scraper.extract_job_id(url)
+        
+        if job_id and database.job_exists(job_id) and not force:
             existing_job = database.get_job(job_id)
             if existing_job:
                 duplicate_jobs.append((job_id, existing_job['company_name'], existing_job['job_title'], existing_job['status']))
         else:
-            urls_to_process.append(f"https://www.seek.com.au/job/{job_id}")
+            urls_to_process.append(url)
 
     # Handle duplicates confirmation for multiple jobs
     if duplicate_jobs and not force:
@@ -1091,13 +1107,25 @@ def add_job_command(
         if not typer.confirm("\nDo you want to re-scrape these existing jobs?"):
             console.print("[blue]Skipping existing jobs...[/blue]")
         else:
-            # Add duplicate URLs to processing list
-            for job_id, _, _, _ in duplicate_jobs:
-                urls_to_process.append(f"https://www.seek.com.au/job/{job_id}")
+            # Add duplicate URLs to processing list - need to find them from valid_jobs
+            for dup_job_id, _, _, _ in duplicate_jobs:
+                for job_info in valid_jobs:
+                    url = job_info['url']
+                    from .scraper_factory import create_scraper
+                    scraper, _ = create_scraper(job_info['identifier'], delay=2.0, database=database)
+                    if scraper.extract_job_id(url) == dup_job_id:
+                        urls_to_process.append(url)
+                        break
     elif duplicate_jobs and force:
         # Force mode - add all duplicates
-        for job_id, _, _, _ in duplicate_jobs:
-            urls_to_process.append(f"https://www.seek.com.au/job/{job_id}")
+        for dup_job_id, _, _, _ in duplicate_jobs:
+            for job_info in valid_jobs:
+                url = job_info['url']
+                from .scraper_factory import create_scraper
+                scraper, _ = create_scraper(job_info['identifier'], delay=2.0, database=database)
+                if scraper.extract_job_id(url) == dup_job_id:
+                    urls_to_process.append(url)
+                    break
 
     if not urls_to_process:
         console.print("[yellow]No new jobs to process[/yellow]")
@@ -1114,7 +1142,10 @@ def add_job_command(
         failed_jobs = []
 
         for url in urls_to_process:
-            job_id = url.split('/')[-1]
+            # Use scraper to extract job_id correctly (handles prefixes like 'eh-')
+            from .scraper_factory import create_scraper
+            scraper, _ = create_scraper(url, delay=2.0, database=database)
+            job_id = scraper.extract_job_id(url)
             success = results.get(url, False)
 
             if success:
@@ -1150,7 +1181,7 @@ def add_job_command(
                 failed_jobs.append(job_id)
 
         # Display results summary
-        if len(job_id_list) == 1 and successful_jobs:
+        if len(valid_jobs) == 1 and successful_jobs:
             # Single job - use original detailed output
             job = successful_jobs[0]
             console.print(f"\n[bold green]✅ Successfully added job {job['job_id']}![/bold green]")
@@ -1161,7 +1192,7 @@ def add_job_command(
             if notes:
                 console.print(f"[green]Notes:[/green] {notes}")
             console.print(f"\n[dim]💡 Use 'applyr update-status {job['job_id']} applied' when you apply to this job[/dim]")
-        elif len(job_id_list) > 1:
+        elif len(valid_jobs) > 1:
             # Multiple jobs - display summary table
             console.print("\n[bold]📊 Processing Results[/bold]")
 

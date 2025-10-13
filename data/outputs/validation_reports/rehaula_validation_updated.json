@@ -1,0 +1,363 @@
+{
+  "validation_summary": {
+    "overall_confidence": 8.9,
+    "job_id": "87277902",
+    "company": "Rehaula Pty Ltd",
+    "role": "Mid to Senior Website Developer",
+    "cover_letter_file": "rehaula.md",
+    "validation_timestamp": "2025-09-29T14:45:00Z",
+    "validator_version": "2.0_template_driven",
+    "total_claims_validated": 18,
+    "template_version": "2025-09-25",
+    "validation_methodology": "comprehensive_template_based_verification"
+  },
+  "template_conformance": {
+    "overall_score": 9.1,
+    "structure_adherence": {
+      "score": 9.3,
+      "required_sections_present": true,
+      "template_variables_populated": 16,
+      "template_variables_missing": 2,
+      "section_order_correct": true,
+      "deviations": [
+        {
+          "section": "technical_stack_title",
+          "expected": "Perfect Technical Stack Alignment",
+          "actual": "Perfect Technical Foundation Alignment",
+          "severity": "minor"
+        }
+      ]
+    },
+    "conditional_sections": {
+      "score": 9.0,
+      "role_level_appropriate": true,
+      "company_type_alignment": "mission_driven_consultancy",
+      "conditional_sections_included": ["Mission-Driven Technical Translation Experience"],
+      "conditional_sections_skipped": ["Team Leadership & Scaling Experience"],
+      "reasoning": "Appropriately focused on mission alignment over leadership for consultant role"
+    },
+    "quality_standards": {
+      "score": 9.4,
+      "optimal_length": "54 lines (within 45-60 range)",
+      "clear_headers": true,
+      "scannable_format": true,
+      "bold_emphasis_appropriate": true,
+      "professional_contact_complete": true,
+      "template_checklist_compliance": {
+        "experience_quantification": true,
+        "specific_project_references": true,
+        "technical_alignment": true,
+        "company_research": true,
+        "measurable_achievements": true
+      }
+    },
+    "personalization_quality": {
+      "score": 9.2,
+      "mission_connection": 9.5,
+      "cultural_alignment": 9.1,
+      "growth_stage_awareness": 9.0,
+      "industry_expertise_relevance": 8.8,
+      "location_advantage_emphasized": true,
+      "part_time_model_alignment": true
+    }
+  },
+  "data_verification": {
+    "job_data_integrity": {
+      "score": 10.0,
+      "job_file_exists": true,
+      "csv_record_complete": true,
+      "naming_convention_correct": true,
+      "job_description_path": "data/outputs/job_descriptions/87277902_Rehaula_Pty_Ltd_Mid_to_Senior_Website_Developer.md",
+      "csv_entry_verified": true
+    },
+    "personal_data_consistency": {
+      "score": 9.0,
+      "cole_agent_consultation": true,
+      "employment_timeline_verified": true,
+      "technical_claims_validated": 17,
+      "technical_claims_flagged": 1,
+      "flagged_claims": [
+        {
+          "claim": "1 year 11 months at Dievision",
+          "actual": "1 year 10 months",
+          "severity": "minor",
+          "mathematical_error": true
+        }
+      ]
+    },
+    "company_analysis_discovery": {
+      "score": 10.0,
+      "analysis_file_found": true,
+      "analysis_file_path": "data/outputs/company_analysis/Rehaula_Pty_Ltd_20250929.md",
+      "analysis_currency": "current",
+      "analysis_completeness": 9.2,
+      "company_name_match": "exact",
+      "validation_file_found": true,
+      "validation_file_path": "data/outputs/validation_reports/rehaula_comprehensive_validation_20250929.json"
+    },
+    "cross_reference_accuracy": {
+      "score": 9.1,
+      "resume_alignment": 9.3,
+      "portfolio_consistency": 8.9,
+      "linkedin_match": 9.1,
+      "company_analysis_consistency": 9.0
+    }
+  },
+  "factual_accuracy": {
+    "overall_score": 9.2,
+    "evidence_citation_analysis": {
+      "score": 9.0,
+      "claims_with_evidence": 16,
+      "unsupported_claims": 0,
+      "evidence_quote_accuracy": 9.5,
+      "philosophical_claims_flagged": 0,
+      "all_major_claims_evidence_backed": true
+    },
+    "mathematical_accuracy": {
+      "score": 8.5,
+      "timeline_calculations_verified": 7,
+      "timeline_calculation_errors": 1,
+      "quantity_precision_score": 9.8,
+      "range_accuracy_score": 9.2,
+      "errors": [
+        {
+          "claim": "1 year 11 months at Dievision",
+          "calculated": "1 year 10 months",
+          "discrepancy": "1 month overstatement"
+        }
+      ]
+    },
+    "language_precision": {
+      "score": 8.8,
+      "marketing_language_detected": 2,
+      "embellishment_words_flagged": 1,
+      "fact_first_structure_score": 9.1,
+      "technical_precision_score": 9.0,
+      "flagged_language": ["resonates deeply", "perfectly"]
+    },
+    "employment_timeline": {
+      "score": 9.8,
+      "claims_verified": 7,
+      "claims_flagged": 1,
+      "date_consistency": true,
+      "duration_calculations_accurate": false,
+      "verified_claims": [
+        {
+          "claim": "11+ years commercial experience",
+          "calculated": "16 years (Oct 2009-Present)",
+          "status": "verified_conservative"
+        },
+        {
+          "claim": "Founded non-profit blockchain cooperative (2017-2020)",
+          "verified": "Dec 2017 - Aug 2020 · 2 yrs 9 mos",
+          "status": "verified_exact"
+        }
+      ]
+    },
+    "technical_experience": {
+      "score": 9.1,
+      "html_css_experience": 8.0,
+      "javascript_experience": 10.0,
+      "api_integration_claims": 10.0,
+      "cms_architecture_claims": 9.2,
+      "linkedin_endorsements": 10.0
+    },
+    "project_detail_accuracy": {
+      "score": 9.5,
+      "team_scaling_claim": 10.0,
+      "banking_project_claim": 10.0,
+      "sensylate_api_claim": 10.0,
+      "nonprofit_leadership_claim": 10.0
+    },
+    "location_statements": {
+      "score": 10.0,
+      "brisbane_residence": true,
+      "relocation_timing": true,
+      "family_circumstances": true,
+      "availability_accurate": true
+    }
+  },
+  "technical_alignment": {
+    "overall_score": 7.8,
+    "required_skills_match": {
+      "percentage": 75.0,
+      "html_css_expert": 9.5,
+      "javascript_expert": 9.2,
+      "api_integration_expert": 9.8,
+      "wordpress_experience": 4.0,
+      "webflow_experience": 3.0,
+      "php_experience": 5.5,
+      "positioning_strategy": "foundation_with_learning_curve"
+    },
+    "positioning_accuracy": {
+      "score": 8.5,
+      "honest_about_gaps": 9.0,
+      "emphasizes_transferable_skills": 8.8,
+      "learning_capability_demonstrated": 8.0,
+      "foundation_skills_strong": 9.2
+    },
+    "learning_capability": {
+      "score": 8.2,
+      "evidence_provided": true,
+      "realistic_timeline": true,
+      "adaptation_history": 8.5,
+      "technology_progression_shown": 8.0
+    },
+    "job_requirements_coverage": {
+      "website_development": 8.0,
+      "project_management": 9.0,
+      "client_communication": 8.5,
+      "technical_consultation": 8.8,
+      "remote_collaboration": 9.5
+    }
+  },
+  "content_quality": {
+    "overall_score": 9.2,
+    "professional_tone": {
+      "score": 9.4,
+      "confidence_level": "appropriate",
+      "enthusiasm_balance": "excellent",
+      "authenticity": 9.2
+    },
+    "grammar_accuracy": {
+      "score": 9.8,
+      "errors_found": 0,
+      "readability_score": 9.5,
+      "flow_quality": 9.3
+    },
+    "structure_flow": {
+      "score": 9.0,
+      "logical_progression": true,
+      "section_balance": "excellent",
+      "conclusion_strength": 9.1,
+      "opening_hook_strength": 8.8
+    },
+    "contact_information": {
+      "score": 10.0,
+      "email_verified": true,
+      "portfolio_accessible": true,
+      "linkedin_current": true,
+      "github_accessible": true,
+      "phone_format_correct": true
+    }
+  },
+  "strategic_positioning": {
+    "overall_score": 8.7,
+    "value_propositions": {
+      "strong_technical_foundation": {
+        "score": 9.2,
+        "evidence": ["14+ years HTML/CSS", "11+ years JavaScript", "19 LinkedIn endorsements"],
+        "credibility": "strong"
+      },
+      "project_leadership_experience": {
+        "score": 9.0,
+        "evidence": ["Scaled teams 3→20 developers", "Banking project leadership"],
+        "credibility": "verified"
+      },
+      "mission_driven_background": {
+        "score": 8.8,
+        "evidence": ["Non-profit blockchain cooperative", "Technical translation focus"],
+        "credibility": "strong"
+      },
+      "perfect_availability": {
+        "score": 9.5,
+        "evidence": ["Brisbane established", "Part-time model alignment"],
+        "credibility": "verified"
+      }
+    },
+    "competitive_advantage": {
+      "score": 8.5,
+      "unique_differentiators": 4,
+      "market_positioning": "strong",
+      "authenticity": 9.0,
+      "part_time_transition_fit": 9.8
+    },
+    "gap_management": {
+      "score": 8.0,
+      "wordpress_gap_acknowledged": true,
+      "learning_positioned_positively": 8.5,
+      "foundation_emphasized": 8.8
+    }
+  },
+  "company_analysis_integration": {
+    "overall_score": 9.1,
+    "analysis_utilization": {
+      "score": 9.2,
+      "mission_statement_integration": 9.8,
+      "company_values_alignment": 9.0,
+      "growth_stage_understanding": 8.8,
+      "remote_model_alignment": 9.5,
+      "part_time_opportunity_match": 10.0
+    },
+    "integration_quality": {
+      "score": 9.0,
+      "natural_integration": true,
+      "forced_references": false,
+      "strategic_value_added": 9.2,
+      "mission_resonance": 9.5
+    },
+    "missed_opportunities": {
+      "count": 1,
+      "severity": "minor",
+      "opportunities": [
+        "Could reference founder Amber Snow's technical specialization background"
+      ]
+    },
+    "accuracy_verification": {
+      "score": 9.8,
+      "mission_statement_accuracy": 10.0,
+      "company_values_accuracy": 9.8,
+      "business_model_accuracy": 9.6,
+      "vision_statement_integration": 9.8
+    }
+  },
+  "risk_flags": [
+    {
+      "category": "factual_accuracy",
+      "severity": "low",
+      "issue": "Dievision employment duration overstated by 1 month",
+      "recommendation": "Correct to '1 year 10 months' for precision"
+    },
+    {
+      "category": "technical_alignment",
+      "severity": "medium",
+      "issue": "WordPress/Webflow experience gap requires rapid learning",
+      "recommendation": "Prepare for technical assessment with basic WordPress knowledge"
+    }
+  ],
+  "recommendations": [
+    {
+      "priority": "high",
+      "category": "factual_correction",
+      "action": "Correct Dievision duration from '1 year 11 months' to '1 year 10 months'",
+      "confidence_impact": "+0.3"
+    },
+    {
+      "priority": "medium",
+      "category": "technical_preparation",
+      "action": "Complete basic WordPress tutorial before interview",
+      "confidence_impact": "+0.5"
+    },
+    {
+      "priority": "low",
+      "category": "content_optimization",
+      "action": "Consider adding specific remote collaboration metrics",
+      "confidence_impact": "+0.1"
+    }
+  ],
+  "validation_notes": [
+    "Strong template conformance with excellent structure and personalization",
+    "Outstanding company analysis integration with mission alignment",
+    "Factual accuracy very high with one minor mathematical error",
+    "Technical positioning honest and strategic given WordPress learning curve",
+    "Perfect availability match for part-time to full-time model",
+    "Company intelligence exceptionally well integrated throughout"
+  ],
+  "quality_certification": {
+    "institutional_grade_threshold": 9.0,
+    "achieved_score": 8.9,
+    "certification_status": "approaching_institutional_grade",
+    "gap_to_certification": 0.1,
+    "primary_enhancement_needed": "factual_precision_improvement"
+  }
+}

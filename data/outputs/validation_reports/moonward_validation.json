@@ -1,0 +1,356 @@
+{
+  "validation_summary": {
+    "overall_confidence": 8.3,
+    "job_id": "87160720",
+    "company": "Moonward",
+    "role": "Senior Frontend Developer",
+    "cover_letter_file": "moonward.md",
+    "validation_timestamp": "2025-09-30T12:45:00Z",
+    "validator_version": "2.0_template_driven",
+    "total_claims_validated": 28,
+    "template_version": "2025-09-25"
+  },
+  "template_conformance": {
+    "overall_score": 8.5,
+    "structure_adherence": {
+      "score": 9.0,
+      "required_sections_present": true,
+      "template_variables_populated": 22,
+      "template_variables_missing": 3,
+      "section_order_correct": true
+    },
+    "conditional_sections": {
+      "score": 8.2,
+      "role_level_appropriate": true,
+      "company_type_alignment": "startup",
+      "conditional_sections_included": ["Team Collaboration & Code Quality", "Boutique Environment Alignment"],
+      "conditional_sections_skipped": ["Enterprise Experience"],
+      "recruitment_template_applied": false
+    },
+    "quality_standards": {
+      "score": 8.8,
+      "optimal_length": "56 lines (within 45-60 range)",
+      "clear_headers": true,
+      "scannable_format": true,
+      "bold_emphasis_appropriate": true,
+      "professional_contact_complete": true
+    },
+    "personalization_quality": {
+      "score": 8.9,
+      "mission_connection": 9.2,
+      "cultural_alignment": 8.8,
+      "growth_stage_awareness": 8.7,
+      "industry_expertise_relevance": 8.9,
+      "location_advantage_emphasized": true
+    }
+  },
+  "data_verification": {
+    "job_data_integrity": {
+      "score": 10.0,
+      "job_file_exists": true,
+      "csv_record_complete": true,
+      "naming_convention_correct": true
+    },
+    "personal_data_consistency": {
+      "score": 8.5,
+      "cole_agent_consultation": true,
+      "employment_timeline_verified": true,
+      "technical_claims_validated": 25,
+      "technical_claims_flagged": 3
+    },
+    "company_analysis_discovery": {
+      "score": 0.0,
+      "analysis_file_found": false,
+      "analysis_file_path": null,
+      "analysis_currency": "not_available",
+      "analysis_completeness": 0.0,
+      "company_name_match": "no_analysis_available"
+    },
+    "cross_reference_accuracy": {
+      "score": 9.1,
+      "resume_alignment": 9.3,
+      "portfolio_consistency": 8.8,
+      "linkedin_match": 9.2,
+      "company_analysis_consistency": "n/a"
+    }
+  },
+  "factual_accuracy": {
+    "overall_score": 8.7,
+    "evidence_citation_analysis": {
+      "score": 8.5,
+      "claims_with_evidence": 22,
+      "unsupported_claims": 3,
+      "evidence_quote_accuracy": 9.1,
+      "philosophical_claims_flagged": 1
+    },
+    "mathematical_accuracy": {
+      "score": 8.2,
+      "timeline_calculations_verified": 6,
+      "timeline_calculation_errors": 1,
+      "quantity_precision_score": 8.8,
+      "range_accuracy_score": 7.5
+    },
+    "language_precision": {
+      "score": 8.9,
+      "marketing_language_detected": 2,
+      "embellishment_words_flagged": 1,
+      "fact_first_structure_score": 9.1,
+      "technical_precision_score": 8.7
+    },
+    "employment_timeline": {
+      "score": 9.3,
+      "claims_verified": 7,
+      "claims_flagged": 1,
+      "date_consistency": true,
+      "duration_calculations_accurate": true
+    },
+    "technical_experience": {
+      "score": 8.8,
+      "react_experience": 9.5,
+      "typescript_experience": 9.2,
+      "git_experience": 9.0,
+      "agile_scrum_claims": 9.5,
+      "fullstack_positioning": 8.0
+    },
+    "project_detail_accuracy": {
+      "score": 8.3,
+      "crosslend_details": 9.2,
+      "oetker_digital_details": 8.5,
+      "panorama_berlin_details": 7.8,
+      "sensylate_details": 7.5
+    },
+    "education_claims": {
+      "score": 10.0,
+      "degree_verified": true,
+      "certifications_accurate": true
+    },
+    "location_statements": {
+      "score": 10.0,
+      "brisbane_residence": true,
+      "work_rights_verified": true,
+      "availability_accurate": true,
+      "family_connections_verified": true
+    }
+  },
+  "technical_alignment": {
+    "overall_score": 9.2,
+    "required_skills_match": {
+      "percentage": 92.5,
+      "react_expert": 9.5,
+      "typescript_expert": 9.2,
+      "git_fundamentals": 9.0,
+      "jira_experience": 8.5,
+      "agile_scrum": 9.5
+    },
+    "positioning_accuracy": {
+      "score": 9.0,
+      "seniority_alignment": 9.3,
+      "experience_vs_requirements": 9.8,
+      "technical_depth_demonstration": 8.5
+    },
+    "bonus_skills_coverage": {
+      "score": 8.7,
+      "fullstack_exposure": 8.5,
+      "backend_development": 8.0,
+      "ai_ml_interest": 0.0
+    }
+  },
+  "content_quality": {
+    "overall_score": 8.9,
+    "professional_tone": {
+      "score": 9.1,
+      "confidence_level": "appropriate",
+      "enthusiasm_balance": "excellent"
+    },
+    "grammar_accuracy": {
+      "score": 9.5,
+      "errors_found": 0,
+      "readability_score": 9.2
+    },
+    "structure_flow": {
+      "score": 8.8,
+      "logical_progression": true,
+      "section_balance": "good",
+      "conclusion_strength": 8.7
+    },
+    "contact_information": {
+      "score": 10.0,
+      "email_verified": true,
+      "portfolio_accessible": true,
+      "linkedin_current": true
+    }
+  },
+  "strategic_positioning": {
+    "overall_score": 8.6,
+    "value_propositions": {
+      "technical_stack_alignment": {
+        "score": 9.5,
+        "evidence": ["9+ years React significantly exceeding 2-3 year requirement", "6+ years TypeScript", "Enterprise Git experience"],
+        "credibility": "strong"
+      },
+      "team_collaboration_experience": {
+        "score": 9.2,
+        "evidence": ["CrossLend scaling 3→20+ developers", "Cross-functional Oetker Digital experience", "7 Agile endorsements"],
+        "credibility": "strong"
+      },
+      "boutique_environment_fit": {
+        "score": 8.8,
+        "evidence": ["Experience scaling teams", "Tight-knit collaboration understanding", "Brisbane location alignment"],
+        "credibility": "good"
+      },
+      "brisbane_commitment": {
+        "score": 10.0,
+        "evidence": ["Established residence", "Wife working locally", "Family connections", "QLD 4066 address"],
+        "credibility": "verified"
+      }
+    },
+    "competitive_advantage": {
+      "score": 8.5,
+      "unique_differentiators": 4,
+      "market_positioning": "strong",
+      "authenticity": 8.8
+    }
+  },
+  "company_analysis_integration": {
+    "overall_score": 0.0,
+    "analysis_utilization": {
+      "score": 0.0,
+      "strategic_context_integration": 0.0,
+      "leadership_alignment": 0.0,
+      "cultural_intelligence_application": 0.0,
+      "competitive_positioning_leverage": 0.0
+    },
+    "integration_quality": {
+      "score": 0.0,
+      "natural_integration": false,
+      "forced_references": false,
+      "strategic_value_added": 0.0
+    },
+    "missed_opportunities": {
+      "count": 0,
+      "severity": "not_applicable",
+      "opportunities": [],
+      "note": "No company analysis available for integration assessment"
+    },
+    "accuracy_verification": {
+      "score": 0.0,
+      "business_context_accuracy": 0.0,
+      "leadership_profile_accuracy": 0.0,
+      "strategic_direction_accuracy": 0.0
+    }
+  },
+  "risk_flags": [
+    {
+      "category": "mathematical_accuracy",
+      "severity": "low",
+      "issue": "Sensylate timeline description claims '1+ yrs' when started August 2024",
+      "recommendation": "Correct timeline description to 'August 2024 - Present' for accuracy"
+    },
+    {
+      "category": "technical_claims",
+      "severity": "low",
+      "issue": "React 19 implementation claims may require demonstration readiness",
+      "recommendation": "Prepare to demonstrate modern React patterns and Astro integration if questioned"
+    },
+    {
+      "category": "unverifiable_claims",
+      "severity": "medium",
+      "issue": "Daily GitHub contributions claim lacks verification in personal files",
+      "recommendation": "Be prepared to show actual contribution history if requested"
+    }
+  ],
+  "recommendations": [
+    {
+      "priority": "high",
+      "category": "mathematical_accuracy",
+      "action": "Correct Sensylate timeline description from '1+ yrs' to accurate timeframe",
+      "confidence_impact": "+0.4"
+    },
+    {
+      "priority": "medium",
+      "category": "technical_preparation",
+      "action": "Prepare to demonstrate React 19 and Astro 5.12+ capabilities mentioned",
+      "confidence_impact": "+0.3"
+    },
+    {
+      "priority": "low",
+      "category": "content_enhancement",
+      "action": "Consider adding AI/ML interest to align with bonus skills mentioned in job posting",
+      "confidence_impact": "+0.2"
+    },
+    {
+      "priority": "low",
+      "category": "company_research",
+      "action": "Conduct company analysis research to enhance strategic positioning",
+      "confidence_impact": "+0.5"
+    }
+  ],
+  "validation_notes": [
+    "Strong factual foundation with 85% of claims verified through cole agent consultation",
+    "Excellent technical alignment significantly exceeding job requirements (9+ years React vs 2-3 required)",
+    "Perfect location and cultural fit for boutique Brisbane environment",
+    "Template structure well-followed with appropriate startup/boutique conditional sections",
+    "Minor timeline inaccuracy in Sensylate description needs correction",
+    "No company analysis available - significant opportunity for strategic enhancement"
+  ],
+  "detailed_analysis": {
+    "template_adherence": {
+      "opening_section": {
+        "score": 9.2,
+        "company_mission_connection": "Excellent connection to 'building futures through mission-critical digital products'",
+        "role_title_accuracy": "Perfect match: Senior Frontend Developer",
+        "experience_positioning": "Strong: 11+ years commercial experience clearly stated"
+      },
+      "technical_stack_section": {
+        "score": 9.3,
+        "primary_tech_coverage": "Excellent React and TypeScript coverage with specific examples",
+        "supporting_tech": "Good Git and Agile/Scrum coverage with verification",
+        "learning_statement": "Appropriate fullstack mention for frontend role"
+      },
+      "domain_expertise": {
+        "score": 8.8,
+        "section_title": "Proven Team Collaboration & Code Quality - appropriate for role",
+        "experience_relevance": "Strong CrossLend and Oetker Digital examples",
+        "industry_alignment": "Good software development agency positioning"
+      },
+      "cultural_alignment": {
+        "score": 8.9,
+        "boutique_environment": "Excellent alignment with 20-person team preference",
+        "brisbane_location": "Perfect location match with heart of Brisbane",
+        "growth_mindset": "Good 1% better every day alignment"
+      },
+      "next_steps": {
+        "score": 8.7,
+        "value_propositions": "Four clear differentiators with evidence",
+        "company_goal_connection": "Good mission alignment to building futures",
+        "demonstration_offer": "Strong technical demonstration offer"
+      }
+    },
+    "evidence_verification": {
+      "employment_dates": {
+        "crosslend": "VERIFIED: 2015-2016 matches resume",
+        "oetker_digital": "VERIFIED: 2018-2020 matches resume",
+        "panorama_berlin": "VERIFIED: 2018 matches resume",
+        "sensylate": "FLAGGED: Timeline description inaccurate"
+      },
+      "technical_claims": {
+        "react_experience": "VERIFIED: 9+ years from 2015 start",
+        "typescript_experience": "VERIFIED: 6+ years from Oetker Digital",
+        "linkedin_endorsements": "VERIFIED: Exactly 7 Agile, 19 JavaScript",
+        "team_scaling": "VERIFIED: CrossLend 3→20+ developers"
+      },
+      "location_details": {
+        "brisbane_residence": "VERIFIED: QLD 4066 address confirmed",
+        "wife_architect": "VERIFIED: Personal files confirm",
+        "family_connections": "VERIFIED: Recent history confirms",
+        "work_rights": "VERIFIED: New Zealand citizen with Australian rights"
+      }
+    },
+    "positioning_effectiveness": {
+      "overqualification_positioning": "Excellent - significantly exceeds 2-3 year React requirement with 9+ years",
+      "boutique_fit": "Strong alignment with intentional boutique team of 20",
+      "location_advantage": "Perfect Brisbane establishment with genuine local roots",
+      "cultural_match": "Good continuous improvement mindset alignment"
+    }
+  }
+}

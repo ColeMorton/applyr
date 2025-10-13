@@ -18,12 +18,20 @@ The cole agent provides dynamic, up-to-date personal intelligence by reading:
 - `recent_history.md` - Recent transitions and motivations
 - `reality_check.md` - Honest self-assessment and concerns
 
+## STEP 0.5: RANK RESET & VALIDATION
+
+1. **Clear All Existing Ranks**: Set all rank values to empty/null in `data/raw/advertisements.csv`
+2. **Validate Status Distribution**: Count jobs by status to ensure proper filtering scope
+3. **Prepare Clean Dataset**: Ensure only discovered jobs will receive new rankings
+4. **Data Integrity Check**: Verify that no jobs with non-"discovered" status retain rank values
+
 ## STEP 1: JOB DISCOVERY & FILTERING
 
 1. Read `data/raw/advertisements.csv`
-2. Filter for all jobs where `status = "discovered"`
-3. For each discovered job, read the corresponding markdown file from `data/outputs/job_descriptions/`
-4. Create a comprehensive list of all discovered opportunities
+2. **Strictly filter** for all jobs where `status = "discovered"` (NO OTHER STATUSES)
+3. **Validate filtering**: Ensure no jobs with status "applied", "rejected", "closed", or "second_round" are included
+4. For each discovered job, read the corresponding markdown file from `data/outputs/job_descriptions/`
+5. Create a comprehensive list of all discovered opportunities
 
 ## STEP 2: RANKING METHODOLOGY
 
@@ -61,25 +69,36 @@ For each discovered job:
 3. **Calculate** weighted total score (0-100%)
 4. **Assign** preliminary rank based on score
 
-## STEP 4: CSV UPDATE
+## STEP 4: CSV UPDATE WITH STRICT FILTERING
 
-1. **Add** a new `rank` column to `advertisements.csv` if it doesn't exist
-2. **Update** rank values for all discovered jobs:
+1. **Initialize Rank Column**: Add `rank` column to `advertisements.csv` if it doesn't exist
+2. **Clear All Ranks**: Set ALL rank values to empty/null (implementing Step 0.5 requirement)
+3. **Filter Strictly**: Extract ONLY jobs where `status="discovered"` for ranking
+4. **Validate Exclusions**: Confirm jobs with status "applied", "rejected", "closed", "second_round" are excluded from ranking
+5. **Apply Rankings**: Assign ranks 1, 2, 3... ONLY to discovered jobs:
    - Rank 1 = Highest scoring job
    - Rank 2 = Second highest, etc.
-   - Only rank jobs with status="discovered"
-   - Leave rank empty for other statuses
-
-3. **Preserve** all existing data and formatting
-4. **Sort** the output by rank (optional, but helpful for review)
+   - **CRITICAL**: No other status types receive ranks
+6. **Data Integrity Verification**: Ensure all non-discovered jobs have empty rank values
+7. **Preserve** all existing data and formatting
+8. **Final Validation**: Confirm no data corruption occurred during update
 
 ## EXPECTED OUTPUT
 
 Provide:
-1. **Summary table** of all discovered jobs with scores and ranks
-2. **Top 3 detailed analysis** with scoring breakdown and strategic recommendations
-3. **CSV update confirmation** showing the rank column has been added/updated
-4. **Strategic insights** on application priority and interview preparation
+1. **Rank Reset Confirmation**: Report how many existing ranks were cleared from all jobs
+2. **Status Validation Report**: Count of jobs by status and confirmation that only "discovered" jobs were ranked
+3. **Summary table** of all discovered jobs with scores and ranks
+4. **Top 3 detailed analysis** with scoring breakdown and strategic recommendations
+5. **CSV update confirmation** showing the rank column has been added/updated correctly
+6. **Data Integrity Verification**: Explicit confirmation that NO jobs with status "applied", "rejected", "closed", or "second_round" have rank values
+7. **Strategic insights** on application priority and interview preparation
+
+**Required Validation Checks:**
+- Total count of jobs ranked (should equal count of "discovered" jobs)
+- Confirmation that all non-"discovered" jobs have empty rank values
+- Verification that rank sequence is consecutive (1, 2, 3... with no gaps)
+- Error reporting if any data integrity issues are found
 
 ## EXECUTION REQUIREMENTS
 
@@ -110,14 +129,22 @@ job_id,company_name,job_title,source,status,priority,date_discovered,date_applie
 
 **Implementation Steps:**
 ```python
-# Pseudo-code for CSV manipulation
+# Pseudo-code for CSV manipulation with strict filtering
 1. Read advertisements.csv into DataFrame
-2. Filter discovered_jobs = df[df['status'] == 'discovered']
-3. Calculate scores for each discovered job
-4. Sort by score (descending) and assign ranks
-5. Add 'rank' column to original DataFrame
-6. Update rank values only for discovered jobs
-7. Write back to advertisements.csv
+2. **CLEAR ALL RANKS**: Set df['rank'] = '' (or None) for ALL rows
+3. **STRICT FILTERING**: discovered_jobs = df[df['status'] == 'discovered']
+4. **VALIDATE EXCLUSIONS**: Ensure no jobs with status in ['applied', 'rejected', 'closed', 'second_round'] are included
+5. Calculate scores for each discovered job
+6. Sort discovered jobs by score (descending) and assign ranks 1, 2, 3...
+7. **SELECTIVE UPDATE**: Update rank values ONLY for discovered jobs in original DataFrame
+8. **VERIFICATION**: Confirm all non-discovered jobs have empty rank values
+9. Write back to advertisements.csv with data integrity preserved
 ```
+
+**Critical Requirements:**
+- **Rank Clearing**: ALL existing ranks must be cleared before new ranking
+- **Status Validation**: ONLY jobs with status="discovered" receive ranks
+- **Data Integrity**: All other statuses must have empty rank values
+- **No Exceptions**: Zero tolerance for ranking jobs with non-"discovered" status
 
 This prompt will reproduce high-quality analysis with consistent scoring methodology and professional strategic insights. The agent will autonomously update your `advertisements.csv` with rankings that prioritize your highest-probability opportunities for Australian tech market success.
