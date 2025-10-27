@@ -776,13 +776,13 @@ class PDFConverter:
         
         if size_rating == 'oversized':
             recommendations.extend([
-                "Consider using minimal.css or ats.css for smaller file size",
+                "Consider using ats.css for smaller file size",
                 "Remove unused CSS rules and optimize images",
                 "Use system fonts instead of embedded fonts"
             ])
         elif size_rating == 'minimal':
             recommendations.extend([
-                "File may lack proper styling - consider using professional.css",
+                "File may lack proper styling - consider using ats.css",
                 "Verify that WeasyPrint is being used instead of ReportLab fallback"
             ])
         elif size_rating == 'optimal':

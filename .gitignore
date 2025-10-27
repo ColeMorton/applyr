@@ -136,6 +136,7 @@ celerybeat.pid
 
 # Environments
 .env
+.env.local
 .envrc
 .venv
 env/
@@ -210,4 +211,8 @@ __marimo__/
 data/outputs/reach_out/paul_smith_reach_out.md
 data/raw/LinkedIn Profile - Paul Smith.pdf
 data/raw/personal/paul_smith.md
+data/raw/personal/rental_property_seach_2025.md
 data/outputs/career_strategy_paul_smith_transmax.md
+data/raw/jake-s-9a775a90.md
+data/raw/jake_s.md
+data/raw/personal/rental_property_cover_letter.md

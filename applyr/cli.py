@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """applyr CLI - Main command line interface using Typer and Rich"""
 
+import time
 from pathlib import Path
 from typing import Optional
 
@@ -194,9 +195,9 @@ def pdf_command(
         None, "--output", "-o",
         help="Output PDF file or directory (default: same name as input with .pdf extension)"
     ),
-    css_file: Optional[Path] = typer.Option(
-        None, "--css-file", "-c",
-        help="Custom CSS file for styling the PDF"
+    style: Optional[str] = typer.Option(
+        None, "--style", "-s",
+        help="Style name (looks for {style}.css in applyr/styles/)"
     ),
     css_string: Optional[str] = typer.Option(
         None, "--css", "-s",
@@ -217,14 +218,14 @@ def pdf_command(
 ):
     """📄 Convert markdown and HTML files to PDF with automatic CSS styling
     
-    Automatically applies sensylate.css styling for resume/CV files. Use --no-css to disable.
+    Automatically applies ats.css styling for resume/CV files. Use --no-css to disable.
     Supports single file conversion or batch processing of entire directories.
     
     Examples:
-      pdf resume.html                    # Auto-styled with sensylate.css
+      pdf resume.html                    # Auto-styled with ats.css
       pdf resume.html --no-css           # Unstyled output
       pdf document.html                  # No styling (general content)
-      pdf resume.html -c executive.css   # Custom styling
+      pdf resume.html --style ats         # Use ats style
     """
     from .pdf_converter import PDFConverter
     
@@ -233,10 +234,32 @@ def pdf_command(
         # Check if this appears to be a resume/CV file
         path_str = str(input_path).lower()
         if any(keyword in path_str for keyword in ['resume', 'cv']):
-            default_css = Path("applyr/styles/sensylate.css")
+            default_css = Path("applyr/styles/ats.css")
             if default_css.exists():
                 return default_css
         return None
+    
+    def _resolve_style_to_css_file(style: Optional[str]) -> Optional[Path]:
+        """Resolve style name to CSS file path"""
+        if not style:
+            return None
+        
+        css_file = Path(f"applyr/styles/{style}.css")
+        if css_file.exists():
+            return css_file
+        else:
+            # Show available styles
+            styles_dir = Path("applyr/styles")
+            available_styles = []
+            if styles_dir.exists():
+                available_styles = [f.stem for f in styles_dir.glob("*.css")]
+            
+            console.print(f"[red]❌ Style '{style}' not found[/red]")
+            if available_styles:
+                console.print(f"[yellow]Available styles: {', '.join(available_styles)}[/yellow]")
+            else:
+                console.print("[yellow]No style files found in applyr/styles/[/yellow]")
+            raise typer.Exit(1)
     
     converter = PDFConverter(console)
     
@@ -250,10 +273,13 @@ def pdf_command(
         
         console.print(f"[bold blue]📦 Batch converting markdown and HTML files from {input_path}[/bold blue]")
         
+        # Resolve style to CSS file if provided
+        resolved_css_file = _resolve_style_to_css_file(style)
+        
         results = converter.batch_convert(
             input_path,
             output_dir,
-            css_file,
+            resolved_css_file,
             css_string,
             skip_lint
         )
@@ -288,11 +314,14 @@ def pdf_command(
             
         output_pdf = output or input_path.with_suffix('.pdf')
         
+        # Resolve style to CSS file if provided
+        resolved_css_file = _resolve_style_to_css_file(style)
+        
         # Implement CSS precedence logic: explicit CSS > default CSS > no CSS
-        final_css_file = css_file
+        final_css_file = resolved_css_file
         final_css_string = css_string
         
-        if not no_css and not css_file and not css_string:
+        if not no_css and not resolved_css_file and not css_string:
             # No explicit CSS provided and default styling not disabled
             default_css = _get_default_css_for_file(input_path)
             if default_css:
@@ -329,8 +358,8 @@ def resume_formats_command(
         help="Output directory for all formats (default: data/outputs/pdf/)"
     ),
     formats: Optional[str] = typer.Option(
-        "sensylate,executive,ats,professional", "--formats", "-f",
-        help="Comma-separated list of formats: sensylate,executive,ats,professional,minimal,technical,heebo-premium"
+        "ats", "--formats", "-f",
+        help="Comma-separated list of formats: ats,technical"
     ),
     skip_lint: bool = typer.Option(
         False, "--skip-lint",
@@ -378,13 +407,8 @@ def resume_formats_command(
     
     # Style mapping
     style_mapping = {
-        'sensylate': Path('applyr/styles/sensylate.css'),
-        'executive': Path('applyr/styles/executive.css'),
         'ats': Path('applyr/styles/ats.css'), 
-        'professional': Path('applyr/styles/professional.css'),
-        'minimal': Path('applyr/styles/minimal.css'),
-        'technical': Path('applyr/styles/technical.css') if Path('applyr/styles/technical.css').exists() else Path('applyr/styles/professional.css'),
-        'heebo-premium': Path('applyr/styles/heebo-premium.css')
+        'technical': Path('applyr/styles/technical.css') if Path('applyr/styles/technical.css').exists() else Path('applyr/styles/ats.css')
     }
     
     converter = PDFConverter(console)
@@ -1005,7 +1029,7 @@ def cleanup_command(
 
 @app.command("add-job")
 def add_job_command(
-    job_identifiers: str = typer.Argument(..., help="Job ID(s) or URL(s) - SEEK 8-digit IDs or full job URLs, comma-separated"),
+    job_identifiers: str = typer.Argument(..., help="Job ID(s) or URL(s) - SEEK 8-digit IDs, Indeed 16-char hex IDs, or full job URLs, comma-separated"),
     priority: Optional[str] = typer.Option(
         "medium", "--priority", "-p",
         help="Job priority: high, medium, low"
@@ -1021,18 +1045,41 @@ def add_job_command(
 ):
     """📋 Add job(s) by job ID or URL
 
-    Scrape and add one or more jobs to the database.
-    Supports SEEK job IDs and full URLs from supported job boards.
+    Add one or more jobs to the database.
+    - SEEK and Employment Hero: Automatically scrapes job data from website
+    - LinkedIn: Manual import from text files (bypasses anti-scraping measures)
+    - Indeed: Manual import from text files (bypasses 403 blocking)
+    
+    For LinkedIn and Indeed jobs, you must first:
+      1. Visit job page in browser
+      2. Copy entire page (Cmd+A, Cmd+C / Ctrl+A, Ctrl+C)
+      3. Save to data/raw/jobs/linked_in/{job_id}.txt (LinkedIn) or data/raw/jobs/indeed/{job_id}.txt (Indeed)
+      4. Run add-job command
+
     Accepts single identifier or comma-separated list.
 
+    ⚠️  Web scraping may violate Terms of Service. Use responsibly for personal job tracking only.
+    See docs/TERMS_OF_SERVICE.md for legal considerations and official API alternatives.
+
     Examples:
+        # SEEK - automated scraping
         applyr add-job 87066700
-        applyr add-job https://jobs.employmenthero.com/AU/job/axcelerate-senior-software-engineer-a5y43
+        
+        # Employment Hero - automated scraping  
+        applyr add-job https://jobs.employmenthero.com/AU/job/company-position-id
+        
+        # LinkedIn - MANUAL IMPORT ONLY (save page to text file first)
+        applyr add-job https://www.linkedin.com/jobs/view/4258805835/
+        
+        # Indeed - MANUAL IMPORT ONLY (save page to text file first)
+        applyr add-job cc76be5d850127ec
+        
+        # Multiple jobs
         applyr add-job 87278332,https://jobs.employmenthero.com/AU/job/company-position-xyz
     """
     import re
-    from .database import ApplicationDatabase, Priority
-    from .scraper_factory import detect_job_source, normalize_to_url
+    from .database import ApplicationDatabase, Priority, JobStatus
+    from .scraper_factory import detect_job_source, normalize_to_url, check_manual_import_available, create_manual_parser
     from .scraper import scrape_jobs
     from rich.progress import Progress, SpinnerColumn, TextColumn
 
@@ -1056,6 +1103,8 @@ def add_job_command(
             console.print(f"[red]   Invalid: '{invalid_id}' - {error}[/red]")
         console.print("[yellow]💡 Examples:[/yellow]")
         console.print("[yellow]   SEEK: applyr add-job 87066700[/yellow]")
+        console.print("[yellow]   Indeed: applyr add-job cc76be5d850127ec[/yellow]")
+        console.print("[yellow]   Indeed: applyr add-job \"https://au.indeed.com/viewjob?jk=cc76be5d850127ec\"[/yellow]")
         console.print("[yellow]   Employment Hero: applyr add-job https://jobs.employmenthero.com/AU/job/company-position-id[/yellow]")
         raise typer.Exit(1)
     
@@ -1080,23 +1129,59 @@ def add_job_command(
     if len(valid_jobs) > 1:
         console.print(f"[bold blue]📋 Processing {len(valid_jobs)} jobs[/bold blue]")
 
-    # Check for duplicates and prepare URLs
-    urls_to_process = []
+    # Separate jobs by processing type
+    indeed_jobs_to_process = []
+    linkedin_jobs_to_process = []
+    scraping_jobs_to_process = []
     duplicate_jobs = []
 
     for job_info in valid_jobs:
-        url = job_info['url']
-        # Extract job_id from URL using the appropriate scraper
-        from .scraper_factory import create_scraper
-        scraper, _ = create_scraper(job_info['identifier'], delay=2.0, database=database)
-        job_id = scraper.extract_job_id(url)
+        source = job_info['source']
+        identifier = job_info['identifier']
         
-        if job_id and database.job_exists(job_id) and not force:
-            existing_job = database.get_job(job_id)
-            if existing_job:
-                duplicate_jobs.append((job_id, existing_job['company_name'], existing_job['job_title'], existing_job['status']))
+        # Check if manual import is available first
+        has_manual_file, manual_type, file_path = check_manual_import_available(identifier)
+        
+        if has_manual_file:
+            # Use manual import
+            if manual_type == "indeed_manual":
+                from .scraper_indeed_manual import IndeedManualParser
+                parser = IndeedManualParser()
+                job_id = parser.extract_job_id(identifier)
+                raw_job_id = parser.get_raw_job_id(identifier)
+                
+                if job_id and database.job_exists(job_id) and not force:
+                    existing_job = database.get_job(job_id)
+                    if existing_job:
+                        duplicate_jobs.append((job_id, existing_job['company_name'], existing_job['job_title'], existing_job['status']))
+                else:
+                    indeed_jobs_to_process.append({'identifier': identifier, 'job_id': job_id, 'raw_job_id': raw_job_id})
+            
+            elif manual_type == "linkedin_manual":
+                from .scraper_linkedin_manual import LinkedInManualParser
+                parser = LinkedInManualParser()
+                job_id = parser.extract_job_id(identifier)
+                raw_job_id = parser.get_raw_job_id(identifier)
+                
+                if job_id and database.job_exists(job_id) and not force:
+                    existing_job = database.get_job(job_id)
+                    if existing_job:
+                        duplicate_jobs.append((job_id, existing_job['company_name'], existing_job['job_title'], existing_job['status']))
+                else:
+                    linkedin_jobs_to_process.append({'identifier': identifier, 'job_id': job_id, 'raw_job_id': raw_job_id})
         else:
-            urls_to_process.append(url)
+            # For SEEK, Employment Hero, and LinkedIn (no manual file), use normal scraping
+            url = job_info['url']
+            from .scraper_factory import create_scraper
+            scraper, _ = create_scraper(identifier, delay=2.0, database=database)
+            job_id = scraper.extract_job_id(url)
+            
+            if job_id and database.job_exists(job_id) and not force:
+                existing_job = database.get_job(job_id)
+                if existing_job:
+                    duplicate_jobs.append((job_id, existing_job['company_name'], existing_job['job_title'], existing_job['status']))
+            else:
+                scraping_jobs_to_process.append(url)
 
     # Handle duplicates confirmation for multiple jobs
     if duplicate_jobs and not force:
@@ -1104,49 +1189,254 @@ def add_job_command(
         for job_id, company, title, status in duplicate_jobs:
             console.print(f"[dim]  {job_id}: {company} - {title} ({status})[/dim]")
 
-        if not typer.confirm("\nDo you want to re-scrape these existing jobs?"):
+        if not typer.confirm("\nDo you want to re-process these existing jobs?"):
             console.print("[blue]Skipping existing jobs...[/blue]")
         else:
-            # Add duplicate URLs to processing list - need to find them from valid_jobs
+            # Add duplicate jobs back to processing lists
             for dup_job_id, _, _, _ in duplicate_jobs:
                 for job_info in valid_jobs:
-                    url = job_info['url']
-                    from .scraper_factory import create_scraper
-                    scraper, _ = create_scraper(job_info['identifier'], delay=2.0, database=database)
-                    if scraper.extract_job_id(url) == dup_job_id:
-                        urls_to_process.append(url)
-                        break
+                    if job_info['source'] == "indeed":
+                        from .scraper_indeed_manual import IndeedManualParser
+                        parser = IndeedManualParser()
+                        if parser.extract_job_id(job_info['identifier']) == dup_job_id:
+                            indeed_jobs_to_process.append({'identifier': job_info['identifier'], 'job_id': dup_job_id, 'raw_job_id': parser.get_raw_job_id(job_info['identifier'])})
+                            break
+                    elif job_info['source'] == "linkedin":
+                        from .scraper_linkedin_manual import LinkedInManualParser
+                        parser = LinkedInManualParser()
+                        if parser.extract_job_id(job_info['identifier']) == dup_job_id:
+                            linkedin_jobs_to_process.append({'identifier': job_info['identifier'], 'job_id': dup_job_id, 'raw_job_id': parser.get_raw_job_id(job_info['identifier'])})
+                            break
+                    else:
+                        from .scraper_factory import create_scraper
+                        scraper, _ = create_scraper(job_info['identifier'], delay=2.0, database=database)
+                        if scraper.extract_job_id(job_info['url']) == dup_job_id:
+                            scraping_jobs_to_process.append(job_info['url'])
+                            break
     elif duplicate_jobs and force:
         # Force mode - add all duplicates
         for dup_job_id, _, _, _ in duplicate_jobs:
             for job_info in valid_jobs:
-                url = job_info['url']
-                from .scraper_factory import create_scraper
-                scraper, _ = create_scraper(job_info['identifier'], delay=2.0, database=database)
-                if scraper.extract_job_id(url) == dup_job_id:
-                    urls_to_process.append(url)
-                    break
+                if job_info['source'] == "indeed":
+                    from .scraper_indeed_manual import IndeedManualParser
+                    parser = IndeedManualParser()
+                    if parser.extract_job_id(job_info['identifier']) == dup_job_id:
+                        indeed_jobs_to_process.append({'identifier': job_info['identifier'], 'job_id': dup_job_id, 'raw_job_id': parser.get_raw_job_id(job_info['identifier'])})
+                        break
+                elif job_info['source'] == "linkedin":
+                    from .scraper_linkedin_manual import LinkedInManualParser
+                    parser = LinkedInManualParser()
+                    if parser.extract_job_id(job_info['identifier']) == dup_job_id:
+                        linkedin_jobs_to_process.append({'identifier': job_info['identifier'], 'job_id': dup_job_id, 'raw_job_id': parser.get_raw_job_id(job_info['identifier'])})
+                        break
+                else:
+                    from .scraper_factory import create_scraper
+                    scraper, _ = create_scraper(job_info['identifier'], delay=2.0, database=database)
+                    if scraper.extract_job_id(job_info['url']) == dup_job_id:
+                        scraping_jobs_to_process.append(job_info['url'])
+                        break
 
-    if not urls_to_process:
+    if not indeed_jobs_to_process and not linkedin_jobs_to_process and not scraping_jobs_to_process:
         console.print("[yellow]No new jobs to process[/yellow]")
         return
 
-    # Process all jobs with existing scraper infrastructure
-    console.print(f"[blue]🔍 Scraping {len(urls_to_process)} job(s)...[/blue]")
+    # Process Indeed jobs via manual import
+    indeed_results = {}
+    if indeed_jobs_to_process:
+        console.print(f"[blue]📄 Processing {len(indeed_jobs_to_process)} Indeed job(s) from text files...[/blue]")
+        from .scraper_indeed_manual import IndeedManualParser
+        parser = IndeedManualParser()
+        
+        for indeed_job in indeed_jobs_to_process:
+            identifier = indeed_job['identifier']
+            job_id = indeed_job['job_id']
+            raw_job_id = indeed_job['raw_job_id']
+            
+            job_data = parser.process_job(identifier)
+            
+            if not job_data:
+                console.print(f"[red]❌ No text file found for Indeed job {raw_job_id}[/red]")
+                console.print(f"[yellow]Please save job content to: data/raw/jobs/{raw_job_id}.txt[/yellow]")
+                console.print("[yellow]Steps:[/yellow]")
+                console.print("[yellow]  1. Visit the Indeed job page in your browser[/yellow]")
+                console.print("[yellow]  2. Copy entire page (Cmd+A, Cmd+C on Mac / Ctrl+A, Ctrl+C on Windows)[/yellow]")
+                console.print(f"[yellow]  3. Save to data/raw/jobs/{raw_job_id}.txt[/yellow]")
+                console.print(f"[yellow]  4. Run this command again[/yellow]")
+                indeed_results[identifier] = False
+            else:
+                # Save to markdown file
+                output_dir = Path("data/outputs/job_descriptions")
+                output_dir.mkdir(parents=True, exist_ok=True)
+                
+                from .scraper_base import JobScraper
+                # Use base sanitize method
+                temp_scraper = type('TempScraper', (JobScraper,), {
+                    'extract_job_id': lambda self, url: None,
+                    'extract_job_metadata': lambda self, soup: {},
+                    'clean_job_description': lambda self, soup: None,
+                    'get_source_name': lambda self: "Indeed"
+                })(delay_between_requests=2.0, database=database)
+                
+                company = temp_scraper.sanitize_filename(job_data['company'])
+                title = temp_scraper.sanitize_filename(job_data['title'])
+                filename = f"{job_id}_{company}_{title}.md"
+                filepath = output_dir / filename
+                
+                markdown_content = f"""# {job_data['title']}
 
+**Company:** {job_data['company']}  
+**Job ID:** {job_id}  
+**Source:** Indeed (Manual Import)  
+**Imported:** {time.strftime('%Y-%m-%d %H:%M:%S')}
+
+---
+
+{job_data['description']}
+"""
+                
+                with open(filepath, 'w', encoding='utf-8') as f:
+                    f.write(markdown_content)
+                
+                # Add to database
+                database.add_job(
+                    job_id=job_id,
+                    company_name=job_data['company'],
+                    job_title=job_data['title'],
+                    source="Indeed",
+                    url=identifier if identifier.startswith('http') else f"https://au.indeed.com/viewjob?jk={raw_job_id}",
+                    status=JobStatus.DISCOVERED,
+                    priority=priority_enum
+                )
+                
+                console.print(f"[green]✅ Imported Indeed job {job_id}: {job_data['title']} at {job_data['company']}[/green]")
+                indeed_results[identifier] = True
+
+    # Process LinkedIn jobs via manual import
+    linkedin_results = {}
+    if linkedin_jobs_to_process:
+        console.print(f"[blue]📄 Processing {len(linkedin_jobs_to_process)} LinkedIn job(s) from text files...[/blue]")
+        from .scraper_linkedin_manual import LinkedInManualParser
+        parser = LinkedInManualParser()
+        
+        for linkedin_job in linkedin_jobs_to_process:
+            identifier = linkedin_job['identifier']
+            job_id = linkedin_job['job_id']
+            raw_job_id = linkedin_job['raw_job_id']
+            
+            job_data = parser.process_job(identifier)
+            
+            if not job_data:
+                console.print(f"[red]❌ No text file found for LinkedIn job {raw_job_id}[/red]")
+                console.print(f"[yellow]Please save job content to: data/raw/jobs/linked_in/{raw_job_id}.txt[/yellow]")
+                console.print("[yellow]Steps:[/yellow]")
+                console.print("[yellow]  1. Visit the LinkedIn job page in your browser[/yellow]")
+                console.print("[yellow]  2. Copy entire page (Cmd+A, Cmd+C on Mac / Ctrl+A, Ctrl+C on Windows)[/yellow]")
+                console.print(f"[yellow]  3. Save to data/raw/jobs/linked_in/{raw_job_id}.txt[/yellow]")
+                console.print(f"[yellow]  4. Run this command again[/yellow]")
+                linkedin_results[identifier] = False
+            else:
+                # Save to markdown file
+                output_dir = Path("data/outputs/job_descriptions")
+                output_dir.mkdir(parents=True, exist_ok=True)
+                
+                from .scraper_base import JobScraper
+                # Use base sanitize method
+                temp_scraper = type('TempScraper', (JobScraper,), {
+                    'extract_job_id': lambda self, url: None,
+                    'extract_job_metadata': lambda self, soup: {},
+                    'clean_job_description': lambda self, soup: None,
+                    'get_source_name': lambda self: "LinkedIn"
+                })(delay_between_requests=2.0, database=database)
+                
+                company = temp_scraper.sanitize_filename(job_data['company'])
+                title = temp_scraper.sanitize_filename(job_data['title'])
+                filename = f"{job_id}_{company}_{title}.md"
+                filepath = output_dir / filename
+                
+                markdown_content = f"""# {job_data['title']}
+
+**Company:** {job_data['company']}  
+**Location:** {job_data['location']}  
+**Job ID:** {job_id}  
+**Source:** LinkedIn (Manual Import)  
+**Imported:** {time.strftime('%Y-%m-%d %H:%M:%S')}
+
+---
+
+{job_data['description']}
+"""
+                
+                with open(filepath, 'w', encoding='utf-8') as f:
+                    f.write(markdown_content)
+                
+                # Add to database
+                database.add_job(
+                    job_id=job_id,
+                    company_name=job_data['company'],
+                    job_title=job_data['title'],
+                    source="LinkedIn",
+                    url=identifier if identifier.startswith('http') else f"https://www.linkedin.com/jobs/view/{raw_job_id}/",
+                    status=JobStatus.DISCOVERED,
+                    priority=priority_enum
+                )
+                
+                console.print(f"[green]✅ Imported LinkedIn job {job_id}: {job_data['title']} at {job_data['company']}[/green]")
+                linkedin_results[identifier] = True
+
+    # Process web-scraping jobs (SEEK, Employment Hero, LinkedIn without manual file)
+    scraping_results = {}
+    if scraping_jobs_to_process:
+        console.print(f"[blue]🔍 Scraping {len(scraping_jobs_to_process)} job(s)...[/blue]")
+        
+        try:
+            scraping_results = scrape_jobs(scraping_jobs_to_process, Path("data/outputs/job_descriptions"), 2.0, console, database)
+        except Exception as e:
+            console.print(f"[red]❌ Error during scraping: {e}[/red]")
+            scraping_results = {url: False for url in scraping_jobs_to_process}
+    
+    # Combine results
+    results = {**indeed_results, **linkedin_results, **scraping_results}
+    
     try:
-        results = scrape_jobs(urls_to_process, Path("data/outputs/job_descriptions"), 2.0, console, database)
 
         # Process results and update database
         successful_jobs = []
         failed_jobs = []
 
-        for url in urls_to_process:
-            # Use scraper to extract job_id correctly (handles prefixes like 'eh-')
+        # Process all jobs (Indeed, LinkedIn, and scraping)
+        all_jobs_to_check = []
+        
+        # Add Indeed jobs
+        for indeed_job in indeed_jobs_to_process:
+            all_jobs_to_check.append({
+                'identifier': indeed_job['identifier'],
+                'job_id': indeed_job['job_id'],
+                'source': 'indeed'
+            })
+        
+        # Add LinkedIn jobs
+        for linkedin_job in linkedin_jobs_to_process:
+            all_jobs_to_check.append({
+                'identifier': linkedin_job['identifier'],
+                'job_id': linkedin_job['job_id'],
+                'source': 'linkedin'
+            })
+        
+        # Add scraping jobs
+        for url in scraping_jobs_to_process:
             from .scraper_factory import create_scraper
             scraper, _ = create_scraper(url, delay=2.0, database=database)
             job_id = scraper.extract_job_id(url)
-            success = results.get(url, False)
+            all_jobs_to_check.append({
+                'identifier': url,
+                'job_id': job_id,
+                'source': 'scraping'
+            })
+        
+        for job_check in all_jobs_to_check:
+            identifier = job_check['identifier']
+            job_id = job_check['job_id']
+            success = results.get(identifier, False)
 
             if success:
                 # Update priority and notes if provided
@@ -1243,6 +1533,328 @@ def add_job_command(
             
     except Exception as e:
         console.print(f"[red]❌ Error during scraping operation: {e}[/red]")
+        raise typer.Exit(1)
+
+@app.command("ats")
+def ats_command(
+    file_path: Path = typer.Argument(..., help="Resume/cover letter file path"),
+    job_description: Optional[Path] = typer.Option(
+        None, "--job-desc", "-j", 
+        help="Job description file for keyword matching"
+    ),
+    output_format: str = typer.Option(
+        "table", "--format", "-f", 
+        help="Output format: table, json, detailed"
+    ),
+    save_report: bool = typer.Option(
+        False, "--save", "-s", 
+        help="Save detailed report to file"
+    ),
+):
+    """🔍 Comprehensive ATS analysis of resumes and cover letters
+    
+    Analyze documents with the same precision as an ATS system, providing
+    detailed scoring, recommendations, and compatibility assessment.
+    
+    Supports HTML, PDF, TXT, MD, and DOCX formats.
+    
+    Examples:
+        applyr ats resume.html
+        applyr ats resume.pdf --job-desc job.txt --format detailed
+        applyr ats cover_letter.md --save
+    """
+    from .ats_analyzer import ATSAnalyzer
+    from .ats_output import ATSOutputFormatter
+    import json
+    
+    # Validate file exists
+    if not file_path.exists():
+        console.print(f"[red]❌ File not found: {file_path}[/red]")
+        raise typer.Exit(1)
+    
+    # Validate file format
+    supported_formats = ['.html', '.htm', '.pdf', '.txt', '.md', '.docx']
+    if file_path.suffix.lower() not in supported_formats:
+        console.print(f"[red]❌ Unsupported file format: {file_path.suffix}[/red]")
+        console.print(f"[yellow]Supported formats: {', '.join(supported_formats)}[/yellow]")
+        raise typer.Exit(1)
+    
+    # Validate job description if provided
+    if job_description and not job_description.exists():
+        console.print(f"[red]❌ Job description file not found: {job_description}[/red]")
+        raise typer.Exit(1)
+    
+    # Validate output format
+    valid_formats = ['table', 'json', 'detailed']
+    if output_format not in valid_formats:
+        console.print(f"[red]❌ Invalid output format: {output_format}[/red]")
+        console.print(f"[yellow]Valid formats: {', '.join(valid_formats)}[/yellow]")
+        raise typer.Exit(1)
+    
+    try:
+        # Initialize ATS analyzer
+        analyzer = ATSAnalyzer(console)
+        
+        # Perform analysis
+        console.print(f"[bold blue]🔍 Performing ATS analysis...[/bold blue]")
+        result = analyzer.analyze_document(file_path, job_description)
+        
+        # Format and display results
+        formatter = ATSOutputFormatter(console)
+        
+        if output_format == 'json':
+            # JSON output
+            json_output = {
+                'overall_score': result.overall_score,
+                'grade': result.grade,
+                'scores': {
+                    'contact_info': result.contact_info_score,
+                    'keywords': result.keywords_score,
+                    'format': result.format_score,
+                    'content': result.content_score,
+                    'experience': result.experience_score,
+                    'compatibility': result.compatibility_score
+                },
+                'critical_issues': result.critical_issues,
+                'recommendations': result.recommendations,
+                'keyword_analysis': result.keyword_analysis
+            }
+            console.print(json.dumps(json_output, indent=2))
+        else:
+            # Rich table/detailed output
+            formatter.display_results(result, output_format == 'detailed')
+        
+        # Save report if requested
+        if save_report:
+            report_path = file_path.parent / f"{file_path.stem}_ats_report.json"
+            with open(report_path, 'w', encoding='utf-8') as f:
+                json.dump({
+                    'file_analyzed': str(file_path),
+                    'job_description': str(job_description) if job_description else None,
+                    'analysis_date': str(Path().cwd()),
+                    'overall_score': result.overall_score,
+                    'grade': result.grade,
+                    'scores': {
+                        'contact_info': result.contact_info_score,
+                        'keywords': result.keywords_score,
+                        'format': result.format_score,
+                        'content': result.content_score,
+                        'experience': result.experience_score,
+                        'compatibility': result.compatibility_score
+                    },
+                    'critical_issues': result.critical_issues,
+                    'recommendations': result.recommendations,
+                    'keyword_analysis': result.keyword_analysis,
+                    'parsed_content': result.parsed_content,
+                    'file_analysis': result.file_analysis
+                }, indent=2)
+            console.print(f"[green]📄 Detailed report saved to: {report_path}[/green]")
+        
+        # Exit with error code if score is too low
+        if result.overall_score < 60:
+            console.print(f"\n[red]⚠️  Low ATS compatibility score: {result.overall_score:.1f}/100[/red]")
+            console.print("[yellow]Consider implementing the recommendations above[/yellow]")
+            raise typer.Exit(1)
+        elif result.overall_score < 80:
+            console.print(f"\n[yellow]⚠️  Moderate ATS compatibility score: {result.overall_score:.1f}/100[/yellow]")
+            console.print("[yellow]Consider implementing some recommendations for better results[/yellow]")
+        else:
+            console.print(f"\n[green]✅ Excellent ATS compatibility score: {result.overall_score:.1f}/100[/green]")
+    
+    except Exception as e:
+        console.print(f"[red]❌ Analysis failed: {e}[/red]")
+        raise typer.Exit(1)
+
+@app.command("docx")
+def docx_command(
+    input_path: Path = typer.Argument(..., help="Input HTML or Markdown file path"),
+    output: Optional[Path] = typer.Option(
+        None, "--output", "-o",
+        help="Output DOCX file path (defaults to input filename with .docx extension)"
+    ),
+    style: str = typer.Option(
+        "professional", "--style", "-s",
+        help="Style template: sensylate, executive, ats, professional"
+    ),
+    css_file: Optional[Path] = typer.Option(
+        None, "--css-file", "-c",
+        help="Custom CSS file for styling"
+    ),
+    skip_lint: bool = typer.Option(
+        False, "--skip-lint",
+        help="Skip HTML processing and validation"
+    ),
+):
+    """📄 Convert HTML/Markdown to DOCX with professional formatting
+
+    Supports the same styling templates as PDF conversion with maximum
+    formatting preservation for ATS compatibility.
+
+    Examples:
+        applyr docx resume.html
+        applyr docx resume.md --style executive
+        applyr docx resume.html --css-file custom.css --output my_resume.docx
+    """
+    from .docx_converter import DOCXConverter
+
+    # Validate input file
+    if not input_path.exists():
+        console.print(f"[red]❌ Input file not found: {input_path}[/red]")
+        raise typer.Exit(1)
+
+    # Validate file format
+    supported_formats = ['.html', '.htm', '.md']
+    if input_path.suffix.lower() not in supported_formats:
+        console.print(f"[red]❌ Unsupported file format: {input_path.suffix}[/red]")
+        console.print(f"[yellow]Supported formats: {', '.join(supported_formats)}[/yellow]")
+        raise typer.Exit(1)
+
+    # Validate style template
+    valid_styles = ['sensylate', 'executive', 'ats', 'professional']
+    if style not in valid_styles:
+        console.print(f"[red]❌ Invalid style template: {style}[/red]")
+        console.print(f"[yellow]Valid styles: {', '.join(valid_styles)}[/yellow]")
+        raise typer.Exit(1)
+
+    # Validate CSS file if provided
+    if css_file and not css_file.exists():
+        console.print(f"[red]❌ CSS file not found: {css_file}[/red]")
+        raise typer.Exit(1)
+
+    # Determine output path
+    if output is None:
+        output = input_path.parent / f"{input_path.stem}.docx"
+
+    # Ensure output directory exists
+    output.parent.mkdir(parents=True, exist_ok=True)
+
+    try:
+        # Initialize DOCX converter
+        converter = DOCXConverter(console)
+
+        # Perform conversion
+        console.print(f"[bold blue]📄 Converting to DOCX with {style} style...[/bold blue]")
+
+        success = converter.convert_to_docx(
+            input_file=input_path,
+            output_docx=output,
+            style_template=style,
+            css_file=css_file,
+            skip_lint=skip_lint
+        )
+
+        if success:
+            console.print(f"[green]✅ DOCX conversion completed: {output}[/green]")
+
+            # Show file size
+            file_size = output.stat().st_size
+            size_mb = file_size / (1024 * 1024)
+            console.print(f"[dim]📊 File size: {size_mb:.2f} MB[/dim]")
+
+            # Show ATS compatibility note for ATS style
+            if style == 'ats':
+                console.print(f"[yellow]💡 ATS-optimized formatting applied for maximum compatibility[/yellow]")
+        else:
+            console.print(f"[red]❌ DOCX conversion failed[/red]")
+            raise typer.Exit(1)
+
+    except Exception as e:
+        console.print(f"[red]❌ Conversion failed: {e}[/red]")
+        raise typer.Exit(1)
+
+@app.command("txt")
+def txt_command(
+    input_path: Path = typer.Argument(..., help="Input file to convert to plain text"),
+):
+    """📄 Convert documents to plain text format
+    
+    Extract text content from HTML, PDF, DOCX, or Markdown files and save as .txt.
+    The output file is saved in the same directory as the input with .txt extension.
+    
+    Supports: HTML, PDF, DOCX, MD, TXT
+    
+    Examples:
+        applyr txt resume.html              # Creates: resume.txt
+        applyr txt document.pdf             # Creates: document.txt
+        applyr txt data/outputs/file.md     # Creates: data/outputs/file.txt
+    """
+    from .ats_parsers import DocumentParser
+    
+    # Validate input file
+    if not input_path.exists():
+        console.print(f"[red]❌ Input file not found: {input_path}[/red]")
+        raise typer.Exit(1)
+    
+    if not input_path.is_file():
+        console.print(f"[red]❌ Path is not a file: {input_path}[/red]")
+        raise typer.Exit(1)
+    
+    # Validate file format
+    supported_formats = ['.html', '.htm', '.pdf', '.txt', '.md', '.docx']
+    if input_path.suffix.lower() not in supported_formats:
+        console.print(f"[red]❌ Unsupported file format: {input_path.suffix}[/red]")
+        console.print(f"[yellow]Supported formats: {', '.join(supported_formats)}[/yellow]")
+        raise typer.Exit(1)
+    
+    # Determine output path
+    output_path = input_path.parent / f"{input_path.stem}.txt"
+    
+    console.print(f"[bold blue]📄 Converting {input_path.name} to plain text...[/bold blue]")
+    
+    try:
+        # Initialize parser and extract text
+        parser = DocumentParser(console)
+        
+        # Parse the document
+        parsed_data = parser.parse_document(input_path)
+        
+        if not parsed_data:
+            console.print(f"[red]❌ Failed to parse document[/red]")
+            console.print("[yellow]💡 Possible causes:[/yellow]")
+            console.print("[yellow]   • Missing required libraries (BeautifulSoup4, PyPDF2, pdfplumber, python-docx)[/yellow]")
+            console.print("[yellow]   • Encrypted or corrupted file[/yellow]")
+            console.print("[yellow]   • Unsupported file format variation[/yellow]")
+            raise typer.Exit(1)
+        
+        # Extract raw text
+        raw_text = parsed_data.get('raw_text', '')
+        
+        if not raw_text or not raw_text.strip():
+            console.print(f"[yellow]⚠️  No text content extracted from document[/yellow]")
+            console.print("[yellow]The document may be empty or contain only images[/yellow]")
+            raise typer.Exit(1)
+        
+        # Write to output file
+        try:
+            with open(output_path, 'w', encoding='utf-8') as f:
+                f.write(raw_text)
+        except PermissionError:
+            console.print(f"[red]❌ Permission denied writing to: {output_path}[/red]")
+            raise typer.Exit(1)
+        except Exception as write_error:
+            console.print(f"[red]❌ Error writing output file: {write_error}[/red]")
+            raise typer.Exit(1)
+        
+        # Success - show file info
+        file_size = output_path.stat().st_size
+        char_count = len(raw_text)
+        word_count = len(raw_text.split())
+        line_count = len(raw_text.splitlines())
+        
+        console.print(f"[green]✅ Text extraction completed[/green]")
+        console.print(f"[green]📄 Output saved to: {output_path}[/green]")
+        console.print(f"\n[dim]📊 Statistics:[/dim]")
+        console.print(f"[dim]   • File size: {file_size:,} bytes[/dim]")
+        console.print(f"[dim]   • Characters: {char_count:,}[/dim]")
+        console.print(f"[dim]   • Words: {word_count:,}[/dim]")
+        console.print(f"[dim]   • Lines: {line_count:,}[/dim]")
+        
+    except typer.Exit:
+        raise
+    except Exception as e:
+        console.print(f"[red]❌ Conversion failed: {e}[/red]")
+        import traceback
+        console.print(f"[dim]{traceback.format_exc()}[/dim]")
         raise typer.Exit(1)
 
 if __name__ == "__main__":

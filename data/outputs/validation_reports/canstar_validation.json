@@ -1,0 +1,318 @@
+{
+  "validation_summary": {
+    "overall_confidence": 8.2,
+    "job_id": "87819166",
+    "company": "CANSTAR",
+    "role": "Developer",
+    "cover_letter_file": "canstar.md",
+    "validation_timestamp": "2025-01-15T10:45:00Z",
+    "validator_version": "2.0_template_driven",
+    "total_claims_validated": 18,
+    "template_version": "2025-01-15"
+  },
+  "template_conformance": {
+    "overall_score": 7.8,
+    "structure_adherence": {
+      "score": 8.5,
+      "required_sections_present": true,
+      "template_variables_populated": 12,
+      "template_variables_missing": 6,
+      "section_order_correct": true,
+      "critical_issues": [
+        "Missing Cultural Alignment section",
+        "Missing Brisbane Establishment bullets",
+        "Incomplete template variable population"
+      ]
+    },
+    "bullet_points_library_compliance": {
+      "score": 6.2,
+      "tech_bullets_library_match": false,
+      "domain_bullets_library_match": false,
+      "brisbane_bullets_library_match": false,
+      "custom_variations_detected": 4,
+      "inappropriate_selections": 0,
+      "library_currency_verified": false,
+      "critical_issues": [
+        "All bullet points are custom-written rather than using library standards",
+        "No evidence of Reusable Bullet Points Library usage",
+        "Technical bullets not following {TECH_BULLET_*} format"
+      ]
+    },
+    "conditional_sections": {
+      "score": 7.0,
+      "role_level_appropriate": true,
+      "company_type_alignment": "fintech",
+      "conditional_sections_included": ["Technical Stack Alignment", "Domain Expertise"],
+      "conditional_sections_skipped": ["Cultural Alignment", "Brisbane Establishment"],
+      "missed_opportunities": [
+        "Should include Cultural Alignment section for FinTech company",
+        "Brisbane Establishment section incomplete"
+      ]
+    },
+    "quality_standards": {
+      "score": 8.0,
+      "optimal_length": "42 lines (below 45-60 range)",
+      "clear_headers": true,
+      "scannable_format": true,
+      "bold_emphasis_appropriate": true,
+      "professional_contact_complete": true
+    },
+    "personalization_quality": {
+      "score": 8.5,
+      "mission_connection": 9.0,
+      "cultural_alignment": 7.5,
+      "growth_stage_awareness": 8.0,
+      "industry_expertise_relevance": 9.2,
+      "location_advantage_emphasized": true
+    }
+  },
+  "data_verification": {
+    "job_data_integrity": {
+      "score": 10.0,
+      "job_file_exists": true,
+      "csv_record_complete": true,
+      "naming_convention_correct": true
+    },
+    "personal_data_consistency": {
+      "score": 9.1,
+      "cole_agent_consultation": true,
+      "employment_timeline_verified": true,
+      "technical_claims_validated": 16,
+      "technical_claims_flagged": 2
+    },
+    "company_analysis_discovery": {
+      "score": 9.5,
+      "analysis_file_found": true,
+      "analysis_file_path": "data/outputs/company_analysis/CANSTAR_20250115.md",
+      "analysis_currency": "recent",
+      "analysis_completeness": 9.2,
+      "company_name_match": "exact"
+    },
+    "cross_reference_accuracy": {
+      "score": 8.8,
+      "resume_alignment": 9.0,
+      "portfolio_consistency": 8.5,
+      "linkedin_match": 8.9,
+      "company_analysis_consistency": 8.7
+    }
+  },
+  "factual_accuracy": {
+    "overall_score": 8.9,
+    "evidence_citation_analysis": {
+      "score": 8.5,
+      "claims_with_evidence": 14,
+      "unsupported_claims": 2,
+      "evidence_quote_accuracy": 9.0,
+      "philosophical_claims_flagged": 0
+    },
+    "mathematical_accuracy": {
+      "score": 9.2,
+      "timeline_calculations_verified": 4,
+      "timeline_calculation_errors": 0,
+      "quantity_precision_score": 9.0,
+      "range_accuracy_score": 9.5
+    },
+    "language_precision": {
+      "score": 8.8,
+      "marketing_language_detected": 1,
+      "embellishment_words_flagged": 0,
+      "fact_first_structure_score": 9.0,
+      "technical_precision_score": 8.5
+    },
+    "employment_timeline": {
+      "score": 9.5,
+      "claims_verified": 6,
+      "claims_flagged": 0,
+      "date_consistency": true,
+      "duration_calculations_accurate": true
+    },
+    "technical_experience": {
+      "score": 8.7,
+      "react_experience": 9.2,
+      "typescript_experience": 9.0,
+      "nextjs_positioning": 7.5,
+      "architecture_claims": 8.8
+    },
+    "project_detail_accuracy": {
+      "score": 8.5,
+      "singular_plural_accuracy": 9.0,
+      "project_description_precision": 8.8,
+      "system_count_accuracy": 8.0
+    },
+    "education_claims": {
+      "score": 10.0,
+      "degree_verified": true,
+      "certifications_accurate": true
+    },
+    "location_statements": {
+      "score": 10.0,
+      "brisbane_residence": true,
+      "work_rights_verified": true,
+      "availability_accurate": true
+    }
+  },
+  "technical_alignment": {
+    "overall_score": 8.6,
+    "required_skills_match": {
+      "percentage": 82.5,
+      "react_expert": 9.2,
+      "typescript_expert": 9.0,
+      "nextjs_experience": 7.5,
+      "javascript_expert": 9.5,
+      "nodejs_experience": 8.0,
+      "graphql_experience": 8.5,
+      "aws_experience": 7.0
+    },
+    "positioning_accuracy": {
+      "score": 8.8,
+      "seniority_alignment": 8.5,
+      "leadership_claims": 9.0,
+      "gap_acknowledgment": 8.5
+    },
+    "learning_capability": {
+      "score": 8.8,
+      "evidence_provided": true,
+      "realistic_timeline": true,
+      "foundation_skills_verified": true
+    }
+  },
+  "content_quality": {
+    "overall_score": 8.7,
+    "professional_tone": {
+      "score": 9.0,
+      "confidence_level": "appropriate",
+      "enthusiasm_balance": "excellent"
+    },
+    "grammar_accuracy": {
+      "score": 9.5,
+      "errors_found": 0,
+      "readability_score": 9.2
+    },
+    "structure_flow": {
+      "score": 8.0,
+      "logical_progression": true,
+      "section_balance": "good",
+      "conclusion_strength": 8.5
+    },
+    "contact_information": {
+      "score": 10.0,
+      "email_verified": true,
+      "portfolio_accessible": true,
+      "linkedin_current": true
+    }
+  },
+  "strategic_positioning": {
+    "overall_score": 8.8,
+    "value_propositions": {
+      "fintech_expertise": {
+        "score": 9.2,
+        "evidence": ["CrossLend platform leadership", "Sensylate financial APIs"],
+        "credibility": "strong"
+      },
+      "regulated_industry_experience": {
+        "score": 9.0,
+        "evidence": ["CharmHealth healthcare compliance", "CrossLend regulatory compliance"],
+        "credibility": "strong"
+      },
+      "technical_stack_alignment": {
+        "score": 8.5,
+        "evidence": ["React 8+ years", "TypeScript 6+ years", "JavaScript 19 endorsements"],
+        "credibility": "strong"
+      },
+      "brisbane_commitment": {
+        "score": 10.0,
+        "evidence": ["Current residence", "Family ties"],
+        "credibility": "verified"
+      }
+    },
+    "competitive_advantage": {
+      "score": 8.7,
+      "unique_differentiators": 4,
+      "market_positioning": "strong",
+      "authenticity": 9.0
+    }
+  },
+  "company_analysis_integration": {
+    "overall_score": 8.9,
+    "analysis_utilization": {
+      "score": 8.7,
+      "strategic_context_integration": 9.0,
+      "leadership_alignment": 8.5,
+      "cultural_intelligence_application": 8.8,
+      "competitive_positioning_leverage": 8.9
+    },
+    "integration_quality": {
+      "score": 9.0,
+      "natural_integration": true,
+      "forced_references": false,
+      "strategic_value_added": 9.1
+    },
+    "missed_opportunities": {
+      "count": 1,
+      "severity": "minor",
+      "opportunities": [
+        "Could leverage company's AI/ML integration focus more explicitly"
+      ]
+    },
+    "accuracy_verification": {
+      "score": 9.2,
+      "business_context_accuracy": 9.3,
+      "leadership_profile_accuracy": 9.0,
+      "strategic_direction_accuracy": 9.2
+    }
+  },
+  "risk_flags": [
+    {
+      "category": "template_conformance",
+      "severity": "high",
+      "issue": "Complete disregard for bullet points library standards",
+      "recommendation": "Replace all custom bullets with standardized library content"
+    },
+    {
+      "category": "template_structure",
+      "severity": "medium",
+      "issue": "Missing Cultural Alignment section",
+      "recommendation": "Add Cultural Alignment section per template requirements"
+    },
+    {
+      "category": "template_completeness",
+      "severity": "medium",
+      "issue": "Brisbane Establishment section incomplete",
+      "recommendation": "Complete Brisbane Establishment section with library bullets"
+    }
+  ],
+  "recommendations": [
+    {
+      "priority": "critical",
+      "category": "template_compliance",
+      "action": "Replace all custom bullet points with standardized library content from cover_letter.md",
+      "confidence_impact": "+1.5"
+    },
+    {
+      "priority": "high",
+      "category": "template_structure",
+      "action": "Add Cultural Alignment section per template requirements",
+      "confidence_impact": "+0.8"
+    },
+    {
+      "priority": "high",
+      "category": "template_completeness",
+      "action": "Complete Brisbane Establishment section with proper library bullets",
+      "confidence_impact": "+0.6"
+    },
+    {
+      "priority": "medium",
+      "category": "content_optimization",
+      "action": "Expand content to reach optimal 45-60 line length",
+      "confidence_impact": "+0.3"
+    }
+  ],
+  "validation_notes": [
+    "Strong factual foundation with verifiable experience claims",
+    "Technical alignment excellent for React/TypeScript requirements",
+    "Strategic positioning authentic and well-supported",
+    "Critical template compliance issues require immediate attention",
+    "Company analysis integration demonstrates good research utilization",
+    "Missing template sections significantly impact overall quality score"
+  ]
+}

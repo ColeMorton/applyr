@@ -2,7 +2,7 @@
 
 ## Overview
 
-The applyr PDF system provides professional document generation with 6 custom CSS templates, SVG brand integration, and comprehensive CLI management. Built on WeasyPrint for institutional-quality PDF output.
+The applyr PDF system provides professional document generation with 2 custom CSS templates, SVG brand integration, and comprehensive CLI management. Built on WeasyPrint for institutional-quality PDF output.
 
 ## Architecture Summary
 
@@ -19,13 +19,9 @@ The applyr PDF system provides professional document generation with 6 custom CS
    - `resume-formats`: Generate all 6 formats simultaneously
    - `validate-pdf`: Quality analysis and optimization suggestions
 
-3. **Professional Templates** (`applyr/styles/` - 6 CSS files)
-   - **sensylate.css**: Brand-consistent (matches colemorton.com)
-   - **executive.css**: High-impact presentation style
+3. **Professional Templates** (`applyr/styles/` - 2 CSS files)
    - **ats.css**: Applicant Tracking System optimized
-   - **professional.css**: Balanced professional styling
-   - **minimal.css**: Clean minimalist design
-   - **heebo-premium.css**: Variable font showcase
+   - **technical.css**: Technical documentation style (if exists)
 
 ## SVG Brand Text Integration
 
@@ -88,25 +84,21 @@ size_ratings = {
 ### PDF Generation Commands
 ```bash
 # Single file conversion
-applyr pdf resume.md --css-file applyr/styles/executive.css
+applyr pdf resume.md --css-file applyr/styles/ats.css
 
-# Generate all 6 formats
+# Generate resume formats
 applyr resume-formats resume.md
 
 # Batch processing
 applyr pdf cover_letters/ --batch --output pdfs/
 
 # Quality validation
-applyr validate-pdf resume_executive.pdf --detailed
+applyr validate-pdf resume_ats.pdf --detailed
 ```
 
 ### Resume Format Options
-- `sensylate`: Brand-consistent design
-- `executive`: High-impact presentation  
 - `ats`: ATS-optimized format
-- `professional`: Balanced styling
-- `minimal`: Clean design
-- `heebo-premium`: Variable font showcase
+- `ats_docx`: DOCX conversion optimized format
 
 ## Implementation Scripts
 

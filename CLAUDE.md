@@ -24,7 +24,7 @@ applyr is a **fully implemented** job market analysis toolkit with:
 - `scripts/job_scraper/aggregate_jobs.py` - Market intelligence generation (420 lines)
 - `applyr/pdf_converter.py` - Professional PDF generation with WeasyPrint (534 lines)
 - `applyr/cli.py` - Complete CLI interface with 11 commands (787 lines)
-- `applyr/styles/` - 6 professional CSS templates with SVG brand integration
+- `applyr/styles/` - 2 professional CSS templates with SVG brand integration
 - `data/outputs/job_descriptions/` - 25+ individual job postings in markdown format
 - `data/raw/advertisements.csv` - Central application tracking database
 - `data/outputs/cover_letters/` - Company-specific personalized cover letters
@@ -162,7 +162,7 @@ applyr is **production-ready** with the following completed components:
 ### 📊 Current Data Scale
 - **25+ job postings** across 23 companies
 - **9+ cover letters** for targeted applications  
-- **6 professional PDF templates**: sensylate, executive, ats, professional, minimal, heebo-premium
+- **2 professional PDF templates**: ats, ats_docx
 - **SVG brand text integration** with centered, 2x-sized "Cole Morton" branding
 - **Market intelligence** on technology demand and company hiring patterns
 
@@ -172,12 +172,8 @@ applyr includes a comprehensive PDF generation system built on WeasyPrint with p
 
 ### PDF Templates Available
 
-1. **sensylate.css**: Brand-consistent design mirroring colemorton.com with perfect color/typography alignment
-2. **executive.css**: High-impact design with modern typography and visual elements 
-3. **ats.css**: ATS-optimized format for applicant tracking systems
-4. **professional.css**: Balanced professional styling for general use
-5. **minimal.css**: Clean, simple formatting for minimalist preference
-6. **heebo-premium.css**: Premium design showcasing variable Heebo font features
+1. **ats.css**: ATS-optimized format for applicant tracking systems
+2. **technical.css**: Technical documentation style (if exists)
 
 ### SVG Brand Text Implementation
 
@@ -201,10 +197,10 @@ applyr resume-formats resume.md
 applyr pdf cover_letters/ --batch
 
 # Custom styling
-applyr pdf resume.md --css-file applyr/styles/executive.css
+applyr pdf resume.md --css-file applyr/styles/ats.css
 
 # Validate PDF quality
-applyr validate-pdf resume_executive.pdf --detailed
+applyr validate-pdf resume_ats.pdf --detailed
 ```
 
 ### PDF Quality Validation
@@ -249,3 +245,273 @@ This approach ensures:
 - **Scalable vector rendering** at any resolution
 - **Brand compliance** with exact typography matching
 - **Cross-platform compatibility** across all PDF viewers
+
+---
+
+## Multi-Platform Job Scraper Architecture
+
+### Supported Job Boards
+
+applyr implements a factory pattern for multi-platform job processing with automatic source detection:
+
+| Job Board | Job ID Format | URL Format | Implementation | Method |
+|-----------|---------------|------------|----------------|--------|
+| **SEEK** | 8-digit numeric (e.g., `87066700`) | `https://www.seek.com.au/job/{job_id}` | `SEEKScraper` | Web scraping |
+| **Employment Hero** | URL-based slugs | `https://jobs.employmenthero.com/AU/job/{slug}` | `EmploymentHeroScraper` | Web scraping |
+| **Indeed** | 16-char hex (e.g., `cc76be5d850127ec`) | `https://au.indeed.com/viewjob?jk={job_id}` | `IndeedManualParser` | Manual text import |
+
+### Architecture Overview
+
+```
+JobScraper (Abstract Base Class)
+├── SEEKScraper              (SEEK job board - web scraping)
+└── EmploymentHeroScraper    (Employment Hero - web scraping)
+
+IndeedManualParser           (Indeed - text file parsing, separate from scrapers)
+
+ScraperFactory
+├── detect_job_source()      (Automatic source detection from ID or URL)
+├── normalize_to_url()       (Convert job IDs to full URLs)
+└── create_scraper()         (Instantiate appropriate scraper/parser)
+
+CLI Integration (add-job command)
+├── Web scraping path        (SEEK, Employment Hero)
+└── Manual import path       (Indeed via IndeedManualParser)
+```
+
+### Indeed Manual Import Implementation
+
+**Status**: Supported via manual text file import (bypasses 403 blocking)
+
+Indeed uses a **manual import** approach instead of web scraping:
+
+#### Why Manual Import?
+Indeed was investigated for web scraping but faced these challenges:
+- **Active Blocking (403 Errors)**: Indeed actively detects and blocks automated scraping attempts
+- Sophisticated fingerprinting detects non-browser clients
+- More aggressive anti-bot measures than SEEK or Employment Hero
+
+#### Official API Limitations
+Indeed's official APIs are not suitable for personal job tracking applications:
+- **No job search/retrieval API**: APIs only support posting jobs TO Indeed (not retrieving listings)
+- **Partner-only access**: Requires business partnership agreements (not available to individuals)
+- **Commercial pricing**: Undisclosed pricing, designed for ATS/recruitment platforms at enterprise scale
+- **ATS focus**: Built for employers and recruitment platforms, not job seekers
+
+#### Available APIs (Partner-Only)
+1. **Job Sync API**: Post jobs TO Indeed (for employers/ATS)
+2. **Disposition Sync API**: Sync candidate status updates
+3. **Indeed Apply**: Integration for application process
+
+All require:
+- Business partnership agreement with Indeed
+- OAuth 2.0 authentication
+- Commercial-scale pricing (not disclosed publicly)
+- Approval as an ATS or recruitment technology partner
+
+#### Manual Import Solution
+
+To support Indeed while remaining ToS compliant and bypassing blocking, applyr implements **manual text file import**:
+
+**Implementation**: `applyr/scraper_indeed_manual.py` - `IndeedManualParser`
+
+**User Workflow**:
+1. User visits Indeed job page in browser
+2. User copies entire page content (Cmd+A, Cmd+C / Ctrl+A, Ctrl+C)
+3. User saves to `data/raw/jobs/{job_id}.txt`
+4. User runs `applyr add-job {job_id}` or `applyr add-job "{url}"`
+5. System detects Indeed, reads text file, parses job data
+
+**Key Methods**:
+```python
+class IndeedManualParser:
+    def extract_job_id(self, url_or_id: str) -> Optional[str]:
+        """Extract job ID from URL or 16-char hex ID"""
+        # Returns 'ind-{job_id}' format
+    
+    def load_job_text(self, job_id: str) -> Optional[str]:
+        """Load text file from data/raw/jobs/{job_id}.txt"""
+    
+    def parse_job_data(self, text_content: str) -> Dict[str, str]:
+        """Parse title, company, description from copied text"""
+        # Uses heuristics to extract job details from plain text
+    
+    def process_job(self, url_or_id: str) -> Optional[Dict]:
+        """Main processing method - combines all steps"""
+```
+
+**Benefits**:
+- ✅ No web scraping (bypasses 403 errors)
+- ✅ ToS compliant (user manually copies content)
+- ✅ Integrates with applyr's job tracking system
+- ✅ No Indeed API required
+
+**Trade-offs**:
+- ⚠️ Requires manual copy/paste step (not fully automated)
+- ⚠️ Text parsing may be less robust than HTML parsing
+
+**File Structure**:
+```
+data/raw/jobs/
+├── .gitignore           # Ignore *.txt files (privacy)
+├── README.md            # Instructions for manual import
+└── {job_id}.txt         # User-created text files (gitignored)
+```
+
+### Terms of Service Compliance System
+
+**Global ToS Warning Implementation**
+
+All scrapers now include ToS compliance warnings:
+
+```python
+# Global tracking in scraper_base.py
+_TOS_WARNINGS_SHOWN: Set[str] = set()
+
+def _show_tos_warning_if_needed(self) -> None:
+    """
+    Display warning once per source per session
+    Warns about ToS restrictions and personal use only
+    """
+```
+
+**Warning Display**:
+```
+⚠️  Indeed Scraping Notice: Web scraping may violate Terms of Service.
+   This tool is for personal use only with respectful rate limiting.
+   For commercial use, please use official APIs where available.
+   See docs/TERMS_OF_SERVICE.md for detailed information.
+```
+
+### Responsible Scraping Practices
+
+All scrapers implement consistent rate limiting and respectful practices:
+
+1. **Rate Limiting**:
+   - Default delay: 2.0 seconds between requests
+   - Configurable via CLI `--delay` flag
+   - Enforced in `scraper_base.py`
+
+2. **Anti-Bot Headers**:
+   - Standard browser User-Agent
+   - Sec-Fetch-* headers for legitimacy
+   - Referer and Origin headers per domain
+
+3. **Error Handling**:
+   - Graceful 403/blocking detection
+   - Logging of all failed requests
+   - No retry bombing on failures
+
+4. **Content Respect**:
+   - Only extracts job description content
+   - Removes ads and promotional content
+   - Does not republish or redistribute
+
+### Factory Pattern Usage
+
+**Automatic Source Detection**:
+```python
+# Supports multiple input formats
+detect_job_source("87066700")                    # → "seek"
+detect_job_source("cc76be5d850127ec")            # → "indeed"
+detect_job_source("https://au.indeed.com/...")   # → "indeed"
+
+# Creates appropriate scraper
+scraper, url = create_scraper("cc76be5d850127ec")
+# Returns: (IndeedScraper instance, normalized URL)
+```
+
+### Testing Strategy
+
+**Comprehensive test coverage** in `tests/`:
+
+1. **`test_scraper_factory.py`**: Factory pattern integration
+   - Source detection for SEEK and Employment Hero
+   - URL normalization
+   - Scraper instantiation
+   - Mixed-source batch processing
+   - Validation that Indeed URLs are rejected
+
+### CLI Integration
+
+**Command**: `applyr add-job`
+
+Supports SEEK and Employment Hero with automatic detection:
+```bash
+# SEEK
+applyr add-job 87066700
+
+# Employment Hero
+applyr add-job https://jobs.employmenthero.com/AU/job/company-position
+
+# Mixed batch
+applyr add-job 87066700,https://jobs.employmenthero.com/AU/job/company-position-xyz
+```
+
+### Documentation
+
+**Terms of Service Documentation**: `docs/TERMS_OF_SERVICE.md`
+
+Comprehensive legal guidance covering:
+- Legal considerations for web scraping
+- ToS summaries for each job board
+- Official API alternatives
+- Responsible use guidelines
+- User responsibilities and warnings
+
+**Key Points**:
+- Personal use only (not commercial)
+- Respect rate limits (2+ second delays)
+- No bulk scraping or database creation
+- No content republishing
+- Official APIs recommended for commercial use
+
+### Extension Points
+
+To add a new job board:
+
+1. **Create scraper class** (`applyr/scraper_newboard.py`):
+   ```python
+   class NewBoardScraper(JobScraper):
+       def get_source_name(self) -> str: ...
+       def extract_job_id(self, url: str) -> Optional[str]: ...
+       def extract_job_metadata(self, soup: BeautifulSoup) -> Dict[str, str]: ...
+       def clean_job_description(self, soup: BeautifulSoup) -> Optional[str]: ...
+   ```
+
+2. **Update factory** (`applyr/scraper_factory.py`):
+   - Add domain/ID pattern detection in `detect_job_source()`
+   - Add URL normalization in `normalize_to_url()`
+   - Add scraper instantiation in `create_scraper()`
+
+3. **Add tests** (`tests/test_newboard_scraper.py`):
+   - Job ID extraction tests
+   - Metadata extraction tests
+   - Factory integration tests
+
+4. **Update documentation**:
+   - Add to README.md supported boards table
+   - Update CLI help text with examples
+   - Add ToS summary to docs/TERMS_OF_SERVICE.md
+
+### Known Limitations
+
+1. **Indeed Not Supported**: Active blocking and API limitations
+   - Indeed returns 403 errors to automated scrapers
+   - No official API for job retrieval (only for posting jobs)
+   - Users must track Indeed jobs manually
+
+2. **DOM Selector Fragility**: Job boards update their HTML regularly
+   - Multiple fallback selectors implemented
+   - Monitor for scraping failures
+   - Update selectors as needed
+
+3. **Rate Limiting**: Balance between speed and respect
+   - 2-second delay is conservative
+   - Can be increased but not decreased
+   - No automatic retry on 403
+
+4. **Personal Use Only**: Not designed for commercial scraping
+   - No bulk harvesting features
+   - Individual job tracking focus
+   - Users responsible for ToS compliance

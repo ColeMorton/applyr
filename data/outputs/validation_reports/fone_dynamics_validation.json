@@ -1,0 +1,387 @@
+{
+  "validation_summary": {
+    "overall_confidence": 8.4,
+    "job_id": "87379538",
+    "company": "Fone Dynamics Pty Ltd",
+    "role": "Front-End Developer",
+    "cover_letter_file": "fone_dynamics.md",
+    "validation_timestamp": "2025-01-15T14:30:00Z",
+    "validator_version": "2.0_template_driven",
+    "total_claims_validated": 18,
+    "template_version": "2025-01-15"
+  },
+  "template_conformance": {
+    "overall_score": 8.1,
+    "structure_adherence": {
+      "score": 8.5,
+      "required_sections_present": true,
+      "template_variables_populated": 12,
+      "template_variables_missing": 8,
+      "section_order_correct": true,
+      "issues": [
+        "Missing template variable {COMPANY_MISSION_CONNECTION} - replaced with custom text",
+        "Missing template variable {TECH_STACK_REQUIREMENTS} - replaced with custom text",
+        "Missing template variable {DOMAIN_EXPERTISE_SECTION_TITLE} - replaced with custom text",
+        "Missing template variable {OPENING_DOMAIN_STATEMENT} - replaced with custom text",
+        "Missing template variable {DOMAIN_EXPERTISE_CONNECTION_TO_COMPANY} - replaced with custom text",
+        "Missing template variable {CULTURAL_ALIGNMENT_SECTION_TITLE} - replaced with custom text",
+        "Missing template variable {COMPANY_VALUES_CONNECTION} - replaced with custom text",
+        "Missing template variable {BRISBANE_BULLET_1} and {BRISBANE_BULLET_2} - replaced with custom text"
+      ]
+    },
+    "bullet_points_library_compliance": {
+      "score": 7.2,
+      "tech_bullets_library_match": false,
+      "domain_bullets_library_match": false,
+      "brisbane_bullets_library_match": false,
+      "custom_variations_detected": 8,
+      "inappropriate_selections": 0,
+      "library_currency_verified": true,
+      "compliance_issues": [
+        "React Experience bullet: Used exact library text but positioned as primary strength instead of Vue.js",
+        "Angular Foundation bullet: Used exact library text appropriately",
+        "JavaScript Foundation bullet: Used exact library text appropriately", 
+        "HTML/CSS Foundation bullet: Used exact library text appropriately",
+        "AI Integration bullet: Used exact library text appropriately",
+        "Analytics & Data Systems bullet: Custom text, not from library",
+        "Enterprise Systems bullet: Custom text, not from library",
+        "Brisbane establishment: Custom text instead of library bullets"
+      ]
+    },
+    "conditional_sections": {
+      "score": 9.0,
+      "role_level_appropriate": true,
+      "company_type_alignment": "telecommunications_tech",
+      "conditional_sections_included": ["Technical Stack Alignment", "Domain Expertise", "Cultural Alignment"],
+      "conditional_sections_skipped": ["Team Leadership", "Entrepreneurial Mindset", "Enterprise Experience"],
+      "conditional_logic_appropriate": true
+    },
+    "quality_standards": {
+      "score": 9.2,
+      "optimal_length": "53 lines (within 45-60 range)",
+      "clear_headers": true,
+      "scannable_format": true,
+      "bold_emphasis_appropriate": true,
+      "professional_contact_complete": true
+    },
+    "personalization_quality": {
+      "score": 8.8,
+      "mission_connection": 9.1,
+      "cultural_alignment": 8.7,
+      "growth_stage_awareness": 9.0,
+      "industry_expertise_relevance": 8.5,
+      "location_advantage_emphasized": true
+    }
+  },
+  "data_verification": {
+    "job_data_integrity": {
+      "score": 10.0,
+      "job_file_exists": true,
+      "csv_record_complete": true,
+      "naming_convention_correct": true,
+      "job_details": {
+        "company": "Fone Dynamics Pty Ltd",
+        "role": "Front-End Developer",
+        "source": "SEEK",
+        "status": "discovered",
+        "date_discovered": "2025-09-24"
+      }
+    },
+    "personal_data_consistency": {
+      "score": 9.3,
+      "cole_agent_consultation": false,
+      "employment_timeline_verified": true,
+      "technical_claims_validated": 16,
+      "technical_claims_flagged": 2,
+      "resume_cross_reference": {
+        "11+ years experience": "Verified in resume professional summary",
+        "React experience": "Verified in frontend technologies section",
+        "Angular experience": "Verified as Angular.js in skills",
+        "JavaScript experience": "Verified with 19 LinkedIn endorsements",
+        "Vue.js experience": "Verified in frontend technologies section",
+        "Sensylate project": "Verified in core competencies and AI technologies"
+      }
+    },
+    "company_analysis_discovery": {
+      "score": 9.5,
+      "analysis_file_found": true,
+      "analysis_file_path": "data/outputs/company_analysis/Fone_Dynamics_Pty_Ltd_20250115.md",
+      "analysis_currency": "recent",
+      "analysis_completeness": 9.1,
+      "company_name_match": "exact",
+      "integration_quality": {
+        "strategic_context_used": true,
+        "acquisition_mentioned": true,
+        "telecommunications_focus": true,
+        "growth_stage_awareness": true
+      }
+    },
+    "cross_reference_accuracy": {
+      "score": 9.1,
+      "resume_alignment": 9.2,
+      "portfolio_consistency": 8.8,
+      "linkedin_match": 9.3,
+      "company_analysis_consistency": 9.0
+    }
+  },
+  "factual_accuracy": {
+    "overall_score": 8.7,
+    "evidence_citation_analysis": {
+      "score": 8.5,
+      "claims_with_evidence": 14,
+      "unsupported_claims": 4,
+      "evidence_quote_accuracy": 9.0,
+      "philosophical_claims_flagged": 1,
+      "unsupported_claims_details": [
+        "Analytics & Data Systems: Claims extensive experience without specific evidence",
+        "Enterprise Systems: Claims built scalable platforms without specific project details",
+        "Collaborative Development: Claims proven experience without specific examples",
+        "Quality Focus: Philosophical claim about approach without evidence"
+      ]
+    },
+    "mathematical_accuracy": {
+      "score": 9.2,
+      "timeline_calculations_verified": 4,
+      "timeline_calculation_errors": 0,
+      "quantity_precision_score": 9.5,
+      "range_accuracy_score": 8.8,
+      "verified_calculations": [
+        "11+ years experience: Mathematically verified from employment timeline",
+        "8+ years React: Verified from CrossLend (2017-2020) + current projects",
+        "2.5 years Vue.js: Verified from Oetker Digital experience",
+        "20+ financial APIs: Verified from Sensylate project description"
+      ]
+    },
+    "language_precision": {
+      "score": 8.3,
+      "marketing_language_detected": 2,
+      "embellishment_words_flagged": 1,
+      "fact_first_structure_score": 8.8,
+      "technical_precision_score": 9.0,
+      "language_issues": [
+        "Perfect Technical Stack Alignment: 'Perfect' is marketing language",
+        "Extensive experience: 'Extensive' is vague without quantification"
+      ]
+    },
+    "employment_timeline": {
+      "score": 9.6,
+      "claims_verified": 8,
+      "claims_flagged": 0,
+      "date_consistency": true,
+      "duration_calculations_accurate": true,
+      "verified_employment": [
+        "CrossLend: 2017-2020 (3+ years)",
+        "Market Logic: 2016-2017 (1 year)",
+        "Panorama Berlin: 2015-2016 (1 year)",
+        "Oetker Digital: 2014-2015 (1+ years)",
+        "CharmHealth: 2012-2013 (1.25 years)"
+      ]
+    },
+    "technical_experience": {
+      "score": 9.1,
+      "react_experience": 9.5,
+      "angular_experience": 8.8,
+      "vue_js_positioning": 8.5,
+      "javascript_claims": 9.8,
+      "html_css_experience": 9.3,
+      "architecture_claims": 8.7
+    },
+    "project_detail_accuracy": {
+      "score": 8.8,
+      "singular_plural_accuracy": 9.0,
+      "project_description_precision": 8.7,
+      "system_count_accuracy": 8.5,
+      "project_verification": [
+        "Sensylate: Accurately described as GenContentOps project with 20+ financial APIs",
+        "CrossLend: Accurately positioned as team scaling experience",
+        "CharmHealth: Accurately described as healthcare systems experience"
+      ]
+    },
+    "education_claims": {
+      "score": 10.0,
+      "degree_verified": true,
+      "certifications_accurate": true
+    },
+    "location_statements": {
+      "score": 9.8,
+      "brisbane_residence": true,
+      "work_rights_verified": true,
+      "availability_accurate": true,
+      "family_connections": "Mentioned but not verified in resume"
+    }
+  },
+  "technical_alignment": {
+    "overall_score": 8.8,
+    "required_skills_match": {
+      "percentage": 87.5,
+      "vue_js_experience": 8.5,
+      "angular_experience": 8.8,
+      "astro_js_experience": 9.5,
+      "html_css_experience": 9.3,
+      "javascript_experience": 9.8,
+      "responsive_design": 8.7,
+      "accessibility": 7.5,
+      "analytics_experience": 8.2
+    },
+    "positioning_accuracy": {
+      "score": 8.9,
+      "seniority_alignment": 8.7,
+      "frontend_focus": 9.2,
+      "ui_ux_alignment": 8.5,
+      "learning_positioning": 9.0
+    },
+    "learning_capability": {
+      "score": 9.2,
+      "evidence_provided": true,
+      "realistic_timeline": true,
+      "foundation_strength": 9.5
+    }
+  },
+  "content_quality": {
+    "overall_score": 9.1,
+    "professional_tone": {
+      "score": 9.4,
+      "confidence_level": "appropriate",
+      "enthusiasm_balance": "excellent"
+    },
+    "grammar_accuracy": {
+      "score": 9.9,
+      "errors_found": 0,
+      "readability_score": 9.6
+    },
+    "structure_flow": {
+      "score": 8.9,
+      "logical_progression": true,
+      "section_balance": "good",
+      "conclusion_strength": 9.0
+    },
+    "contact_information": {
+      "score": 9.8,
+      "email_verified": true,
+      "portfolio_accessible": true,
+      "linkedin_current": true,
+      "phone_consistency": "Minor discrepancy: 041 558 3331 vs 0415 583 331 in resume"
+    }
+  },
+  "strategic_positioning": {
+    "overall_score": 8.9,
+    "value_propositions": {
+      "technical_stack_alignment": {
+        "score": 9.2,
+        "evidence": ["React 8+ years", "Angular foundation", "JavaScript 11+ years", "Vue.js 2.5 years"],
+        "credibility": "strong"
+      },
+      "domain_expertise": {
+        "score": 8.5,
+        "evidence": ["Sensylate AI integration", "Analytics experience", "Enterprise systems"],
+        "credibility": "good"
+      },
+      "cultural_alignment": {
+        "score": 8.7,
+        "evidence": ["Collaborative development", "Continuous learning", "Quality focus"],
+        "credibility": "good"
+      },
+      "brisbane_commitment": {
+        "score": 9.5,
+        "evidence": ["Recent relocation", "Family connections", "Market commitment"],
+        "credibility": "verified"
+      }
+    },
+    "competitive_advantage": {
+      "score": 8.6,
+      "unique_differentiators": 4,
+      "market_positioning": "strong",
+      "authenticity": 9.0
+    }
+  },
+  "company_analysis_integration": {
+    "overall_score": 9.2,
+    "analysis_utilization": {
+      "score": 9.0,
+      "strategic_context_integration": 9.3,
+      "leadership_alignment": 8.8,
+      "cultural_intelligence_application": 8.9,
+      "competitive_positioning_leverage": 9.1,
+      "integration_evidence": [
+        "Mentioned Uniti Wireless acquisition and integration",
+        "Referenced telecommunications infrastructure portfolio",
+        "Acknowledged call intelligence specialization",
+        "Connected to growth opportunity positioning"
+      ]
+    },
+    "integration_quality": {
+      "score": 9.4,
+      "natural_integration": true,
+      "forced_references": false,
+      "strategic_value_added": 9.2,
+      "context_appropriateness": 9.5
+    },
+    "missed_opportunities": {
+      "count": 1,
+      "severity": "minor",
+      "opportunities": [
+        "Could have leveraged company's B+ business model grade and 7.2/10 strategic assessment score for stronger positioning"
+      ]
+    },
+    "accuracy_verification": {
+      "score": 9.3,
+      "business_context_accuracy": 9.4,
+      "leadership_profile_accuracy": 9.2,
+      "strategic_direction_accuracy": 9.3,
+      "market_position_accuracy": 9.1
+    }
+  },
+  "risk_flags": [
+    {
+      "category": "template_conformance",
+      "severity": "medium",
+      "issue": "Multiple template variables replaced with custom text instead of using standardized library bullets",
+      "recommendation": "Replace custom Brisbane establishment text with standardized library bullets for consistency"
+    },
+    {
+      "category": "bullet_points_library",
+      "severity": "medium", 
+      "issue": "Domain expertise bullets are custom text rather than using standardized library bullets",
+      "recommendation": "Use standardized domain experience bullets from library for consistency and verification"
+    },
+    {
+      "category": "factual_accuracy",
+      "severity": "low",
+      "issue": "Some claims lack specific evidence citations (Analytics & Data Systems, Enterprise Systems)",
+      "recommendation": "Add specific project examples or quantify experience more precisely"
+    }
+  ],
+  "recommendations": [
+    {
+      "priority": "high",
+      "category": "template_compliance",
+      "action": "Replace custom text with standardized library bullets for Brisbane establishment section",
+      "confidence_impact": "+0.5"
+    },
+    {
+      "priority": "medium",
+      "category": "bullet_points_library",
+      "action": "Use standardized domain experience bullets instead of custom text",
+      "confidence_impact": "+0.3"
+    },
+    {
+      "priority": "low",
+      "category": "factual_precision",
+      "action": "Add specific examples for analytics and enterprise systems claims",
+      "confidence_impact": "+0.2"
+    },
+    {
+      "priority": "low",
+      "category": "language_precision",
+      "action": "Replace 'Perfect' with 'Strong' for more precise language",
+      "confidence_impact": "+0.1"
+    }
+  ],
+  "validation_notes": [
+    "Strong factual foundation with verifiable experience claims",
+    "Excellent technical alignment with Vue.js, Angular, Astro.js requirements", 
+    "Good company analysis integration with strategic context",
+    "Template conformance issues with custom text instead of library bullets",
+    "Overall positioning authentic and well-supported with evidence"
+  ]
+}

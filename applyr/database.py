@@ -145,8 +145,12 @@ class ApplicationDatabase:
         current_date = datetime.now().strftime('%Y-%m-%d')
         if status == JobStatus.APPLIED:
             df.loc[mask, 'date_applied'] = current_date
+            # Ensure proper dtype for date columns
+            df['date_applied'] = df['date_applied'].astype('object')
         elif status in [JobStatus.REJECTED, JobStatus.CLOSED]:
             df.loc[mask, 'date_closed'] = current_date
+            # Ensure proper dtype for date columns
+            df['date_closed'] = df['date_closed'].astype('object')
         
         if self.save_data(df):
             company = df.loc[mask, 'company_name'].iloc[0]
@@ -170,6 +174,9 @@ class ApplicationDatabase:
                     df.loc[mask, field] = value.value
                 else:
                     df.loc[mask, field] = value
+                    # Ensure proper dtype for string fields
+                    if field in ['notes', 'location']:
+                        df[field] = df[field].astype('object')
         
         if self.save_data(df):
             company = df.loc[mask, 'company_name'].iloc[0]
@@ -335,7 +342,8 @@ class ApplicationDatabase:
                   df['status'].isin([JobStatus.CLOSED.value, JobStatus.REJECTED.value]))
             ]
             
-            # Convert dates back to string format
+            # Convert dates back to string format using .copy() to avoid SettingWithCopyWarning
+            df_cleaned = df_cleaned.copy()
             df_cleaned['date_discovered'] = df_cleaned['date_discovered'].dt.strftime('%Y-%m-%d')
             
             if self.save_data(df_cleaned):

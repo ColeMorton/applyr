@@ -5,7 +5,7 @@ import re
 import time
 from abc import ABC, abstractmethod
 from pathlib import Path
-from typing import Dict, Optional
+from typing import Dict, Optional, Set
 
 import requests
 from bs4 import BeautifulSoup
@@ -14,6 +14,9 @@ from rich.console import Console
 from .database import ApplicationDatabase, JobStatus, Priority
 
 logger = logging.getLogger(__name__)
+
+# Global set to track which sources have shown ToS warnings
+_TOS_WARNINGS_SHOWN: Set[str] = set()
 
 
 class JobScraper(ABC):
@@ -30,6 +33,7 @@ class JobScraper(ABC):
         self.database = database
         self.session = requests.Session()
         self._setup_session()
+        self._show_tos_warning_if_needed()
 
     def _setup_session(self) -> None:
         """Configure session with headers. Override in subclass for custom headers."""
@@ -40,6 +44,27 @@ class JobScraper(ABC):
             'Accept-Encoding': 'gzip, deflate, br',
             'Cache-Control': 'max-age=0',
         })
+    
+    def _show_tos_warning_if_needed(self) -> None:
+        """Display Terms of Service warning for this scraper source (once per session).
+        
+        Shows a warning about web scraping restrictions and responsible use.
+        Only displays once per source per session to avoid spam.
+        """
+        source_name = self.get_source_name()
+        
+        # Check if we've already shown warning for this source
+        if source_name in _TOS_WARNINGS_SHOWN:
+            return
+        
+        # Mark as shown
+        _TOS_WARNINGS_SHOWN.add(source_name)
+        
+        # Display warning (will only appear once per source per run)
+        logger.warning(f"⚠️  {source_name} Scraping Notice: Web scraping may violate Terms of Service.")
+        logger.warning(f"   This tool is for personal use only with respectful rate limiting.")
+        logger.warning(f"   For commercial use, please use official APIs where available.")
+        logger.warning(f"   See docs/TERMS_OF_SERVICE.md for detailed information.")
 
     @abstractmethod
     def extract_job_id(self, url: str) -> Optional[str]:

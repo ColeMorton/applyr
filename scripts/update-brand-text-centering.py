@@ -11,11 +11,6 @@ from typing import Dict, List, Tuple
 
 # CSS template files to update
 TEMPLATE_FILES = [
-    'applyr/styles/executive.css',
-    'applyr/styles/sensylate.css', 
-    'applyr/styles/heebo-premium.css',
-    'applyr/styles/professional.css',
-    'applyr/styles/minimal.css',
     'applyr/styles/ats.css'
 ]
 

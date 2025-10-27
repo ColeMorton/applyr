@@ -33,6 +33,23 @@ class TestDetectJobSource:
         url2 = "https://jobs.employmenthero.com/job/test-position-slug"
         assert detect_job_source(url2) == "employment_hero"
 
+    def test_detect_indeed_id(self):
+        """Test Indeed 16-char hex ID detection"""
+        assert detect_job_source("cc76be5d850127ec") == "indeed"
+        assert detect_job_source("a1b2c3d4e5f6a7b8") == "indeed"
+        assert detect_job_source("0123456789abcdef") == "indeed"
+
+    def test_detect_indeed_url(self):
+        """Test Indeed URL detection"""
+        url1 = "https://au.indeed.com/viewjob?jk=cc76be5d850127ec"
+        assert detect_job_source(url1) == "indeed"
+        
+        url2 = "https://au.indeed.com/viewjob?jk=cc76be5d850127ec&from=shareddesktop_copy"
+        assert detect_job_source(url2) == "indeed"
+        
+        url3 = "https://indeed.com/viewjob?jk=a1b2c3d4e5f6a7b8"
+        assert detect_job_source(url3) == "indeed"
+
     def test_detect_invalid_id_length(self):
         """Test invalid ID length raises ValueError"""
         with pytest.raises(ValueError, match="Could not determine"):
@@ -50,7 +67,7 @@ class TestDetectJobSource:
             detect_job_source("https://linkedin.com/job/12345")
         
         with pytest.raises(ValueError, match="Unsupported job board domain"):
-            detect_job_source("https://indeed.com/job/abc123")
+            detect_job_source("https://glassdoor.com/job/abc123")
 
     def test_detect_malformed_url(self):
         """Test malformed URL raises ValueError"""
@@ -88,6 +105,21 @@ class TestNormalizeToUrl:
         url = "https://jobs.employmenthero.com/AU/job/test-slug"
         result = normalize_to_url(url, "employment_hero")
         assert result == url
+
+    def test_normalize_indeed_id(self):
+        """Test Indeed ID normalization to URL"""
+        result = normalize_to_url("cc76be5d850127ec", "indeed")
+        assert result == "https://au.indeed.com/viewjob?jk=cc76be5d850127ec"
+
+    def test_normalize_indeed_url_passthrough(self):
+        """Test Indeed URL passes through unchanged"""
+        url = "https://au.indeed.com/viewjob?jk=cc76be5d850127ec"
+        result = normalize_to_url(url, "indeed")
+        assert result == url
+        
+        url2 = "https://au.indeed.com/viewjob?jk=cc76be5d850127ec&from=shareddesktop_copy"
+        result2 = normalize_to_url(url2, "indeed")
+        assert result2 == url2
 
     def test_normalize_invalid_source(self):
         """Test normalization with invalid source raises ValueError"""

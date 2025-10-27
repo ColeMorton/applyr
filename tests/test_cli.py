@@ -24,7 +24,7 @@ class TestAddJobCommand:
             status=200
         )
         
-        with runner.isolated_filesystem(temp=temp_dir):
+        with runner.isolated_filesystem():
             result = runner.invoke(app, ["add-job", job_id])
         
         assert result.exit_code == 0
@@ -36,7 +36,7 @@ class TestAddJobCommand:
         url = f"https://www.seek.com.au/job/{job_id}"
         mock_responses.add(responses.GET, url, body=sample_seek_html, status=200)
         
-        with runner.isolated_filesystem(temp=temp_dir):
+        with runner.isolated_filesystem():
             result = runner.invoke(app, ["add-job", url])
         
         assert result.exit_code == 0
@@ -47,7 +47,7 @@ class TestAddJobCommand:
         url = "https://jobs.employmenthero.com/AU/job/test-job-slug"
         mock_responses.add(responses.GET, url, body=sample_eh_html, status=200)
         
-        with runner.isolated_filesystem(temp=temp_dir):
+        with runner.isolated_filesystem():
             result = runner.invoke(app, ["add-job", url])
         
         assert result.exit_code == 0
@@ -63,7 +63,7 @@ class TestAddJobCommand:
             status=200
         )
         
-        with runner.isolated_filesystem(temp=temp_dir):
+        with runner.isolated_filesystem():
             result = runner.invoke(app, ["add-job", job_id, "--priority", "high"])
         
         assert result.exit_code == 0
@@ -79,7 +79,7 @@ class TestAddJobCommand:
             status=200
         )
         
-        with runner.isolated_filesystem(temp=temp_dir):
+        with runner.isolated_filesystem():
             result = runner.invoke(app, ["add-job", job_id, "--notes", notes_text])
         
         assert result.exit_code == 0
@@ -94,7 +94,7 @@ class TestAddJobCommand:
             status=200
         )
         
-        with runner.isolated_filesystem(temp=temp_dir):
+        with runner.isolated_filesystem():
             result = runner.invoke(
                 app,
                 ["add-job", job_id, "--priority", "high", "--notes", "Test note"]
@@ -165,7 +165,7 @@ class TestAddJobCommand:
             status=200
         )
         
-        with runner.isolated_filesystem(temp=temp_dir):
+        with runner.isolated_filesystem():
             result = runner.invoke(app, ["add-job", f"{seek_id},{eh_url}"])
         
         # Should process both jobs - may have exit code 0 or report mixed results
@@ -189,7 +189,7 @@ class TestAddJobCommand:
             status=200
         )
         
-        with runner.isolated_filesystem(temp=temp_dir):
+        with runner.isolated_filesystem():
             result = runner.invoke(app, ["add-job", f"{job_id1},{job_id2}"])
         
         assert "Scraping" in result.output or "Processing" in result.output
@@ -208,7 +208,7 @@ class TestAddJobCommandErrorScenarios:
             status=500
         )
         
-        with runner.isolated_filesystem(temp=temp_dir):
+        with runner.isolated_filesystem():
             result = runner.invoke(app, ["add-job", job_id])
         
         # Should handle error gracefully
@@ -231,7 +231,7 @@ class TestAddJobCommandErrorScenarios:
             status=200
         )
         
-        with runner.isolated_filesystem(temp=temp_dir):
+        with runner.isolated_filesystem():
             # Add job first time
             result1 = runner.invoke(app, ["add-job", job_id])
             
@@ -306,7 +306,7 @@ class TestAddJobCommandIntegration:
             status=200
         )
         
-        with runner.isolated_filesystem(temp=temp_dir):
+        with runner.isolated_filesystem():
             output_dir = temp_dir / "job_descriptions"
             output_dir.mkdir(parents=True, exist_ok=True)
             
@@ -320,7 +320,7 @@ class TestAddJobCommandIntegration:
         url = "https://jobs.employmenthero.com/AU/job/test-slug"
         mock_responses.add(responses.GET, url, body=sample_eh_html, status=200)
         
-        with runner.isolated_filesystem(temp=temp_dir):
+        with runner.isolated_filesystem():
             result = runner.invoke(app, ["add-job", url])
             
             # Verify output contains eh- prefixed job ID

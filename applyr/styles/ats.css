@@ -446,6 +446,12 @@ h2, h3 {
     break-inside: avoid;
 }
 
+/* Article Protection - Prevent splitting article content across pages */
+article {
+    page-break-inside: avoid;
+    break-inside: avoid;
+}
+
 /* Ensure compatibility with older PDF readers and ATS systems */
 @media print {
     * {

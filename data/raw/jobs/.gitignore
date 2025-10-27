@@ -1,0 +1,7 @@
+# Ignore all manually copied job text files
+*.txt
+
+# Keep this .gitignore and README.md
+!.gitignore
+!README.md
+

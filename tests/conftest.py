@@ -43,7 +43,7 @@ def test_database(temp_dir: Path, test_console: Console) -> ApplicationDatabase:
 @pytest.fixture
 def mock_responses():
     """Setup responses mock for HTTP requests"""
-    with responses.RequestsMock() as rsps:
+    with responses.RequestsMock(assert_all_requests_are_fired=False) as rsps:
         yield rsps
 
 

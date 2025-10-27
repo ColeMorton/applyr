@@ -37,11 +37,6 @@ def main():
     
     # CSS templates to test
     css_templates = [
-        "executive.css",
-        "sensylate.css", 
-        "heebo-premium.css",
-        "professional.css",
-        "minimal.css",
         "ats.css"
     ]
     

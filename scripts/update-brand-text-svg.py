@@ -37,12 +37,8 @@ NEW_BRAND_TEXT_CSS = f"""/* Brand Typography - SVG-based for perfect consistency
     vertical-align: middle;
 }}"""
 
-# CSS templates to update (excluding executive.css which is already updated)
+# CSS templates to update
 templates = [
-    'applyr/styles/sensylate.css',
-    'applyr/styles/heebo-premium.css', 
-    'applyr/styles/professional.css',
-    'applyr/styles/minimal.css',
     'applyr/styles/ats.css'
 ]
 

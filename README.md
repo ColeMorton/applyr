@@ -17,12 +17,14 @@ applyr transforms job hunting from guesswork into data-driven strategy by:
 ## 📋 Current Features
 
 ### Job Market Data Collection
-- **Multi-platform support**: SEEK and Employment Hero job boards
+- **Multi-platform support**: SEEK, Employment Hero, and Indeed job boards
 - **25+ job postings analyzed** from SEEK across 23 Australian companies
-- **Automated scraping** with anti-bot measures and respectful rate limiting
+- **Automated scraping** with anti-bot measures and respectful rate limiting (SEEK, Employment Hero)
+- **Manual import support** for Indeed jobs via text file processing (bypasses 403 blocking)
 - **Structured data extraction** with metadata preservation and timestamps
 - **Batch processing** capabilities for efficient data collection
-- **Flexible input**: Accepts SEEK job IDs (8 digits) or full URLs from supported platforms
+- **Flexible input**: Accepts SEEK job IDs (8 digits), Indeed hex IDs (16 chars), or full URLs
+- **ToS compliance**: Built-in warnings and responsible scraping practices (personal use only)
 
 ### Market Intelligence & Analytics
 - **Technology trend analysis**: Identifies most in-demand skills (React, TypeScript, Node.js, AWS)
@@ -46,7 +48,7 @@ applyr transforms job hunting from guesswork into data-driven strategy by:
 - **Testing utilities**: Comprehensive test scripts for validation
 
 ### Professional PDF Export System
-- **6 custom CSS templates**: sensylate (brand-consistent), executive (high-impact), ats (applicant tracking system optimized), professional (balanced), minimal (clean), heebo-premium (variable font showcase)
+- **2 custom CSS templates**: ats (applicant tracking system optimized), ats_docx (DOCX conversion optimized)
 - **SVG brand text integration** with centered "Cole Morton" branding (2x size, perfect font consistency)
 - **WeasyPrint engine** for professional HTML/CSS to PDF conversion with font support
 - **Batch processing capabilities** for entire directories with progress tracking
@@ -112,7 +114,7 @@ applyr pdf README.md
 applyr resume-formats data/raw/resume.md
 
 # Convert with specific template
-applyr pdf resume.md --css-file applyr/styles/executive.css
+applyr pdf resume.md --style ats
 
 # Batch convert entire directory
 applyr pdf data/outputs/cover_letters --batch --output output_pdfs/
@@ -217,14 +219,39 @@ The applyr system maintains strict data integrity through its dual storage archi
 
 applyr supports multiple job boards with automatic source detection:
 
-| Job Board | Input Format | Example |
-|-----------|--------------|---------|
-| **SEEK** | 8-digit job ID or full URL | `87066700` or `https://www.seek.com.au/job/87066700` |
-| **Employment Hero** | Full URL | `https://jobs.employmenthero.com/AU/job/company-position-id` |
+| Job Board | Input Format | Import Method | Example |
+|-----------|--------------|---------------|---------|
+| **SEEK** | 8-digit job ID or full URL | Automatic web scraping | `87066700` or `https://www.seek.com.au/job/87066700` |
+| **Employment Hero** | Full URL | Automatic web scraping | `https://jobs.employmenthero.com/AU/job/company-position-id` |
+| **Indeed** | 16-char hex job ID or full URL | Manual import from text file | `cc76be5d850127ec` or `https://au.indeed.com/viewjob?jk=cc76be5d850127ec` |
 
 **Job ID Format:**
 - SEEK: 8-digit numeric ID (e.g., `87066700`)
 - Employment Hero: Prefixed slug format (e.g., `eh-axcelerate-senior-software-engineer-a5y43`)
+- Indeed: 16-character hexadecimal ID with `ind-` prefix (e.g., `ind-cc76be5d850127ec`)
+
+**Indeed Manual Import:**
+
+Indeed actively blocks web scraping (403 Forbidden errors). To add Indeed jobs, use manual import:
+
+1. Visit the Indeed job page in your browser
+2. Copy the entire page content (`Cmd+A, Cmd+C` on Mac or `Ctrl+A, Ctrl+C` on Windows/Linux)
+3. Save to `data/raw/jobs/{job_id}.txt` (e.g., `data/raw/jobs/cc76be5d850127ec.txt`)
+4. Run `applyr add-job {job_id}` or `applyr add-job "{url}"`
+
+Example workflow:
+```bash
+# 1. Visit https://au.indeed.com/viewjob?jk=cc76be5d850127ec in browser
+# 2. Press Cmd+A (Mac) or Ctrl+A (Windows/Linux) to select all
+# 3. Press Cmd+C (Mac) or Ctrl+C (Windows/Linux) to copy
+# 4. Save to data/raw/jobs/cc76be5d850127ec.txt
+# 5. Run command:
+applyr add-job cc76be5d850127ec
+# or
+applyr add-job "https://au.indeed.com/viewjob?jk=cc76be5d850127ec"
+```
+
+The system will parse the text file and extract job title, company, and description automatically.
 
 ### Job Market Scraping
 
@@ -279,11 +306,11 @@ python scripts/job_scraper/aggregate_jobs.py --input-dir custom_jobs --output-fi
 
 **Resume Format Generation:**
 ```bash
-# Generate all 6 professional resume formats
+# Generate all professional resume formats
 applyr resume-formats data/raw/resume.md
 
 # Generate specific formats only
-applyr resume-formats resume.md --formats "sensylate,executive,ats"
+applyr resume-formats resume.md --formats "ats"
 
 # Custom output directory
 applyr resume-formats resume.md --output-dir pdfs/resumes/
@@ -294,14 +321,11 @@ applyr resume-formats resume.md --output-dir pdfs/resumes/
 # Basic conversion with automatic template
 applyr pdf data/outputs/cover_letters/squiz.md
 
-# Brand-consistent styling (matches colemorton.com)
-applyr pdf cover_letter.md --css-file applyr/styles/sensylate.css
-
-# Executive presentation style
-applyr pdf resume.md --css-file applyr/styles/executive.css
+# ATS-optimized styling
+applyr pdf cover_letter.md --style ats
 
 # ATS-optimized format
-applyr pdf resume.md --css-file applyr/styles/ats.css
+applyr pdf resume.md --style ats
 
 # Custom output location
 applyr pdf README.md --output docs/README.pdf
@@ -312,20 +336,20 @@ applyr pdf README.md --output docs/README.pdf
 # Convert all cover letters with progress tracking
 applyr pdf data/outputs/cover_letters --batch
 
-# Convert job descriptions with minimal styling
-applyr pdf data/outputs/job_descriptions --batch --css-file applyr/styles/minimal.css
+# Convert job descriptions with ATS styling
+applyr pdf data/outputs/job_descriptions --batch --style ats
 
 # Custom output directory with specific template
-applyr pdf data/outputs/cover_letters --batch --output pdfs/cover_letters/ --css-file applyr/styles/professional.css
+applyr pdf data/outputs/cover_letters --batch --output pdfs/cover_letters/ --style ats
 ```
 
 **Quality Validation:**
 ```bash
 # Basic PDF validation
-applyr validate-pdf resume_executive.pdf
+applyr validate-pdf resume_ats.pdf
 
 # Detailed analysis with optimization recommendations
-applyr validate-pdf resume_sensylate.pdf --detailed
+applyr validate-pdf resume_ats.pdf --detailed
 ```
 
 ### Application Tracking
@@ -515,12 +539,8 @@ applyr/
 │   ├── batch.py                # Batch processing
 │   ├── aggregator.py           # Market intelligence
 │   └── styles/                 # Professional CSS templates with SVG brand integration
-│       ├── sensylate.css       # Brand-consistent (matches colemorton.com)
-│       ├── executive.css       # High-impact executive presentation
 │       ├── ats.css             # ATS-optimized format
-│       ├── professional.css    # Balanced professional styling
-│       ├── minimal.css         # Clean minimalist design
-│       └── heebo-premium.css   # Premium variable font showcase
+│       └── technical.css       # Technical documentation style (if exists)
 ├── tests/                      # Test suite
 │   ├── __init__.py
 │   ├── test_database.py        # Database operation tests
@@ -572,8 +592,61 @@ python scripts/job_scraper/test_single_job.py
 python scripts/job_scraper/test_aggregator.py
 ```
 
+## ⚠️ Terms of Service & Legal Compliance
+
+**Important**: Web scraping may violate website Terms of Service. applyr is designed for **personal, non-commercial use only** with respectful scraping practices:
+
+### Responsible Use Guidelines
+- ✅ **Personal job tracking**: Individual applications and career research
+- ✅ **Respectful rate limiting**: 2+ second delays between requests (configurable)
+- ✅ **Minimal impact**: Small-scale scraping for personal applications
+- ✅ **Transparency**: Standard headers, no circumvention of security
+- ❌ **No bulk scraping**: Not for creating job databases or commercial use
+- ❌ **No republishing**: Do not redistribute or sell scraped content
+- ❌ **No circumvention**: Respect 403/blocking responses
+
+### Legal Considerations
+All supported job boards have Terms of Service that may restrict automated scraping:
+- **SEEK**: Restricts automated access; offers partner APIs
+- **Employment Hero**: Likely restricts automated access
+- **Indeed**: Prohibits automated scraping (see manual import method below)
+
+**You use this tool at your own risk.** See `docs/TERMS_OF_SERVICE.md` for detailed legal information, ToS summaries, and official API alternatives.
+
+### Indeed Manual Import Support
+
+Indeed actively blocks web scraping attempts (403 errors) and explicitly prohibits automated scraping in their Terms of Service. applyr supports Indeed via **manual import** instead:
+
+**How it works:**
+1. **No automated scraping**: User manually copies job page content in their browser
+2. **Text file processing**: System parses the copied text to extract job data
+3. **ToS compliant**: Manual copying by the user is not prohibited
+4. **Bypasses blocking**: No HTTP requests to Indeed, so no 403 errors
+
+**Why official API isn't used:**
+- **No job search/retrieval API**: APIs only support posting jobs TO Indeed (not retrieving listings)
+- **Partner-only access**: Requires business partnership agreements (not available to individuals)
+- **Commercial pricing**: Undisclosed pricing, designed for ATS/recruitment platforms at enterprise scale
+- **ATS focus**: Built for employers and recruitment platforms, not job seekers
+
+**Trade-offs:**
+- ✅ **Pros**: ToS compliant, no blocking, integrates with applyr's job tracking
+- ⚠️ **Cons**: Requires manual copy/paste step (not fully automated)
+
+See the "Indeed Manual Import" section above for detailed usage instructions.
+
+### Built-in Protections
+- **ToS warnings**: Displayed on first use per source
+- **Rate limiting**: Enforced delays between requests
+- **Error handling**: Graceful handling of blocking/403 responses
+- **Logging**: Transparent activity tracking
+
+For commercial use or large-scale operations, contact job boards about official API access.
+
+---
+
 ### Extension Points
-- **Additional Job Boards**: Extend scraping to Indeed, LinkedIn, Stack Overflow Jobs
+- **Additional Job Boards**: Extend scraping to LinkedIn, Stack Overflow Jobs (with ToS compliance)
 - **Enhanced Analytics**: Machine learning for salary prediction, skill matching
 - **API Integration**: RESTful API for programmatic access
 - **Real-time Alerts**: Notification system for new matching positions
@@ -581,11 +654,6 @@ python scripts/job_scraper/test_aggregator.py
 - **Additional PDF Templates**: Industry-specific templates (tech, finance, creative)
 - **Interactive PDFs**: Form fields and interactive elements for digital applications
 - **Multi-language Support**: PDF generation with international character sets
-
-### Current Limitations
-- **Single Source**: Currently SEEK-only (Australian market focus)
-- **Manual URL Management**: Job URLs added manually to `job_urls.txt`
-- **Batch Processing**: No real-time processing capabilities
 
 ## 🎯 Application Workflow
 
@@ -631,7 +699,7 @@ applyr stats
 ### 5. Continuous Optimization
 ```bash
 # Export reports to PDF for review meetings
-applyr pdf README.md --css-file applyr/styles/professional.css
+applyr pdf README.md --style ats
 
 # Clean up old applications periodically
 applyr cleanup --days 30
@@ -648,14 +716,14 @@ applyr provides 11 comprehensive commands for complete job search workflow manag
 | `scrape` | Scrape individual or batch job URLs | `applyr scrape --url https://seek.com.au/job/87066700` |
 | `batch` | Process multiple jobs from file | `applyr batch --urls-file job_urls.txt --delay 3.0` |
 | `aggregate` | Generate market intelligence reports | `applyr aggregate --input-dir job_descriptions/` |
-| `add-job` | Add job by ID or URL (SEEK/Employment Hero) | `applyr add-job 87066700` or `applyr add-job https://jobs.employmenthero.com/AU/job/company-position-id` |
+| `add-job` | Add job by ID or URL (SEEK/Employment Hero) | `applyr add-job 87066700` or `applyr add-job https://jobs.employmenthero.com/...` |
 
 ### PDF Generation Commands
 
 | Command | Purpose | Example |
 |---------|---------|----------|
-| `pdf` | Convert markdown to PDF with templates | `applyr pdf resume.md --css-file styles/executive.css` |
-| `resume-formats` | Generate all 6 resume formats | `applyr resume-formats resume.md --formats "sensylate,executive,ats"` |
+| `pdf` | Convert markdown to PDF with templates | `applyr pdf resume.md --style ats` |
+| `resume-formats` | Generate resume formats | `applyr resume-formats resume.md --formats "ats"` |
 | `validate-pdf` | Analyze PDF quality and optimization | `applyr validate-pdf resume.pdf --detailed` |
 
 ### Application Management Commands
@@ -672,12 +740,8 @@ applyr provides 11 comprehensive commands for complete job search workflow manag
 
 The `resume-formats` command supports these professional templates:
 
-- **sensylate**: Brand-consistent design matching colemorton.com aesthetic
-- **executive**: High-impact presentation with modern typography 
 - **ats**: Applicant Tracking System optimized format
-- **professional**: Balanced professional styling for general use
-- **minimal**: Clean, simple formatting for minimalist preference  
-- **heebo-premium**: Premium design showcasing variable font features
+- **ats_docx**: DOCX conversion optimized format
 
 ### Quality Validation Features
 

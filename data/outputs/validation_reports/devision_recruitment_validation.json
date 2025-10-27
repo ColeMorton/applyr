@@ -1,0 +1,318 @@
+{
+  "validation_summary": {
+    "overall_confidence": 4.2,
+    "job_id": "87929110",
+    "company": "DeVision Recruitment",
+    "role": "Front-End Engineer",
+    "cover_letter_file": "devision_recruitment.md",
+    "validation_timestamp": "2025-01-27T10:30:00Z",
+    "validator_version": "2.0_template_driven",
+    "total_claims_validated": 12,
+    "template_version": "2025-09-25",
+    "recruitment_mode": true
+  },
+  "template_conformance": {
+    "overall_score": 3.5,
+    "structure_adherence": {
+      "score": 4.0,
+      "required_sections_present": false,
+      "template_variables_populated": 8,
+      "template_variables_missing": 12,
+      "section_order_correct": false,
+      "critical_issues": [
+        "Missing required template sections: Perfect Technical Stack Alignment, Professional Approach & Industry Alignment",
+        "Incorrect section structure - uses custom headers instead of template variables",
+        "Missing template variable population for {TECH_BULLET_*}, {DOMAIN_BULLET_*}, {BRISBANE_BULLET_*}"
+      ]
+    },
+    "bullet_points_library_compliance": {
+      "score": 1.2,
+      "tech_bullets_library_match": false,
+      "domain_bullets_library_match": false,
+      "brisbane_bullets_library_match": false,
+      "custom_variations_detected": 4,
+      "inappropriate_selections": 0,
+      "library_currency_verified": false,
+      "critical_violations": [
+        "All technical bullets are custom-written instead of using Reusable Bullet Points Library",
+        "No {TECH_BULLET_1-4} variables used - completely custom content",
+        "No {DOMAIN_BULLET_1-3} variables used - custom domain experience",
+        "No {BRISBANE_BULLET_1-2} variables used - custom location content",
+        "Complete disregard for template standardization requirements"
+      ]
+    },
+    "conditional_sections": {
+      "score": 6.0,
+      "role_level_appropriate": true,
+      "company_type_alignment": "recruitment_agency",
+      "conditional_sections_included": ["Professional Approach & Industry Alignment"],
+      "conditional_sections_skipped": ["Perfect Technical Stack Alignment"],
+      "issues": [
+        "Professional Approach section present but not using template structure",
+        "Missing proper template variable population"
+      ]
+    },
+    "quality_standards": {
+      "score": 7.0,
+      "optimal_length": "42 lines (within 45-60 range)",
+      "clear_headers": true,
+      "scannable_format": true,
+      "bold_emphasis_appropriate": true,
+      "professional_contact_complete": true
+    },
+    "personalization_quality": {
+      "score": 6.5,
+      "mission_connection": 7.0,
+      "cultural_alignment": 6.0,
+      "growth_stage_awareness": 6.0,
+      "industry_expertise_relevance": 7.0,
+      "location_advantage_emphasized": true
+    }
+  },
+  "data_verification": {
+    "job_data_integrity": {
+      "score": 10.0,
+      "job_file_exists": true,
+      "csv_record_complete": true,
+      "naming_convention_correct": true
+    },
+    "personal_data_consistency": {
+      "score": 8.8,
+      "cole_agent_consultation": true,
+      "employment_timeline_verified": true,
+      "technical_claims_validated": 8,
+      "technical_claims_flagged": 0
+    },
+    "company_analysis_discovery": {
+      "score": 10.0,
+      "analysis_file_found": false,
+      "analysis_file_path": null,
+      "analysis_currency": "n/a",
+      "analysis_completeness": "n/a",
+      "company_name_match": "recruitment_agency_mode",
+      "note": "Correctly skipped company analysis search for recruitment agency"
+    },
+    "cross_reference_accuracy": {
+      "score": 8.5,
+      "resume_alignment": 9.0,
+      "portfolio_consistency": 8.0,
+      "linkedin_match": 8.5,
+      "company_analysis_consistency": "n/a"
+    }
+  },
+  "factual_accuracy": {
+    "overall_score": 8.5,
+    "evidence_citation_analysis": {
+      "score": 8.0,
+      "claims_with_evidence": 8,
+      "unsupported_claims": 1,
+      "evidence_quote_accuracy": 8.5,
+      "philosophical_claims_flagged": 0
+    },
+    "mathematical_accuracy": {
+      "score": 9.0,
+      "timeline_calculations_verified": 4,
+      "timeline_calculation_errors": 0,
+      "quantity_precision_score": 8.5,
+      "range_accuracy_score": 9.5
+    },
+    "language_precision": {
+      "score": 7.5,
+      "marketing_language_detected": 2,
+      "embellishment_words_flagged": 1,
+      "fact_first_structure_score": 8.0,
+      "technical_precision_score": 8.5
+    },
+    "employment_timeline": {
+      "score": 9.0,
+      "claims_verified": 6,
+      "claims_flagged": 0,
+      "date_consistency": true,
+      "duration_calculations_accurate": true
+    },
+    "technical_experience": {
+      "score": 8.8,
+      "react_experience": 9.0,
+      "typescript_experience": 8.5,
+      "legacy_code_experience": 9.0,
+      "aws_experience": 8.0
+    },
+    "project_detail_accuracy": {
+      "score": 8.5,
+      "singular_plural_accuracy": 9.0,
+      "project_description_precision": 8.0,
+      "system_count_accuracy": 8.5
+    },
+    "education_claims": {
+      "score": 10.0,
+      "degree_verified": true,
+      "certifications_accurate": true
+    },
+    "location_statements": {
+      "score": 9.5,
+      "brisbane_residence": true,
+      "work_rights_verified": true,
+      "availability_accurate": true
+    }
+  },
+  "technical_alignment": {
+    "overall_score": 8.7,
+    "required_skills_match": {
+      "percentage": 90.0,
+      "react_experience": 9.5,
+      "legacy_code_handling": 9.0,
+      "aws_cloud_experience": 7.5,
+      "typescript_experience": 9.0,
+      "frontend_experience": 9.5
+    },
+    "positioning_accuracy": {
+      "score": 8.5,
+      "seniority_alignment": 8.0,
+      "leadership_claims": 8.5,
+      "gap_acknowledgment": 9.0
+    },
+    "learning_capability": {
+      "score": 8.5,
+      "evidence_provided": true,
+      "realistic_timeline": true
+    }
+  },
+  "content_quality": {
+    "overall_score": 8.0,
+    "professional_tone": {
+      "score": 8.5,
+      "confidence_level": "appropriate",
+      "enthusiasm_balance": "good"
+    },
+    "grammar_accuracy": {
+      "score": 9.5,
+      "errors_found": 0,
+      "readability_score": 8.5
+    },
+    "structure_flow": {
+      "score": 7.0,
+      "logical_progression": true,
+      "section_balance": "good",
+      "conclusion_strength": 8.0
+    },
+    "contact_information": {
+      "score": 10.0,
+      "email_verified": true,
+      "portfolio_accessible": true,
+      "linkedin_current": true
+    }
+  },
+  "strategic_positioning": {
+    "overall_score": 7.5,
+    "value_propositions": {
+      "technical_excellence": {
+        "score": 8.5,
+        "evidence": ["11+ years experience", "Multiple company references"],
+        "credibility": "strong"
+      },
+      "professional_adaptability": {
+        "score": 8.0,
+        "evidence": ["Cross-industry experience", "International teams"],
+        "credibility": "good"
+      },
+      "brisbane_commitment": {
+        "score": 9.5,
+        "evidence": ["Family relocation", "Work rights"],
+        "credibility": "verified"
+      },
+      "legacy_code_expertise": {
+        "score": 9.0,
+        "evidence": ["AngularJS to React transitions", ".NET modernization"],
+        "credibility": "strong"
+      }
+    },
+    "competitive_advantage": {
+      "score": 7.8,
+      "unique_differentiators": 3,
+      "market_positioning": "good",
+      "authenticity": 8.5
+    }
+  },
+  "company_analysis_integration": {
+    "overall_score": 10.0,
+    "analysis_utilization": {
+      "score": 10.0,
+      "strategic_context_integration": "n/a",
+      "leadership_alignment": "n/a",
+      "cultural_intelligence_application": "n/a",
+      "competitive_positioning_leverage": "n/a",
+      "note": "Correctly skipped company analysis for recruitment agency mode"
+    },
+    "integration_quality": {
+      "score": 10.0,
+      "natural_integration": true,
+      "forced_references": false,
+      "strategic_value_added": "n/a"
+    },
+    "missed_opportunities": {
+      "count": 0,
+      "severity": "none",
+      "opportunities": []
+    },
+    "accuracy_verification": {
+      "score": 10.0,
+      "business_context_accuracy": "n/a",
+      "leadership_profile_accuracy": "n/a",
+      "strategic_direction_accuracy": "n/a"
+    }
+  },
+  "risk_flags": [
+    {
+      "category": "template_conformance",
+      "severity": "critical",
+      "issue": "Complete disregard for template structure and bullet points library compliance",
+      "recommendation": "Rewrite using TEMPLATE.md structure with Reusable Bullet Points Library"
+    },
+    {
+      "category": "bullet_points_library",
+      "severity": "critical",
+      "issue": "All technical bullets are custom-written instead of using standardized library",
+      "recommendation": "Replace all custom bullets with exact library text from cover_letter.md"
+    },
+    {
+      "category": "template_variables",
+      "severity": "high",
+      "issue": "Missing required template variables {TECH_BULLET_*}, {DOMAIN_BULLET_*}, {BRISBANE_BULLET_*}",
+      "recommendation": "Implement proper template variable population system"
+    }
+  ],
+  "recommendations": [
+    {
+      "priority": "critical",
+      "category": "template_compliance",
+      "action": "Complete rewrite using TEMPLATE.md structure with proper variable population",
+      "confidence_impact": "+4.0"
+    },
+    {
+      "priority": "critical",
+      "category": "bullet_points_library",
+      "action": "Replace all custom bullets with exact text from Reusable Bullet Points Library",
+      "confidence_impact": "+3.5"
+    },
+    {
+      "priority": "high",
+      "category": "template_structure",
+      "action": "Implement proper template sections: Perfect Technical Stack Alignment, Professional Approach & Industry Alignment",
+      "confidence_impact": "+2.0"
+    },
+    {
+      "priority": "medium",
+      "category": "content_optimization",
+      "action": "Add missing template variables for complete personalization",
+      "confidence_impact": "+1.5"
+    }
+  ],
+  "validation_notes": [
+    "CRITICAL: Cover letter completely violates template conformance requirements",
+    "All technical bullets must be replaced with standardized library content",
+    "Template structure is fundamentally incorrect for recruitment agency mode",
+    "Factual accuracy is good but presentation violates quality standards",
+    "Technical alignment is strong but not properly positioned per template",
+    "Recruitment agency mode correctly implemented but template structure missing"
+  ]
+}
