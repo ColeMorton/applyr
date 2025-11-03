@@ -88,7 +88,7 @@ Job descriptions are saved as markdown files with the following naming conventio
 {job_id}_{company_name}_{job_title}.md
 ```
 
-Example: `86524100_Squiz_Australia_Pty_Ltd_Tech_Principal_Lead_Engineer.md`
+Example: `12345678_Example_Corp_Pty_Ltd_Tech_Principal_Lead_Engineer.md`
 
 ### File Structure
 

@@ -183,9 +183,9 @@ cython_debug/
 .abstra/
 
 # Visual Studio Code
-#  Visual Studio Code specific template is maintained in a separate VisualStudioCode.gitignore 
+#  Visual Studio Code specific template is maintained in a separate VisualStudioCode.gitignore
 #  that can be found at https://github.com/github/gitignore/blob/main/Global/VisualStudioCode.gitignore
-#  and can be added to the global gitignore or merged into this file. However, if you prefer, 
+#  and can be added to the global gitignore or merged into this file. However, if you prefer,
 #  you could uncomment the following to ignore the entire vscode folder
 # .vscode/
 
@@ -208,11 +208,4 @@ marimo/_lsp/
 __marimo__/
 
 # Personal/sensitive files
-data/outputs/reach_out/paul_smith_reach_out.md
-data/raw/LinkedIn Profile - Paul Smith.pdf
-data/raw/personal/paul_smith.md
-data/raw/personal/rental_property_seach_2025.md
-data/outputs/career_strategy_paul_smith_transmax.md
-data/raw/jake-s-9a775a90.md
-data/raw/jake_s.md
-data/raw/personal/rental_property_cover_letter.md
+config.yaml

@@ -4,11 +4,10 @@ Job Ranking Script - Autonomous job analysis and ranking
 Analyzes job opportunities against personal profile and updates CSV with rankings
 """
 
-import pandas as pd
-import re
 from pathlib import Path
-from typing import Dict, List, Tuple
-import json
+from typing import Dict, Tuple
+
+import pandas as pd
 
 # Personal profile summary
 PROFILE = {
@@ -17,15 +16,16 @@ PROFILE = {
         "frontend": ["Vue.js", "Angular", "Astro", "TailwindCSS", "styled-components"],
         "backend": [".NET", "C#", "Express.js", "GraphQL"],
         "data": ["Pandas", "NumPy", "PostgreSQL", "SQL Server"],
-        "modern_tools": ["Claude Code", "Cursor", "GitHub", "Docker", "AWS"]
+        "modern_tools": ["Claude Code", "Cursor", "GitHub", "Docker", "AWS"],
     },
     "experience_years": 11,
     "domain_expertise": ["fintech", "finance", "healthcare", "enterprise"],
     "career_goals": ["senior role", "collaborative team", "modern stack", "growth opportunity"],
     "concerns": ["coding tests", "whiteboard interviews", "algorithm challenges"],
     "location": "Brisbane, Australia",
-    "status": "Recently relocated, seeking team environment after 4 years self-employment"
+    "status": "Recently relocated, seeking team environment after 4 years self-employment",
 }
+
 
 def load_job_description(job_id: str) -> str:
     """Load job description markdown file"""
@@ -38,6 +38,7 @@ def load_job_description(job_id: str) -> str:
     if matches:
         return matches[0].read_text()
     return ""
+
 
 def score_technical_alignment(job_desc: str) -> Tuple[float, str]:
     """Score technical stack alignment (40% weight)"""
@@ -73,6 +74,7 @@ def score_technical_alignment(job_desc: str) -> Tuple[float, str]:
 
     return score, reason
 
+
 def score_career_alignment(job_desc: str, job_title: str) -> Tuple[float, str]:
     """Score career goals alignment (25% weight)"""
     job_lower = job_desc.lower()
@@ -102,6 +104,7 @@ def score_career_alignment(job_desc: str, job_title: str) -> Tuple[float, str]:
 
     return score, reason
 
+
 def score_compensation(job_desc: str, salary_min: float, salary_max: float) -> Tuple[float, str]:
     """Score compensation and benefits (20% weight)"""
     job_lower = job_desc.lower()
@@ -129,12 +132,15 @@ def score_compensation(job_desc: str, salary_min: float, salary_max: float) -> T
 
     return score, reason
 
+
 def score_risk_assessment(job_desc: str, company_name: str) -> Tuple[float, str]:
     """Score risk factors - INVERSE (15% weight)"""
     job_lower = job_desc.lower()
 
     # Red flags
-    coding_test = any(word in job_lower for word in ["coding test", "technical test", "algorithm", "whiteboard", "leetcode"])
+    coding_test = any(
+        word in job_lower for word in ["coding test", "technical test", "algorithm", "whiteboard", "leetcode"]
+    )
     remote_overseas = "remote" in job_lower and any(loc in job_lower for loc in ["south africa", "offshore", "global"])
     contract = "contract" in job_lower or "6 month" in job_lower
     startup = any(word in job_lower for word in ["startup", "seed", "series a"])
@@ -161,9 +167,11 @@ def score_risk_assessment(job_desc: str, company_name: str) -> Tuple[float, str]
 
     return score, reason
 
+
 def calculate_weighted_score(tech: float, career: float, comp: float, risk: float) -> float:
     """Calculate final weighted score"""
     return (tech * 0.40) + (career * 0.25) + (comp * 0.20) + (risk * 0.15)
+
 
 def analyze_job(job_id: str, company: str, title: str, salary_min: float, salary_max: float) -> Dict:
     """Comprehensive job analysis"""
@@ -183,7 +191,7 @@ def analyze_job(job_id: str, company: str, title: str, salary_min: float, salary
             "risk_score": 0,
             "risk_reason": "N/A",
             "total_score": 0,
-            "rank": 999
+            "rank": 999,
         }
 
     tech_score, tech_reason = score_technical_alignment(job_desc)
@@ -208,6 +216,7 @@ def analyze_job(job_id: str, company: str, title: str, salary_min: float, salary
         "total_score": round(total_score, 1),
     }
 
+
 def main():
     """Main execution"""
     print("=" * 80)
@@ -219,7 +228,7 @@ def main():
     df = pd.read_csv(csv_path)
 
     # Filter discovered jobs
-    discovered = df[df['status'] == 'discovered'].copy()
+    discovered = df[df["status"] == "discovered"].copy()
     print(f"\n✓ Found {len(discovered)} discovered jobs")
 
     # Analyze all jobs
@@ -227,11 +236,11 @@ def main():
     results = []
 
     for idx, row in discovered.iterrows():
-        job_id = str(row['job_id'])
-        company = row['company_name']
-        title = row['job_title']
-        salary_min = row.get('salary_min', 0)
-        salary_max = row.get('salary_max', 0)
+        job_id = str(row["job_id"])
+        company = row["company_name"]
+        title = row["job_title"]
+        salary_min = row.get("salary_min", 0)
+        salary_max = row.get("salary_max", 0)
 
         analysis = analyze_job(job_id, company, title, salary_min, salary_max)
         results.append(analysis)
@@ -239,24 +248,24 @@ def main():
 
     # Sort by score and assign ranks
     results_df = pd.DataFrame(results)
-    results_df = results_df.sort_values('total_score', ascending=False).reset_index(drop=True)
-    results_df['rank'] = range(1, len(results_df) + 1)
+    results_df = results_df.sort_values("total_score", ascending=False).reset_index(drop=True)
+    results_df["rank"] = range(1, len(results_df) + 1)
 
     # Update original dataframe
-    print(f"\n📊 Updating CSV with rankings...")
+    print("\n📊 Updating CSV with rankings...")
 
     # Add rank column if it doesn't exist
-    if 'rank' not in df.columns:
-        df['rank'] = ''
+    if "rank" not in df.columns:
+        df["rank"] = ""
 
     # Update ranks for discovered jobs
     for _, result in results_df.iterrows():
-        mask = df['job_id'] == result['job_id']
-        df.loc[mask, 'rank'] = result['rank']
+        mask = df["job_id"] == result["job_id"]
+        df.loc[mask, "rank"] = result["rank"]
 
     # Save updated CSV
     df.to_csv(csv_path, index=False)
-    print(f"✓ CSV updated with rankings")
+    print("✓ CSV updated with rankings")
 
     # Generate summary report
     print(f"\n{'=' * 80}")
@@ -274,7 +283,7 @@ def main():
 
     # Save detailed analysis
     analysis_path = Path("data/outputs/job_rankings_analysis.json")
-    results_df.to_json(analysis_path, orient='records', indent=2)
+    results_df.to_json(analysis_path, orient="records", indent=2)
     print(f"✓ Detailed analysis saved to: {analysis_path}")
 
     # Strategic insights
@@ -288,14 +297,14 @@ def main():
     for idx, row in top_3.iterrows():
         print(f"{row['rank']}. {row['company']} - {row['title']} ({row['total_score']:.1f}%)")
 
-    print(f"\n💡 RECOMMENDATIONS:")
-    print(f"  • Focus application efforts on top 10 ranked opportunities")
-    print(f"  • Prioritize roles with React/TypeScript/Node.js stack")
-    print(f"  • Emphasize 11+ years experience and modern AI-augmented workflows")
-    print(f"  • Prepare portfolio examples over algorithmic coding tests")
-    print(f"  • Highlight recent Brisbane relocation and local commitment")
+    print("\n💡 RECOMMENDATIONS:")
+    print("  • Focus application efforts on top 10 ranked opportunities")
+    print("  • Prioritize roles with React/TypeScript/Node.js stack")
+    print("  • Emphasize 11+ years experience and modern AI-augmented workflows")
+    print("  • Prepare portfolio examples over algorithmic coding tests")
+    print("  • Highlight recent Brisbane relocation and local commitment")
 
-    avg_score = results_df['total_score'].mean()
+    avg_score = results_df["total_score"].mean()
     print(f"\n📈 MARKET FIT: Average score {avg_score:.1f}% indicates ", end="")
     if avg_score >= 70:
         print("strong alignment with discovered opportunities")
@@ -307,6 +316,7 @@ def main():
     print(f"\n{'=' * 80}")
     print("ANALYSIS COMPLETE")
     print(f"{'=' * 80}\n")
+
 
 if __name__ == "__main__":
     main()

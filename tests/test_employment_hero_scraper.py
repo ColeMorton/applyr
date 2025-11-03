@@ -1,7 +1,7 @@
 """Tests for Employment Hero scraper"""
 
-import pytest
 from bs4 import BeautifulSoup
+import pytest
 
 from applyr.scraper_employment_hero import EmploymentHeroScraper
 
@@ -64,11 +64,11 @@ class TestExtractJobMetadata:
             <div class="company-name">aXcelerate</div>
         </html>
         """
-        soup = BeautifulSoup(html, 'html.parser')
+        soup = BeautifulSoup(html, "html.parser")
         metadata = scraper.extract_job_metadata(soup)
-        
-        assert metadata['title'] == "Senior Software Engineer"
-        assert metadata['company'] == "aXcelerate"
+
+        assert metadata["title"] == "Senior Software Engineer"
+        assert metadata["company"] == "aXcelerate"
 
     def test_extract_metadata_alternative_selectors(self, scraper):
         """Test metadata extraction with alternative selectors"""
@@ -78,11 +78,11 @@ class TestExtractJobMetadata:
             <a class="company">Test Company Pty Ltd</a>
         </html>
         """
-        soup = BeautifulSoup(html, 'html.parser')
+        soup = BeautifulSoup(html, "html.parser")
         metadata = scraper.extract_job_metadata(soup)
-        
-        assert metadata['title'] == "Frontend Developer"
-        assert metadata['company'] == "Test Company Pty Ltd"
+
+        assert metadata["title"] == "Frontend Developer"
+        assert metadata["company"] == "Test Company Pty Ltd"
 
     def test_extract_metadata_from_meta_tags(self, scraper):
         """Test metadata extraction falls back to meta tags"""
@@ -96,20 +96,20 @@ class TestExtractJobMetadata:
             </body>
         </html>
         """
-        soup = BeautifulSoup(html, 'html.parser')
+        soup = BeautifulSoup(html, "html.parser")
         metadata = scraper.extract_job_metadata(soup)
-        
-        assert metadata['title'] == "Developer Position"
-        assert metadata['company'] == "Meta Company"
+
+        assert metadata["title"] == "Developer Position"
+        assert metadata["company"] == "Meta Company"
 
     def test_extract_metadata_defaults_when_missing(self, scraper):
         """Test default values when metadata not found"""
         html = "<html><body></body></html>"
-        soup = BeautifulSoup(html, 'html.parser')
+        soup = BeautifulSoup(html, "html.parser")
         metadata = scraper.extract_job_metadata(soup)
-        
-        assert metadata['title'] == "Unknown Job"
-        assert metadata['company'] == "Unknown Company"
+
+        assert metadata["title"] == "Unknown Job"
+        assert metadata["company"] == "Unknown Company"
 
 
 class TestCleanJobDescription:
@@ -135,9 +135,9 @@ class TestCleanJobDescription:
             </div>
         </html>
         """
-        soup = BeautifulSoup(html, 'html.parser')
+        soup = BeautifulSoup(html, "html.parser")
         description = scraper.clean_job_description(soup)
-        
+
         assert description is not None
         assert "About the Role" in description
         assert "talented developer" in description
@@ -155,9 +155,9 @@ class TestCleanJobDescription:
             </div>
         </html>
         """
-        soup = BeautifulSoup(html, 'html.parser')
+        soup = BeautifulSoup(html, "html.parser")
         description = scraper.clean_job_description(soup)
-        
+
         assert "Main job content" in description
         assert "Company profile" not in description
         assert "Navigation" not in description
@@ -173,9 +173,9 @@ class TestCleanJobDescription:
             </div>
         </html>
         """
-        soup = BeautifulSoup(html, 'html.parser')
+        soup = BeautifulSoup(html, "html.parser")
         description = scraper.clean_job_description(soup)
-        
+
         # Should only have one "Line one"
         assert description.count("Line one") == 1
         assert "Line two" in description
@@ -185,17 +185,17 @@ class TestCleanJobDescription:
         html = """
         <html>
             <section>
-                <p>About the role: This is a great opportunity with requirements 
-                including experience in software development and skills in Python, JavaScript, 
-                and modern frameworks. We are looking for someone with at least 5 years of 
-                experience in building scalable web applications. The position involves working 
+                <p>About the role: This is a great opportunity with requirements
+                including experience in software development and skills in Python, JavaScript,
+                and modern frameworks. We are looking for someone with at least 5 years of
+                experience in building scalable web applications. The position involves working
                 with cross-functional teams to deliver high-quality software solutions.</p>
             </section>
         </html>
         """
-        soup = BeautifulSoup(html, 'html.parser')
+        soup = BeautifulSoup(html, "html.parser")
         description = scraper.clean_job_description(soup)
-        
+
         assert description is not None
         assert "requirements" in description.lower()
         assert "experience" in description.lower()
@@ -203,9 +203,9 @@ class TestCleanJobDescription:
     def test_clean_description_empty_content_returns_none(self, scraper):
         """Test empty content returns None"""
         html = "<html><body></body></html>"
-        soup = BeautifulSoup(html, 'html.parser')
+        soup = BeautifulSoup(html, "html.parser")
         description = scraper.clean_job_description(soup)
-        
+
         assert description is None
 
 
@@ -232,12 +232,11 @@ class TestSessionSetup:
 
     def test_session_headers_configured(self, scraper):
         """Test session has proper headers configured"""
-        assert 'User-Agent' in scraper.session.headers
-        assert 'Mozilla' in scraper.session.headers['User-Agent']
-        assert 'Sec-Fetch-Dest' in scraper.session.headers
+        assert "User-Agent" in scraper.session.headers
+        assert "Mozilla" in scraper.session.headers["User-Agent"]
+        assert "Sec-Fetch-Dest" in scraper.session.headers
 
     def test_request_headers_include_referer(self, scraper):
         """Test request headers include Employment Hero referer"""
         headers = scraper._get_request_headers("https://jobs.employmenthero.com/AU/job/test")
-        assert headers['Referer'] == 'https://jobs.employmenthero.com/'
-
+        assert headers["Referer"] == "https://jobs.employmenthero.com/"

@@ -10,10 +10,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 applyr is a **fully implemented** job market analysis toolkit with:
 
-- **25+ job postings** scraped and analyzed from SEEK across 23 Australian companies
+- **30+ job postings** scraped and analyzed from multiple job boards across 25 Australian companies
 - **Complete Python scraping infrastructure** with anti-bot measures and content filtering
 - **Dual data storage system**: Markdown files for full content + CSV database for application tracking
-- **9+ personalized cover letters** generated for target companies
+- **12+ personalized cover letters** generated for target companies
 - **Market intelligence reports** with technology trend analysis and hiring patterns
 - **Application tracking system** managing the full job search lifecycle
 - **Professional PDF export system** with 6 custom CSS templates, SVG brand text, and WeasyPrint engine
@@ -66,7 +66,7 @@ poetry install
 poetry shell
 
 # Run scraper
-python scripts/job_scraper/seek_scraper.py --url "https://www.seek.com.au/job/87066700"
+python scripts/job_scraper/seek_scraper.py --url "https://www.seek.com.au/job/12345678"
 
 # Generate market analysis
 python scripts/job_scraper/aggregate_jobs.py
@@ -113,9 +113,9 @@ When working with applyr data, **always** respect the job_id relationship:
 
 ### File Lookup Pattern
 ```
-CSV Entry: 87066700,iSelect Ltd,Software Engineer,SEEK,applied,...
-↓ (job_id = 87066700)
-Markdown File: 87066700_iSelect_Ltd_Software_Engineer.md
+CSV Entry: 12345678,Example Corp,Software Engineer,SEEK,applied,...
+↓ (job_id = 12345678)
+Markdown File: 12345678_Example_Corp_Software_Engineer.md
 ```
 
 ### Critical Operations
@@ -163,7 +163,7 @@ applyr is **production-ready** with the following completed components:
 - **25+ job postings** across 23 companies
 - **9+ cover letters** for targeted applications  
 - **2 professional PDF templates**: ats, ats_docx
-- **SVG brand text integration** with centered, 2x-sized "Cole Morton" branding
+- **SVG brand text integration** with centered, 2x-sized configurable branding
 - **Market intelligence** on technology demand and company hiring patterns
 
 ## PDF Generation System
@@ -178,7 +178,7 @@ applyr includes a comprehensive PDF generation system built on WeasyPrint with p
 ### SVG Brand Text Implementation
 
 All templates include sophisticated brand text rendering:
-- **SVG-based "Cole Morton" text** for perfect font consistency across all environments
+- **SVG-based configurable brand text** for perfect font consistency across all environments
 - **Horizontal centering** with `background-position: center center`
 - **2x size increase** (280pt × 40pt) for prominent header presence
 - **Accessibility-compliant**: Hidden text preserved for screen readers
@@ -228,12 +228,12 @@ The SVG brand text implementation solves font rendering inconsistencies:
     /* Hide text visually while preserving accessibility */
     font-size: 0 !important;
     text-indent: -9999px !important;
-    
+
     /* Display SVG as centered background */
     background-image: url("data:image/svg+xml,...);
     background-position: center center;
     background-size: contain;
-    
+
     /* 2x dimensions maintaining 7:1 aspect ratio */
     width: 280pt;
     height: 40pt;
@@ -256,7 +256,7 @@ applyr implements a factory pattern for multi-platform job processing with autom
 
 | Job Board | Job ID Format | URL Format | Implementation | Method |
 |-----------|---------------|------------|----------------|--------|
-| **SEEK** | 8-digit numeric (e.g., `87066700`) | `https://www.seek.com.au/job/{job_id}` | `SEEKScraper` | Web scraping |
+| **SEEK** | 8-digit numeric (e.g., `12345678`) | `https://www.seek.com.au/job/{job_id}` | `SEEKScraper` | Web scraping |
 | **Employment Hero** | URL-based slugs | `https://jobs.employmenthero.com/AU/job/{slug}` | `EmploymentHeroScraper` | Web scraping |
 | **Indeed** | 16-char hex (e.g., `cc76be5d850127ec`) | `https://au.indeed.com/viewjob?jk={job_id}` | `IndeedManualParser` | Manual text import |
 
@@ -328,14 +328,14 @@ class IndeedManualParser:
     def extract_job_id(self, url_or_id: str) -> Optional[str]:
         """Extract job ID from URL or 16-char hex ID"""
         # Returns 'ind-{job_id}' format
-    
+
     def load_job_text(self, job_id: str) -> Optional[str]:
         """Load text file from data/raw/jobs/{job_id}.txt"""
-    
+
     def parse_job_data(self, text_content: str) -> Dict[str, str]:
         """Parse title, company, description from copied text"""
         # Uses heuristics to extract job details from plain text
-    
+
     def process_job(self, url_or_id: str) -> Optional[Dict]:
         """Main processing method - combines all steps"""
 ```
@@ -412,7 +412,7 @@ All scrapers implement consistent rate limiting and respectful practices:
 **Automatic Source Detection**:
 ```python
 # Supports multiple input formats
-detect_job_source("87066700")                    # → "seek"
+detect_job_source("12345678")                    # → "seek"
 detect_job_source("cc76be5d850127ec")            # → "indeed"
 detect_job_source("https://au.indeed.com/...")   # → "indeed"
 
@@ -439,13 +439,13 @@ scraper, url = create_scraper("cc76be5d850127ec")
 Supports SEEK and Employment Hero with automatic detection:
 ```bash
 # SEEK
-applyr add-job 87066700
+applyr add-job 12345678
 
 # Employment Hero
 applyr add-job https://jobs.employmenthero.com/AU/job/company-position
 
 # Mixed batch
-applyr add-job 87066700,https://jobs.employmenthero.com/AU/job/company-position-xyz
+applyr add-job 12345678,https://jobs.employmenthero.com/AU/job/company-position-xyz
 ```
 
 ### Documentation

@@ -18,7 +18,7 @@ applyr transforms job hunting from guesswork into data-driven strategy by:
 
 ### Job Market Data Collection
 - **Multi-platform support**: SEEK, Employment Hero, and Indeed job boards
-- **25+ job postings analyzed** from SEEK across 23 Australian companies
+- **30+ job postings analyzed** from multiple job boards across 25 Australian companies
 - **Automated scraping** with anti-bot measures and respectful rate limiting (SEEK, Employment Hero)
 - **Manual import support** for Indeed jobs via text file processing (bypasses 403 blocking)
 - **Structured data extraction** with metadata preservation and timestamps
@@ -30,11 +30,11 @@ applyr transforms job hunting from guesswork into data-driven strategy by:
 - **Technology trend analysis**: Identifies most in-demand skills (React, TypeScript, Node.js, AWS)
 - **Job level distribution**: Analyzes role seniority patterns (Senior 28%, Mid-level 60%, Junior 4%)
 - **Company hiring patterns**: Tracks which companies are actively hiring and job volumes
-- **Geographic insights**: Brisbane, Sydney, Melbourne market analysis
+- **Geographic insights**: Geographic analysis across major tech hubs
 - **Salary intelligence**: Limited salary data extraction where available
 
 ### Cover Letter Generation
-- **9+ personalized cover letters** generated for target companies
+- **12+ personalized cover letters** generated for target companies
 - **Company-specific research**: Each letter references specific company details and tech stacks
 - **Technical skill mapping**: Direct alignment of candidate skills to job requirements
 - **Professional branding**: Consistent personal narrative with portfolio links
@@ -49,7 +49,7 @@ applyr transforms job hunting from guesswork into data-driven strategy by:
 
 ### Professional PDF Export System
 - **2 custom CSS templates**: ats (applicant tracking system optimized), ats_docx (DOCX conversion optimized)
-- **SVG brand text integration** with centered "Cole Morton" branding (2x size, perfect font consistency)
+- **SVG brand text integration** with configurable branding (2x size, perfect font consistency)
 - **WeasyPrint engine** for professional HTML/CSS to PDF conversion with font support
 - **Batch processing capabilities** for entire directories with progress tracking
 - **Quality validation system** with file size analysis and optimization recommendations
@@ -77,10 +77,42 @@ poetry install
 
 **Dependencies:**
 - `requests>=2.31.0`
-- `beautifulsoup4>=4.12.0` 
+- `beautifulsoup4>=4.12.0`
 - `lxml>=4.9.0`
 - `markdown>=3.5.0`
 - `weasyprint>=60.0`
+- `pyyaml>=6.0.1`
+
+### First-Time Setup
+
+Before using applyr, you need to configure it with your personal information:
+
+1. **Copy the configuration template:**
+   ```bash
+   cp config.template.yaml config.yaml
+   ```
+
+2. **Edit `config.yaml` with your personal information:**
+   ```yaml
+   personal_info:
+     name: "Your Name"
+     email: "your-email@example.com"
+     phone: "Your Phone"
+     website: "yourwebsite.com"
+     github: "yourusername"
+     linkedin: "linkedin.com/in/your-profile"
+     location: "Your City, State"
+
+   branding:
+     svg_text: "{{YOUR_BRAND_TEXT}}"  # SVG data URI for brand text
+     footer_text: "yourwebsite.com"  # Text for PDF footers
+   ```
+
+3. **The `config.yaml` file is gitignored** - your personal information stays private.
+
+See `TEMPLATE_SETUP.md` for detailed personalization instructions.
+
+**Additional Dependencies:**
 - `pandas>=2.0.0`
 
 ### Basic Usage
@@ -139,8 +171,6 @@ data/
     │   ├── 20250902_job_descriptions_aggregate.md
     │   └── [individual job files]
     └── cover_letters/          # Personalized cover letters
-        ├── squiz.md
-        ├── trilogy_care.md
         └── [company-specific letters]
 ```
 
@@ -154,8 +184,8 @@ The system maintains a **1:1 correspondence** between job descriptions and adver
 **Key Relationship**: Both are linked by `job_id` - the 8-digit SEEK identifier that serves as the primary key across both data sources.
 
 **Example**:
-- Job Description: `87066700_iSelect_Ltd_Software_Engineer.md`
-- CSV Record: `87066700,iSelect Ltd,Software Engineer,SEEK,applied,medium,...`
+- Job Description: `12345678_Example_Corp_Software_Engineer.md`
+- CSV Record: `12345678,Example Corp,Software Engineer,SEEK,applied,medium,...`
 
 This dual storage pattern enables:
 - **Rich Content Access**: Full job descriptions for analysis and cover letter generation
@@ -187,9 +217,9 @@ job_id,company_name,job_title,source,status,priority,date_discovered,date_applie
 
 ### File Naming Conventions
 
-- **Individual Jobs**: `{job_id}_{company}_{title}.md` 
+- **Individual Jobs**: `{job_id}_{company}_{title}.md`
   - `job_id`: 8-digit SEEK identifier (links to advertisements.csv)
-  - Example: `87066700_iSelect_Ltd_Software_Engineer.md`
+  - Example: `12345678_Example_Corp_Software_Engineer.md`
 - **Aggregate Reports**: `YYYYMMDD_job_descriptions_aggregate.md`
 - **Cover Letters**: `{company_name}.md`
 
@@ -209,7 +239,7 @@ The applyr system maintains strict data integrity through its dual storage archi
 
 3. **Data Lookup**: Any operation requiring full job details:
    - Use `job_id` from CSV to locate corresponding markdown file
-   - Example: CSV shows job 87066700 → Read `87066700_iSelect_Ltd_Software_Engineer.md`
+   - Example: CSV shows job 12345678 → Read `12345678_Example_Corp_Software_Engineer.md`
 
 **Validation**: The system ensures every CSV entry has a matching markdown file and vice versa.
 
@@ -221,12 +251,12 @@ applyr supports multiple job boards with automatic source detection:
 
 | Job Board | Input Format | Import Method | Example |
 |-----------|--------------|---------------|---------|
-| **SEEK** | 8-digit job ID or full URL | Automatic web scraping | `87066700` or `https://www.seek.com.au/job/87066700` |
+| **SEEK** | 8-digit job ID or full URL | Automatic web scraping | `12345678` or `https://www.seek.com.au/job/12345678` |
 | **Employment Hero** | Full URL | Automatic web scraping | `https://jobs.employmenthero.com/AU/job/company-position-id` |
 | **Indeed** | 16-char hex job ID or full URL | Manual import from text file | `cc76be5d850127ec` or `https://au.indeed.com/viewjob?jk=cc76be5d850127ec` |
 
 **Job ID Format:**
-- SEEK: 8-digit numeric ID (e.g., `87066700`)
+- SEEK: 8-digit numeric ID (e.g., `12345678`)
 - Employment Hero: Prefixed slug format (e.g., `eh-axcelerate-senior-software-engineer-a5y43`)
 - Indeed: 16-character hexadecimal ID with `ind-` prefix (e.g., `ind-cc76be5d850127ec`)
 
@@ -258,25 +288,25 @@ The system will parse the text file and extract job title, company, and descript
 **Single Job Analysis:**
 ```bash
 # Scrape SEEK job by ID
-applyr add-job 87066700
+applyr add-job 12345678
 
 # Scrape SEEK job by URL
-applyr add-job https://www.seek.com.au/job/87066700
+applyr add-job https://www.seek.com.au/job/12345678
 
 # Scrape Employment Hero job
 applyr add-job https://jobs.employmenthero.com/AU/job/axcelerate-senior-software-engineer-a5y43
 
 # Add multiple jobs at once (mixed sources)
-applyr add-job 87066700,https://jobs.employmenthero.com/AU/job/company-position-xyz
+applyr add-job 12345678,https://jobs.employmenthero.com/AU/job/company-position-xyz
 ```
 
 **Legacy scripts (SEEK only):**
 ```bash
 # Scrape specific SEEK job posting
-python scripts/job_scraper/seek_scraper.py --url "https://www.seek.com.au/job/87066700"
+python scripts/job_scraper/seek_scraper.py --url "https://www.seek.com.au/job/12345678"
 
 # Custom output directory
-python scripts/job_scraper/seek_scraper.py --url "https://www.seek.com.au/job/87066700" --output-dir custom_analysis
+python scripts/job_scraper/seek_scraper.py --url "https://www.seek.com.au/job/12345678" --output-dir custom_analysis
 ```
 
 **Batch Processing:**
@@ -319,7 +349,7 @@ applyr resume-formats resume.md --output-dir pdfs/resumes/
 **Individual File Conversion:**
 ```bash
 # Basic conversion with automatic template
-applyr pdf data/outputs/cover_letters/squiz.md
+applyr pdf data/outputs/cover_letters/example_company.md
 
 # ATS-optimized styling
 applyr pdf cover_letter.md --style ats
@@ -370,25 +400,25 @@ applyr status --limit 20
 **Update Job Status:**
 ```bash
 # Mark job as applied
-applyr update-status 87066700 applied
+applyr update-status 12345678 applied
 
 # Mark job as rejected
-applyr update-status 87066700 rejected
+applyr update-status 12345678 rejected
 
 # Mark as interviewed
-applyr update-status 87066700 interviewed
+applyr update-status 12345678 interviewed
 ```
 
 **Search and Filter Jobs:**
 ```bash
 # Search by company
-applyr jobs --company "iSelect"
+applyr jobs --company "Example Corp"
 
 # Filter by status
 applyr jobs --status applied
 
 # Combined filters
-applyr jobs --company "Squiz" --status discovered
+applyr jobs --company "Tech Solutions Ltd" --status discovered
 
 # Show more results
 applyr jobs --limit 100
@@ -413,7 +443,7 @@ Current market insights from 25+ analyzed positions:
 
 **Most In-Demand Technologies:**
 - **React**: 20+ mentions (80% of positions)
-- **TypeScript**: 14+ mentions (56% of positions) 
+- **TypeScript**: 14+ mentions (56% of positions)
 - **Node.js**: 15+ mentions (60% of positions)
 - **AWS**: 15+ mentions (60% of positions)
 - **JavaScript**: 16+ mentions (64% of positions)
@@ -427,7 +457,7 @@ Current market insights from 25+ analyzed positions:
 - **Lead/Principal**: 2 positions (8%)
 
 **Active Hiring Companies:**
-- Squiz, iSelect, Felix Software (leading volume)
+- Example Corp, Acme Inc, Tech Solutions Ltd (leading volume)
 - Strong presence in SaaS, Fintech, Healthcare Tech
 - Geographic concentration in Brisbane/Sydney/Melbourne
 
@@ -468,10 +498,10 @@ Current market insights from 25+ analyzed positions:
 ```markdown
 # Software Engineer
 
-**Company:** Squiz Australia Pty Ltd  
-**Job ID:** 86398474  
+**Company:** Example Corp  
+**Job ID:** 12345678  
 **Source:** SEEK  
-**Scraped:** 2025-09-02 14:06:20
+**Scraped:** 2025-01-15 10:30:00
 
 ---
 
@@ -480,14 +510,14 @@ Current market insights from 25+ analyzed positions:
 
 ### Cover Letter Example
 ```markdown
-Dear Squiz Hiring Team,
+Dear Example Corp Hiring Team,
 
-I can see that you're rapidly expanding the DXP team, and seeking people proficient in Node, TypeScript, React, Git and CI/CD. This stack is my bread-and-butter, representing my deepest experience and greatest strengths.
+I am excited to apply for the Software Engineer position. Your focus on modern web technologies and innovative solutions aligns perfectly with my experience and interests.
 
 [Personalized content based on company research and job requirements]
 
-Cole Morton
-colemorton.com
+John Smith
+johnsmith.dev
 ```
 
 ## 🛠 Technical Details
@@ -503,7 +533,7 @@ colemorton.com
 ### PDF Generation Architecture
 - **WeasyPrint Engine**: Professional HTML/CSS to PDF conversion with font embedding support
 - **Template System**: 6 custom CSS templates with consistent brand integration
-- **SVG Brand Text**: Vector-based "Cole Morton" text ensuring perfect font consistency
+- **SVG Brand Text**: Vector-based configurable brand text ensuring perfect font consistency
 - **Link Preservation**: Maintains clickable links in PDF output with proper href handling
 - **Quality Metrics**: File size analysis, optimization recommendations, and quality scoring
 - **Font Integration**: Support for Google Fonts, system fonts, and custom font files
@@ -592,6 +622,61 @@ python scripts/job_scraper/test_single_job.py
 python scripts/job_scraper/test_aggregator.py
 ```
 
+### Code Quality & Formatting
+
+applyr uses **Ruff** for linting and formatting, **mypy** for type checking, and **bandit** for security scanning. Pre-commit hooks automatically enforce code quality standards.
+
+**Quick Commands:**
+```bash
+# Format all code
+make format
+
+# Run all quality checks
+make all
+
+# Individual checks
+make lint          # Lint with Ruff
+make type-check    # Type checking with mypy
+make security      # Security scan with bandit
+make test          # Run tests with coverage
+
+# Install pre-commit hooks (runs on every commit)
+make install
+```
+
+**Pre-commit Hooks:**
+Pre-commit hooks automatically run on every commit:
+- ✅ Format code with Ruff
+- ✅ Run linting checks
+- ✅ Type checking with mypy
+- ✅ Security scanning with bandit
+- ✅ Validate YAML/JSON/TOML files
+- ✅ Check for merge conflicts and trailing whitespace
+
+**Manual Checks:**
+```bash
+# Format code
+ruff format .
+
+# Lint code (auto-fix where possible)
+ruff check --fix .
+
+# Type checking
+mypy applyr/
+
+# Security scanning
+bandit -r applyr/
+
+# Run pre-commit on all files
+pre-commit run --all-files
+```
+
+**Configuration:**
+- **Ruff**: Configured in `pyproject.toml` (line length: 120, Python 3.9+)
+- **mypy**: Gradual typing approach (strict mode for new code)
+- **bandit**: Security scanning with test exclusions
+- **Pre-commit**: Hook configuration in `.pre-commit-config.yaml`
+
 ## ⚠️ Terms of Service & Legal Compliance
 
 **Important**: Web scraping may violate website Terms of Service. applyr is designed for **personal, non-commercial use only** with respectful scraping practices:
@@ -662,7 +747,7 @@ applyr provides an integrated workflow from job discovery to application trackin
 ### 1. Discovery Phase
 ```bash
 # Scrape new jobs (automatically added to database)
-applyr scrape --url "https://www.seek.com.au/job/87066700"
+applyr scrape --url "https://www.seek.com.au/job/12345678"
 
 # View discovered jobs
 applyr status --filter discovered
@@ -671,10 +756,10 @@ applyr status --filter discovered
 ### 2. Research & Prioritization
 ```bash
 # Review jobs and set priorities
-applyr jobs --company "iSelect"
+applyr jobs --company "Example Corp"
 
 # Search and filter opportunities
-applyr jobs --status discovered --company "Squiz"
+applyr jobs --status discovered --company "Tech Solutions Ltd"
 ```
 
 ### 3. Application Phase
@@ -683,14 +768,14 @@ applyr jobs --status discovered --company "Squiz"
 # (covers company research and customization)
 
 # Mark as applied when submitted
-applyr update-status 87066700 applied
+applyr update-status 12345678 applied
 ```
 
 ### 4. Follow-up & Tracking
 ```bash
 # Update status as you progress through interviews
-applyr update-status 87066700 interviewed
-applyr update-status 87066700 rejected
+applyr update-status 12345678 interviewed
+applyr update-status 12345678 rejected
 
 # Analyze success rates and patterns
 applyr stats
@@ -713,10 +798,10 @@ applyr provides 11 comprehensive commands for complete job search workflow manag
 
 | Command | Purpose | Example |
 |---------|---------|----------|
-| `scrape` | Scrape individual or batch job URLs | `applyr scrape --url https://seek.com.au/job/87066700` |
+| `scrape` | Scrape individual or batch job URLs | `applyr scrape --url https://seek.com.au/job/12345678` |
 | `batch` | Process multiple jobs from file | `applyr batch --urls-file job_urls.txt --delay 3.0` |
 | `aggregate` | Generate market intelligence reports | `applyr aggregate --input-dir job_descriptions/` |
-| `add-job` | Add job by ID or URL (SEEK/Employment Hero) | `applyr add-job 87066700` or `applyr add-job https://jobs.employmenthero.com/...` |
+| `add-job` | Add job by ID or URL (SEEK/Employment Hero) | `applyr add-job 12345678` or `applyr add-job https://jobs.employmenthero.com/...` |
 
 ### PDF Generation Commands
 
@@ -731,8 +816,8 @@ applyr provides 11 comprehensive commands for complete job search workflow manag
 | Command | Purpose | Example |
 |---------|---------|----------|
 | `status` | View application pipeline | `applyr status --filter applied --limit 20` |
-| `update-status` | Change job application status | `applyr update-status 87066700 interviewed` |
-| `jobs` | Search and filter job database | `applyr jobs --company "Squiz" --status discovered` |
+| `update-status` | Change job application status | `applyr update-status 12345678 interviewed` |
+| `jobs` | Search and filter job database | `applyr jobs --company "Tech Solutions Ltd" --status discovered` |
 | `stats` | Application success rates and analytics | `applyr stats` |
 | `cleanup` | Remove old closed/rejected jobs | `applyr cleanup --days 30 --confirm` |
 

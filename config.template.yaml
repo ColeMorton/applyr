@@ -1,0 +1,16 @@
+# Personal Information Configuration Template
+# Copy this file to config.yaml and fill in your personal information
+# The config.yaml file is gitignored to protect your privacy
+
+personal_info:
+  name: "{{YOUR_NAME}}"
+  email: "{{YOUR_EMAIL}}"
+  phone: "{{YOUR_PHONE}}"
+  website: "{{YOUR_WEBSITE}}"
+  github: "{{YOUR_GITHUB}}"
+  linkedin: "{{YOUR_LINKEDIN}}"
+  location: "{{YOUR_LOCATION}}"
+
+branding:
+  svg_text: "{{YOUR_BRAND_TEXT}}"  # SVG data URI or path to SVG file for brand text
+  footer_text: "{{YOUR_WEBSITE}}"  # Text to display in PDF footers

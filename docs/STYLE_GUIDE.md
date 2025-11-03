@@ -177,11 +177,11 @@ matchUtilities({
 
 ```javascript
 function toggleTheme(themeSwitch) {
-  const defaultTheme = 
+  const defaultTheme =
     config.settings.default_theme === "system"
       ? matchMedia.matches ? "dark" : "light"
       : config.settings.default_theme;
-      
+
   const currentTheme = localStorage.getItem("theme") || defaultTheme;
   const isDarkTheme = currentTheme === "dark";
 
@@ -255,7 +255,7 @@ function toggleTheme(themeSwitch) {
 ### Brand Font System
 
 **Paytone One Font Family**:
-- **Purpose**: Exclusive brand identity font for "Cole Morton" text
+- **Purpose**: Exclusive brand identity font for brand text
 - **Usage**: Limited to brand/logo elements only
 - **Format**: Google Fonts with optimized loading strategy
 - **Implementation**: Via AstroFont configuration in `Base.astro`
@@ -300,7 +300,7 @@ function toggleTheme(themeSwitch) {
 
 Sensylate implements a strategic dual brand approach using the Paytone One font for both personal identity and content attribution. Complete CSS specifications have been extracted using automated browser analysis to ensure pixel-perfect recreation.
 
-### Personal Brand: "Cole Morton"
+### Personal Brand: Brand Text
 
 **Usage Context**: Primary brand identity for website navigation, user interface elements, and direct user interactions.
 
@@ -328,7 +328,7 @@ Sensylate implements a strategic dual brand approach using the Paytone One font 
   box-sizing: border-box;
   width: 431.141px;
   height: 90px;
-  
+
   /* Responsive adjustments */
   @media (max-width: 768px) {
     font-size: 2rem;
@@ -344,11 +344,11 @@ Sensylate implements a strategic dual brand approach using the Paytone One font 
 ```
 
 **Implementation Locations**:
-- **Navigation Header** (`Logo.astro`): `<h1 class="brand-text m-0 font-semibold">Cole Morton</h1>`
+- **Navigation Header** (`Logo.astro`): `<h1 class="brand-text m-0 font-semibold">Your Brand</h1>`
 - **Logo Generation Dashboard** (`PhotoBoothDisplay.tsx`): Large display for brand showcase
 - **LogoDisplay Component** (`LogoDisplay.tsx`): Reusable component with configurable sizing
 
-### Attribution Brand: "colemorton.com"
+### Attribution Brand: Website Attribution
 
 **Usage Context**: Website attribution for exported chart images and shareable content to drive traffic back to the website.
 
@@ -376,7 +376,7 @@ Sensylate implements a strategic dual brand approach using the Paytone One font 
   box-sizing: border-box;
   width: 594.367px; /* Wider due to longer text */
   height: 90px;
-  
+
   /* Responsive adjustments */
   @media (max-width: 768px) {
     font-size: 1.5rem;
@@ -389,7 +389,7 @@ Sensylate implements a strategic dual brand approach using the Paytone One font 
 {isPortfolioHistoryPortrait && (
   <div className="dashboard-footer flex justify-center">
     <h1 className="brand-text text-text-dark dark:text-darkmode-text-dark m-0 mb-8 text-4xl font-semibold">
-      colemorton.com
+      yourwebsite.com
     </h1>
   </div>
 )}
@@ -409,13 +409,13 @@ Both brands automatically adapt to dark mode:
 
 ### Strategic Rationale
 
-**Personal Brand ("Cole Morton")**:
+**Personal Brand ("Brand Text")**:
 - Builds personal brand recognition and authority
 - Creates direct connection between user and creator
 - Emphasizes individual expertise and reputation
 - Primary identity for direct user interactions
 
-**Attribution Brand ("colemorton.com")**:
+**Attribution Brand ("yourwebsite.com")**:
 - Drives traffic back to website from shared content
 - Maintains professional web presence in exported materials
 - Provides clear source attribution for viral/shared content
@@ -873,8 +873,8 @@ export function getPlotlyThemeColors(isDarkMode: boolean) {
     legendBgColor: isDarkMode
       ? "rgba(31, 41, 55, 0.8)"
       : "rgba(255, 255, 255, 0.8)",
-    gridColor: isDarkMode 
-      ? "rgba(156, 163, 175, 0.2)" 
+    gridColor: isDarkMode
+      ? "rgba(156, 163, 175, 0.2)"
       : "rgba(0, 0, 0, 0.1)",
     tickColor: isDarkMode ? "#9CA3AF" : "#6B7280",
   };
@@ -1092,14 +1092,14 @@ build: {
   --color-text: #3E4C59;
   --color-text-dark: #1A1A1A;
   --color-text-light: #6B7280;
-  
+
   /* Data colors */
   --color-primary-data: #00BCD4;
   --color-secondary-data: #9575CD;
   --color-tertiary-data: #4285F4;
   --color-quaternary: #FF7043;
   --color-neutral-data: #90A4AE;
-  
+
   /* Font properties */
   --font-primary: "Heebo", sans-serif;
   --font-secondary: "Heebo", sans-serif;
@@ -1220,7 +1220,7 @@ import { useTheme } from '@/hooks/useTheme';
 function ThemedComponent() {
   const theme = useTheme();
   const colors = getThemeColors(theme === 'dark');
-  
+
   return (
     <div className="bg-body dark:bg-darkmode-body">
       <h1 className="text-text-dark dark:text-darkmode-text-dark">
@@ -1252,7 +1252,7 @@ function ThemedComponent() {
 ```astro
 <!-- Navigation Logo (Logo.astro) -->
 <a href="/" class="navbar-brand inline-block">
-  <h1 class="brand-text m-0 font-semibold">Cole Morton</h1>
+  <h1 class="brand-text m-0 font-semibold">Your Brand</h1>
 </a>
 ```
 
@@ -1260,7 +1260,7 @@ function ThemedComponent() {
 // LogoDisplay React Component with size variants
 <div className="logo-display-container">
   <h1 className={`brand-text m-0 font-semibold text-text-dark dark:text-darkmode-text-dark ${sizeClasses}`}>
-    Cole Morton
+    Your Brand
   </h1>
 </div>
 ```

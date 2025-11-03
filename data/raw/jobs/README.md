@@ -150,7 +150,7 @@ For SEEK and Employment Hero jobs, web scraping works normally without manual st
 
 ```bash
 # SEEK - fully automated
-applyr add-job 87066700
+applyr add-job 12345678
 
 # Employment Hero - fully automated
 applyr add-job https://jobs.employmenthero.com/AU/job/company-position-id
@@ -168,4 +168,3 @@ LinkedIn has strong anti-scraping measures and blocks automated requests with a 
 ```
 ❌ LinkedIn requires manual import. Please save the job page to data/raw/jobs/linked_in/{job_id}.txt and run the command again.
 ```
-

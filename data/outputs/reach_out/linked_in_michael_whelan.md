@@ -1,1 +1,0 @@
-Hi Michael, I'm a senior frontend developer with 11+ years experience. Actively seeking opportunities in QLD's tech market. Would value connecting with your IT sourcing expertise. Cheers, Cole

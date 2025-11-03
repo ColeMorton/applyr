@@ -1,14 +1,14 @@
 """Shared pytest fixtures for applyr tests"""
 
-import pytest
-import tempfile
-import shutil
+from collections.abc import Generator
 from pathlib import Path
-from typing import Generator
+import shutil
+import tempfile
 
-from typer.testing import CliRunner
-from rich.console import Console
+import pytest
 import responses
+from rich.console import Console
+from typer.testing import CliRunner
 
 from applyr.database import ApplicationDatabase
 
@@ -105,10 +105,9 @@ def sample_eh_html() -> str:
 def sample_job_data() -> dict:
     """Sample job data for testing"""
     return {
-        'job_id': '87066700',
-        'company_name': 'Test Company',
-        'job_title': 'Software Engineer',
-        'source': 'SEEK',
-        'url': 'https://www.seek.com.au/job/87066700'
+        "job_id": "12345678",
+        "company_name": "Test Company",
+        "job_title": "Software Engineer",
+        "source": "SEEK",
+        "url": "https://www.seek.com.au/job/12345678",
     }
-

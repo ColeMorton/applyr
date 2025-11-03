@@ -1,1 +1,0 @@
-Hi [Name], I'm a former collegue of our mutual connection, Rob Gray. I worked with Rob at Charm Health.
