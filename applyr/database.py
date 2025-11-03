@@ -223,7 +223,7 @@ class ApplicationDatabase:
             return None
 
         job_row = df[df["job_id"] == str(job_id)].iloc[0]
-        return job_row.to_dict()
+        return dict(job_row.to_dict())
 
     def get_jobs_by_status(self, status: JobStatus) -> pd.DataFrame:
         """Get all jobs with specific status"""
@@ -271,7 +271,10 @@ class ApplicationDatabase:
             title = "All Jobs"
 
         if df.empty:
-            self.console.print(f"[yellow]No jobs with status '{status_filter.value}'[/yellow]")
+            if status_filter:
+                self.console.print(f"[yellow]No jobs with status '{status_filter.value}'[/yellow]")
+            else:
+                self.console.print("[yellow]No jobs found[/yellow]")
             return
 
         # Limit results

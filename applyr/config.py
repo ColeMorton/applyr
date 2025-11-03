@@ -2,7 +2,10 @@
 
 import os
 from pathlib import Path
-from typing import Any, Optional
+from typing import TYPE_CHECKING, Any, Optional
+
+if TYPE_CHECKING:
+    pass
 
 try:
     import yaml
@@ -72,7 +75,7 @@ class PersonalConfig:
         if self._config_data:
             # Support nested keys like 'personal_info.name'
             parts = key.split(".")
-            value = self._config_data
+            value: Any = self._config_data
             for part in parts:
                 if isinstance(value, dict) and part in value:
                     value = value[part]
@@ -81,10 +84,13 @@ class PersonalConfig:
                     break
 
             if value and isinstance(value, str) and not value.startswith("{{"):
-                return value
+                return str(value)
 
         # Return provided default or placeholder
-        return default or f"{{{{YOUR_{key.upper().replace('.', '_')}}}}}"
+        if default:
+            return default
+        placeholder = f"{{{{YOUR_{key.upper().replace('.', '_')}}}}}"
+        return str(placeholder)
 
     def get_personal_info(self) -> dict[str, str]:
         """Get all personal info as a dictionary"""

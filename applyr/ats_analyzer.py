@@ -99,7 +99,7 @@ class ATSAnalyzer:
 
     def _analyze_file_format(self, file_path: Path, parsed_content: dict) -> dict[str, Any]:
         """Analyze file format and ATS compatibility"""
-        analysis = {
+        analysis: dict[str, Any] = {
             "file_type": file_path.suffix.lower(),
             "file_size_kb": file_path.stat().st_size / 1024,
             "ats_compatible": True,
@@ -238,13 +238,13 @@ class ATSAnalyzer:
 
         return recommendations
 
-    def _calculate_overall_score(self, scores: dict) -> float:
+    def _calculate_overall_score(self, scores: dict[str, float]) -> float:
         """Calculate overall score as sum of category scores"""
         # Scores are already out of their maximum values:
         # contact_info: out of 15, keywords: out of 25, format: out of 20
         # content: out of 20, experience: out of 15, compatibility: out of 5
         # Total possible: 100 points
-        return sum(scores.values())
+        return float(sum(scores.values()))
 
     def _calculate_grade(self, score: float) -> str:
         """Convert score to letter grade"""

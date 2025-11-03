@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """applyr CLI - Main command line interface using Typer and Rich"""
 
+import json
 from pathlib import Path
 import time
-from typing import Optional
+from typing import Any, Optional
 
 from rich import print as rprint
 from rich.console import Console
@@ -346,6 +347,8 @@ def resume_formats_command(
     output_dir.mkdir(parents=True, exist_ok=True)
 
     # Parse formats
+    if formats is None:
+        formats = "ats"  # Default value
     format_list = [f.strip() for f in formats.split(",")]
 
     # Style mapping
@@ -359,7 +362,7 @@ def resume_formats_command(
     converter = PDFConverter(console)
     console.print(f"[bold blue]📄 Generating {len(format_list)} resume formats from {input_path.name}[/bold blue]")
 
-    results = {}
+    results: dict[str, dict[str, Any]] = {}
     base_name = input_path.stem
 
     for format_name in track(format_list, description="Generating formats..."):
@@ -603,7 +606,7 @@ def format_html_command(
 
         console.print(f"[bold blue]📦 Processing {len(html_files)} HTML files from {input_path}[/bold blue]")
 
-        results = {}
+        results: dict[str, dict[str, Any]] = {}
 
         for html_file in track(html_files, description="Processing HTML files..."):
             try:
@@ -626,8 +629,8 @@ def format_html_command(
                 results[html_file.name] = {"success": False, "changes": 0, "error": str(e)}
 
         # Summary
-        successful = sum(1 for r in results.values() if r["success"])
-        total_changes = sum(r.get("changes", 0) for r in results.values())
+        successful = sum(1 for r in results.values() if r.get("success", False))
+        total_changes = sum(int(r.get("changes", 0)) for r in results.values())
 
         summary_table = Table(title="HTML Processing Summary")
         summary_table.add_column("Metric", style="cyan")
@@ -986,6 +989,8 @@ def add_job_command(
         raise typer.Exit(1)
 
     # Validate priority
+    if priority is None:
+        priority = "medium"  # Default value
     priority_map = {"high": Priority.HIGH, "medium": Priority.MEDIUM, "low": Priority.LOW}
 
     if priority.lower() not in priority_map:
@@ -1020,37 +1025,47 @@ def add_job_command(
             if manual_type == "indeed_manual":
                 from .scraper_indeed_manual import IndeedManualParser
 
-                parser = IndeedManualParser()
-                job_id = parser.extract_job_id(identifier)
-                raw_job_id = parser.get_raw_job_id(identifier)
+                parser_indeed: Any = IndeedManualParser()
+                job_id_indeed: Optional[str] = parser_indeed.extract_job_id(identifier)
+                raw_job_id = parser_indeed.get_raw_job_id(identifier)
 
-                if job_id and database.job_exists(job_id) and not force:
-                    existing_job = database.get_job(job_id)
+                if job_id_indeed and database.job_exists(job_id_indeed) and not force:
+                    existing_job = database.get_job(job_id_indeed)
                     if existing_job:
                         duplicate_jobs.append(
-                            (job_id, existing_job["company_name"], existing_job["job_title"], existing_job["status"])
+                            (
+                                job_id_indeed,
+                                existing_job["company_name"],
+                                existing_job["job_title"],
+                                existing_job["status"],
+                            )
                         )
                 else:
                     indeed_jobs_to_process.append(
-                        {"identifier": identifier, "job_id": job_id, "raw_job_id": raw_job_id}
+                        {"identifier": identifier, "job_id": job_id_indeed, "raw_job_id": raw_job_id}
                     )
 
             elif manual_type == "linkedin_manual":
                 from .scraper_linkedin_manual import LinkedInManualParser
 
-                parser = LinkedInManualParser()
-                job_id = parser.extract_job_id(identifier)
-                raw_job_id = parser.get_raw_job_id(identifier)
+                parser_linkedin: Any = LinkedInManualParser()
+                job_id_linkedin: Optional[str] = parser_linkedin.extract_job_id(identifier)
+                raw_job_id = parser_linkedin.get_raw_job_id(identifier)
 
-                if job_id and database.job_exists(job_id) and not force:
-                    existing_job = database.get_job(job_id)
+                if job_id_linkedin and database.job_exists(job_id_linkedin) and not force:
+                    existing_job = database.get_job(job_id_linkedin)
                     if existing_job:
                         duplicate_jobs.append(
-                            (job_id, existing_job["company_name"], existing_job["job_title"], existing_job["status"])
+                            (
+                                job_id_linkedin,
+                                existing_job["company_name"],
+                                existing_job["job_title"],
+                                existing_job["status"],
+                            )
                         )
                 else:
                     linkedin_jobs_to_process.append(
-                        {"identifier": identifier, "job_id": job_id, "raw_job_id": raw_job_id}
+                        {"identifier": identifier, "job_id": job_id_linkedin, "raw_job_id": raw_job_id}
                     )
         else:
             # For SEEK, Employment Hero, and LinkedIn (no manual file), use normal scraping
@@ -1084,26 +1099,26 @@ def add_job_command(
                     if job_info["source"] == "indeed":
                         from .scraper_indeed_manual import IndeedManualParser
 
-                        parser = IndeedManualParser()
-                        if parser.extract_job_id(job_info["identifier"]) == dup_job_id:
+                        parser_dup_indeed: Any = IndeedManualParser()
+                        if parser_dup_indeed.extract_job_id(job_info["identifier"]) == dup_job_id:
                             indeed_jobs_to_process.append(
                                 {
                                     "identifier": job_info["identifier"],
                                     "job_id": dup_job_id,
-                                    "raw_job_id": parser.get_raw_job_id(job_info["identifier"]),
+                                    "raw_job_id": parser_dup_indeed.get_raw_job_id(job_info["identifier"]),
                                 }
                             )
                             break
                     elif job_info["source"] == "linkedin":
                         from .scraper_linkedin_manual import LinkedInManualParser
 
-                        parser = LinkedInManualParser()
-                        if parser.extract_job_id(job_info["identifier"]) == dup_job_id:
+                        parser_dup_linkedin: Any = LinkedInManualParser()
+                        if parser_dup_linkedin.extract_job_id(job_info["identifier"]) == dup_job_id:
                             linkedin_jobs_to_process.append(
                                 {
                                     "identifier": job_info["identifier"],
                                     "job_id": dup_job_id,
-                                    "raw_job_id": parser.get_raw_job_id(job_info["identifier"]),
+                                    "raw_job_id": parser_dup_linkedin.get_raw_job_id(job_info["identifier"]),
                                 }
                             )
                             break
@@ -1121,26 +1136,26 @@ def add_job_command(
                 if job_info["source"] == "indeed":
                     from .scraper_indeed_manual import IndeedManualParser
 
-                    parser = IndeedManualParser()
-                    if parser.extract_job_id(job_info["identifier"]) == dup_job_id:
+                    parser_valid_indeed: Any = IndeedManualParser()
+                    if parser_valid_indeed.extract_job_id(job_info["identifier"]) == dup_job_id:
                         indeed_jobs_to_process.append(
                             {
                                 "identifier": job_info["identifier"],
                                 "job_id": dup_job_id,
-                                "raw_job_id": parser.get_raw_job_id(job_info["identifier"]),
+                                "raw_job_id": parser_valid_indeed.get_raw_job_id(job_info["identifier"]),
                             }
                         )
                         break
                 elif job_info["source"] == "linkedin":
                     from .scraper_linkedin_manual import LinkedInManualParser
 
-                    parser = LinkedInManualParser()
-                    if parser.extract_job_id(job_info["identifier"]) == dup_job_id:
+                    parser_valid_linkedin: Any = LinkedInManualParser()
+                    if parser_valid_linkedin.extract_job_id(job_info["identifier"]) == dup_job_id:
                         linkedin_jobs_to_process.append(
                             {
                                 "identifier": job_info["identifier"],
                                 "job_id": dup_job_id,
-                                "raw_job_id": parser.get_raw_job_id(job_info["identifier"]),
+                                "raw_job_id": parser_valid_linkedin.get_raw_job_id(job_info["identifier"]),
                             }
                         )
                         break
@@ -1162,14 +1177,19 @@ def add_job_command(
         console.print(f"[blue]📄 Processing {len(indeed_jobs_to_process)} Indeed job(s) from text files...[/blue]")
         from .scraper_indeed_manual import IndeedManualParser
 
-        parser = IndeedManualParser()
+        parser_indeed_process: Any = IndeedManualParser()
 
         for indeed_job in indeed_jobs_to_process:
             identifier = indeed_job["identifier"]
-            job_id = indeed_job["job_id"]
+            job_id_indeed_process: Optional[str] = indeed_job.get("job_id")
             raw_job_id = indeed_job["raw_job_id"]
 
-            job_data = parser.process_job(identifier)
+            if not job_id_indeed_process:
+                console.print(f"[red]❌ Invalid job_id for Indeed job {identifier}[/red]")
+                indeed_results[identifier] = False
+                continue
+
+            job_data = parser_indeed_process.process_job(identifier)
 
             if not job_data:
                 console.print(f"[red]❌ No text file found for Indeed job {raw_job_id}[/red]")
@@ -1203,13 +1223,13 @@ def add_job_command(
 
                 company = temp_scraper.sanitize_filename(job_data["company"])
                 title = temp_scraper.sanitize_filename(job_data["title"])
-                filename = f"{job_id}_{company}_{title}.md"
+                filename = f"{job_id_indeed_process}_{company}_{title}.md"
                 filepath = output_dir / filename
 
                 markdown_content = f"""# {job_data['title']}
 
 **Company:** {job_data['company']}
-**Job ID:** {job_id}
+**Job ID:** {job_id_indeed_process}
 **Source:** Indeed (Manual Import)
 **Imported:** {time.strftime('%Y-%m-%d %H:%M:%S')}
 
@@ -1223,7 +1243,7 @@ def add_job_command(
 
                 # Add to database
                 database.add_job(
-                    job_id=job_id,
+                    job_id=job_id_indeed_process,
                     company_name=job_data["company"],
                     job_title=job_data["title"],
                     source="Indeed",
@@ -1235,7 +1255,7 @@ def add_job_command(
                 )
 
                 console.print(
-                    f"[green]✅ Imported Indeed job {job_id}: {job_data['title']} at {job_data['company']}[/green]"
+                    f"[green]✅ Imported Indeed job {job_id_indeed_process}: {job_data['title']} at {job_data['company']}[/green]"
                 )
                 indeed_results[identifier] = True
 
@@ -1245,14 +1265,19 @@ def add_job_command(
         console.print(f"[blue]📄 Processing {len(linkedin_jobs_to_process)} LinkedIn job(s) from text files...[/blue]")
         from .scraper_linkedin_manual import LinkedInManualParser
 
-        parser = LinkedInManualParser()
+        parser_linkedin_process: Any = LinkedInManualParser()
 
         for linkedin_job in linkedin_jobs_to_process:
             identifier = linkedin_job["identifier"]
-            job_id = linkedin_job["job_id"]
+            job_id_linkedin_process: Optional[str] = linkedin_job.get("job_id")
             raw_job_id = linkedin_job["raw_job_id"]
 
-            job_data = parser.process_job(identifier)
+            if not job_id_linkedin_process:
+                console.print(f"[red]❌ Invalid job_id for LinkedIn job {identifier}[/red]")
+                linkedin_results[identifier] = False
+                continue
+
+            job_data = parser_linkedin_process.process_job(identifier)
 
             if not job_data:
                 console.print(f"[red]❌ No text file found for LinkedIn job {raw_job_id}[/red]")
@@ -1286,14 +1311,14 @@ def add_job_command(
 
                 company = temp_scraper.sanitize_filename(job_data["company"])
                 title = temp_scraper.sanitize_filename(job_data["title"])
-                filename = f"{job_id}_{company}_{title}.md"
+                filename = f"{job_id_linkedin_process}_{company}_{title}.md"
                 filepath = output_dir / filename
 
                 markdown_content = f"""# {job_data['title']}
 
 **Company:** {job_data['company']}
 **Location:** {job_data['location']}
-**Job ID:** {job_id}
+**Job ID:** {job_id_linkedin_process}
 **Source:** LinkedIn (Manual Import)
 **Imported:** {time.strftime('%Y-%m-%d %H:%M:%S')}
 
@@ -1307,7 +1332,7 @@ def add_job_command(
 
                 # Add to database
                 database.add_job(
-                    job_id=job_id,
+                    job_id=job_id_linkedin_process,
                     company_name=job_data["company"],
                     job_title=job_data["title"],
                     source="LinkedIn",
@@ -1319,7 +1344,7 @@ def add_job_command(
                 )
 
                 console.print(
-                    f"[green]✅ Imported LinkedIn job {job_id}: {job_data['title']} at {job_data['company']}[/green]"
+                    f"[green]✅ Imported LinkedIn job {job_id_linkedin_process}: {job_data['title']} at {job_data['company']}[/green]"
                 )
                 linkedin_results[identifier] = True
 
@@ -1356,7 +1381,7 @@ def add_job_command(
         # Add LinkedIn jobs
         for linkedin_job in linkedin_jobs_to_process:
             all_jobs_to_check.append(
-                {"identifier": linkedin_job["identifier"], "job_id": linkedin_job["job_id"], "source": "linkedin"}
+                {"identifier": linkedin_job["identifier"], "job_id": linkedin_job.get("job_id"), "source": "linkedin"}
             )
 
         # Add scraping jobs
@@ -1369,26 +1394,29 @@ def add_job_command(
 
         for job_check in all_jobs_to_check:
             identifier = job_check["identifier"]
-            job_id = job_check["job_id"]
+            job_id_check: Optional[str] = job_check.get("job_id")
             success = results.get(identifier, False)
+
+            if not job_id_check:
+                continue  # Skip jobs without valid job_id
 
             if success:
                 # Update priority and notes if provided
-                update_kwargs = {}
+                update_kwargs: dict[str, Any] = {}
                 if priority != "medium":  # Only update if not default
                     update_kwargs["priority"] = priority_enum
                 if notes:
                     update_kwargs["notes"] = notes
 
                 if update_kwargs:
-                    database.update_job(job_id, **update_kwargs)
+                    database.update_job(job_id_check, **update_kwargs)
 
                 # Fetch job details for summary
-                job = database.get_job(job_id)
+                job = database.get_job(job_id_check)
                 if job:
                     successful_jobs.append(
                         {
-                            "job_id": job_id,
+                            "job_id": job_id_check,
                             "company": job["company_name"],
                             "title": job["job_title"],
                             "status": job["status"],
@@ -1398,7 +1426,7 @@ def add_job_command(
                 else:
                     successful_jobs.append(
                         {
-                            "job_id": job_id,
+                            "job_id": job_id_check,
                             "company": "Unknown",
                             "title": "Unknown",
                             "status": "discovered",
@@ -1406,7 +1434,7 @@ def add_job_command(
                         }
                     )
             else:
-                failed_jobs.append(job_id)
+                failed_jobs.append(job_id_check)
 
         # Display results summary
         if len(valid_jobs) == 1 and successful_jobs:
@@ -1499,7 +1527,6 @@ def ats_command(
         applyr ats resume.pdf --job-desc job.txt --format detailed
         applyr ats cover_letter.md --save
     """
-    import json
 
     from .ats_analyzer import ATSAnalyzer
     from .ats_output import ATSOutputFormatter
@@ -1564,7 +1591,7 @@ def ats_command(
         # Save report if requested
         if save_report:
             report_path = file_path.parent / f"{file_path.stem}_ats_report.json"
-            with open(report_path, "w", encoding="utf-8"):
+            with open(report_path, "w", encoding="utf-8") as f:
                 json.dump(
                     {
                         "file_analyzed": str(file_path),
@@ -1586,6 +1613,7 @@ def ats_command(
                         "parsed_content": result.parsed_content,
                         "file_analysis": result.file_analysis,
                     },
+                    f,
                     indent=2,
                 )
             console.print(f"[green]📄 Detailed report saved to: {report_path}[/green]")

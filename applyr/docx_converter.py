@@ -1,8 +1,14 @@
 """DOCX converter module for converting HTML/Markdown files to DOCX with CSS styling preservation"""
+# mypy: disable-error-code=no-redef
 
 from pathlib import Path
 import tempfile
-from typing import Any, Optional
+from typing import TYPE_CHECKING, Any, Optional
+
+if TYPE_CHECKING:
+    from docx import Document as DocumentType
+else:
+    DocumentType = Any  # type: ignore[assignment, misc]
 
 from rich.console import Console
 
@@ -383,7 +389,7 @@ class DOCXConverter:
                 success = self._convert_markdown_with_pandoc(md_content, reference_docx, output_docx)
             else:
                 # Convert markdown to HTML first, then to DOCX
-                import markdown
+                import markdown  # type: ignore[import-untyped]
 
                 md = markdown.Markdown(extensions=["extra", "codehilite", "toc", "tables"])
                 html_content = md.convert(md_content)
@@ -403,17 +409,21 @@ class DOCXConverter:
             self.console.print(f"[red]❌ Markdown to DOCX conversion failed: {e}[/red]")
             return False
 
-    def _process_html(self, html_file: Path, skip_lint: bool) -> tuple[str, dict]:
+    def _process_html(self, html_file: Path, skip_lint: bool) -> tuple[str, dict[str, Any]]:
         """Process HTML file with linting, optimization, and class annotation"""
         with open(html_file, encoding="utf-8") as f:
             html_content = f.read()
 
         if not skip_lint:
             # Use existing HTML processor for consistency
-            processed_html, changes = self.html_processor.process_html(html_content)
+            processed_html, changes_list = self.html_processor.process_html(html_content)
+            # Convert list to dict format for compatibility
+            changes_dict: dict[str, Any] = {"changes": changes_list, "count": len(changes_list)}
         else:
             processed_html = html_content
-            changes = {}
+            changes_dict = {}
+
+        changes = changes_dict
 
         # Annotate with page break data attributes (NEW)
         annotated_html = self._annotate_html_with_class_data(processed_html)
@@ -498,7 +508,7 @@ class DOCXConverter:
             self.console.print(f"[yellow]⚠️  Could not generate reference.docx: {e}[/yellow]")
             return None
 
-    def _apply_styles_to_document(self, doc: Document, docx_styles: dict[str, Any]) -> None:
+    def _apply_styles_to_document(self, doc: DocumentType, docx_styles: dict[str, Any]) -> None:
         """Apply DOCX styles to document"""
         try:
             # Create custom styles based on CSS
@@ -514,7 +524,7 @@ class DOCXConverter:
         except Exception as e:
             self.console.print(f"[yellow]⚠️  Error applying styles: {e}[/yellow]")
 
-    def _create_heading_style(self, doc: Document, style_name: str, style_props: dict[str, Any]) -> None:
+    def _create_heading_style(self, doc: DocumentType, style_name: str, style_props: dict[str, Any]) -> None:
         """Create heading style"""
         try:
             style = doc.styles.add_style(style_name, WD_STYLE_TYPE.PARAGRAPH)
@@ -529,7 +539,7 @@ class DOCXConverter:
         except Exception:
             pass  # Style might already exist
 
-    def _create_paragraph_style(self, doc: Document, style_name: str, style_props: dict[str, Any]) -> None:
+    def _create_paragraph_style(self, doc: DocumentType, style_name: str, style_props: dict[str, Any]) -> None:
         """Create paragraph style"""
         try:
             style = doc.styles.add_style(style_name, WD_STYLE_TYPE.PARAGRAPH)
@@ -622,7 +632,7 @@ class DOCXConverter:
             self.console.print(f"[red]❌ Basic HTML to DOCX conversion failed: {e}[/red]")
             return False
 
-    def _extract_content_to_docx(self, soup, doc: Document, _style_template: str) -> None:
+    def _extract_content_to_docx(self, soup, doc: DocumentType, _style_template: str) -> None:
         """Extract content from BeautifulSoup and add to DOCX"""
         # Find main content area
         body = soup.find("body") or soup
@@ -676,7 +686,7 @@ class DOCXConverter:
         except Exception as e:
             self.console.print(f"[yellow]⚠️  Post-processing failed: {e}[/yellow]")
 
-    def _apply_ats_optimizations(self, doc: Document) -> None:
+    def _apply_ats_optimizations(self, doc: DocumentType) -> None:
         """Apply ATS-specific optimizations"""
         # Ensure simple formatting for ATS compatibility
         for paragraph in doc.paragraphs:
@@ -689,15 +699,15 @@ class DOCXConverter:
                     if run.italic is None:
                         run.italic = False
 
-    def _apply_executive_optimizations(self, doc: Document) -> None:
+    def _apply_executive_optimizations(self, doc: DocumentType) -> None:
         """Apply executive-style optimizations"""
         # Add executive formatting touches
 
-    def _apply_sensylate_optimizations(self, doc: Document) -> None:
+    def _apply_sensylate_optimizations(self, doc: DocumentType) -> None:
         """Apply Sensylate-style optimizations"""
         # Add Sensylate branding touches
 
-    def _apply_professional_optimizations(self, doc: Document) -> None:
+    def _apply_professional_optimizations(self, doc: DocumentType) -> None:
         """Apply professional-style optimizations"""
         # Standard professional formatting
 
@@ -705,7 +715,7 @@ class DOCXConverter:
 
     def _is_heading(self, para) -> bool:
         """Check if paragraph is a heading"""
-        return para.style.name.startswith("Heading") or para.style.name.startswith("Title")
+        return bool(para.style.name.startswith("Heading") or para.style.name.startswith("Title"))
 
     def _is_major_heading(self, para) -> bool:
         """Check if paragraph is a major heading (h1/h2 only, not h3/h4)"""
@@ -841,7 +851,7 @@ class DOCXConverter:
 
         return str(soup)
 
-    def _apply_smart_page_breaks(self, doc, _style_template: str, html_content: str = None) -> None:
+    def _apply_smart_page_breaks(self, doc, _style_template: str, html_content: Optional[str] = None) -> None:
         """
         Apply explicit page breaks and article block protection
 
@@ -941,7 +951,7 @@ class DOCXConverter:
 
         return False
 
-    def _find_article_start(self, para_snippet: str, article_map: dict) -> dict:
+    def _find_article_start(self, para_snippet: str, article_map: dict) -> Optional[dict[str, Any]]:
         """
         Check if paragraph matches the start of an article block
 
@@ -949,7 +959,7 @@ class DOCXConverter:
         """
         # Direct match
         if para_snippet in article_map:
-            return article_map[para_snippet]
+            return dict(article_map[para_snippet])
 
         # Fuzzy match (partial overlap)
         for text_snippet, article_info in article_map.items():
@@ -958,7 +968,7 @@ class DOCXConverter:
                 and (text_snippet in para_snippet or para_snippet in text_snippet)
                 and len(text_snippet) > 15
             ):
-                return article_info
+                return dict(article_info)
 
         return None
 

@@ -5,7 +5,7 @@ from pathlib import Path
 import re
 from typing import Optional
 
-import markdown
+import markdown  # type: ignore[import-untyped]
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.platypus import Paragraph, SimpleDocTemplate, Spacer
@@ -106,7 +106,7 @@ class PDFConverter:
         Returns:
             dict: Dictionary of {markdown_file: success_bool}
         """
-        results = {}
+        results: dict[str, bool] = {}
 
         if not input_dir.exists():
             self.console.print(f"[red]❌ Error: Input directory not found: {input_dir}[/red]")
@@ -123,6 +123,6 @@ class PDFConverter:
         for md_file in markdown_files:
             output_pdf = output_dir / f"{md_file.stem}.pdf"
             success = self.convert_markdown_to_pdf(md_file, output_pdf)
-            results[md_file] = success
+            results[str(md_file)] = success
 
         return results

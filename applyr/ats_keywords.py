@@ -58,7 +58,13 @@ class KeywordAnalyzer:
 
     def _extract_keywords(self, text: str) -> dict[str, list[str]]:
         """Extract keywords from text"""
-        keywords = {"technical": [], "soft_skills": [], "industry": [], "tools": [], "frameworks": []}
+        keywords: dict[str, list[str]] = {
+            "technical": [],
+            "soft_skills": [],
+            "industry": [],
+            "tools": [],
+            "frameworks": [],
+        }
 
         # Technical keywords - categorize by type
         for category, words in self.tech_keywords.items():
@@ -144,7 +150,7 @@ class KeywordAnalyzer:
         match_percentage = (matched_keywords / total_job_keywords * 100) if total_job_keywords > 0 else 0
 
         # Identify missing keywords
-        missing_keywords = []
+        missing_keywords: list[str] = []
         for _category, words in job_keywords.items():
             for word in words:
                 if not re.search(r"\b" + re.escape(word.lower()) + r"\b", text):

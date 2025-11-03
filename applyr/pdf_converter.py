@@ -1,9 +1,9 @@
 """PDF converter module for converting markdown files to PDF with custom CSS styling"""
 
 from pathlib import Path
-from typing import Optional
+from typing import Any, Optional
 
-import markdown
+import markdown  # type: ignore[import-untyped]
 from rich.console import Console
 
 from .config import get_config, get_css_variables
@@ -508,7 +508,7 @@ class PDFConverter:
         Returns:
             dict: Dictionary of {input_file: success_bool}
         """
-        results = {}
+        results: dict[str, bool] = {}
 
         if not input_dir.exists():
             self.console.print(f"[red]❌ Error: Input directory not found: {input_dir}[/red]")
@@ -534,7 +534,7 @@ class PDFConverter:
         for input_file in all_files:
             output_pdf = output_dir / f"{input_file.stem}.pdf"
             success = self.convert_to_pdf(input_file, output_pdf, css_file, css_string, skip_lint)
-            results[input_file] = success
+            results[str(input_file)] = success
 
         return results
 
@@ -697,7 +697,7 @@ class PDFConverter:
             file_size = os.path.getsize(pdf_path)
 
             # Basic quality metrics
-            metrics = {
+            metrics: dict[str, Any] = {
                 "file_size_bytes": file_size,
                 "file_size_kb": round(file_size / 1024, 2),
                 "file_size_mb": round(file_size / (1024 * 1024), 2),

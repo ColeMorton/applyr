@@ -96,7 +96,7 @@ class DocumentParser:
             "html_structure": self._analyze_html_structure(soup),
         }
 
-    def _parse_pdf(self, file_path: Path) -> dict[str, Any]:
+    def _parse_pdf(self, file_path: Path) -> Optional[dict[str, Any]]:
         """Parse PDF document"""
         if not HAS_PDF_LIBS:
             self.console.print("[red]❌ PDF parsing libraries not available[/red]")
@@ -164,14 +164,14 @@ class DocumentParser:
             "skills": skills,
         }
 
-    def _parse_docx(self, file_path: Path) -> dict[str, Any]:
+    def _parse_docx(self, file_path: Path) -> Optional[dict[str, Any]]:
         """Parse DOCX document"""
         if not HAS_DOCX:
             self.console.print("[red]❌ python-docx not available[/red]")
             return None
 
         try:
-            doc = Document(file_path)
+            doc = Document(str(file_path))
             text_content = ""
 
             for paragraph in doc.paragraphs:

@@ -5,7 +5,7 @@ import re
 from typing import Optional
 from urllib.parse import urlparse
 
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, Tag
 
 from .database import ApplicationDatabase
 from .scraper_base import JobScraper
@@ -117,8 +117,8 @@ class EmploymentHeroScraper(JobScraper):
             # If still unknown, try to extract from meta tags
             if metadata["company"] == "Unknown Company":
                 og_site = soup.find("meta", property="og:site_name")
-                if og_site and og_site.get("content"):
-                    metadata["company"] = og_site["content"]
+                if og_site and isinstance(og_site, Tag) and og_site.get("content"):
+                    metadata["company"] = str(og_site["content"])
 
         except Exception as e:
             logger.error(f"Error extracting metadata: {e}")

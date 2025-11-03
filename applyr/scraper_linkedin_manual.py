@@ -144,7 +144,7 @@ class LinkedInManualParser:
                 r"^(show more|show less)",
             ]
 
-            title_candidates = []
+            title_candidates: list[tuple[int, str]] = []
             for i, line in enumerate(lines[:20]):  # Check first 20 lines
                 # Skip short lines and navigation
                 if len(line) < 5 or any(re.match(pattern, line, re.IGNORECASE) for pattern in skip_patterns):

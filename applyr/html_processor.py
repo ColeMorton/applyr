@@ -16,9 +16,9 @@ class HTMLProcessor:
     def __init__(self, console: Optional[Console] = None, weasyprint_mode: Optional[bool] = None):
         """Initialize HTML processor with optional console for output"""
         self.console = console or Console()
-        self._node_available = None
-        self._html_eslint_available = None
-        self._prettier_available = None
+        self._node_available: Optional[bool] = None
+        self._html_eslint_available: Optional[bool] = None
+        self._prettier_available: Optional[bool] = None
         self._weasyprint_mode = weasyprint_mode  # Explicit mode override
 
     @property
@@ -30,6 +30,7 @@ class HTMLProcessor:
                 self._node_available = result.returncode == 0
             except (subprocess.TimeoutExpired, FileNotFoundError):
                 self._node_available = False
+        assert self._node_available is not None  # Type narrowing for mypy
         return self._node_available
 
     @property
@@ -61,6 +62,7 @@ class HTMLProcessor:
 
                 except (subprocess.TimeoutExpired, FileNotFoundError):
                     self._html_eslint_available = False
+        assert self._html_eslint_available is not None  # Type narrowing for mypy
         return self._html_eslint_available
 
     @property
@@ -77,6 +79,7 @@ class HTMLProcessor:
                     self._prettier_available = result.returncode == 0
                 except (subprocess.TimeoutExpired, FileNotFoundError):
                     self._prettier_available = False
+        assert self._prettier_available is not None  # Type narrowing for mypy
         return self._prettier_available
 
     def _detect_weasyprint_context(self, html_content: str, source_path: Optional[Path] = None) -> bool:

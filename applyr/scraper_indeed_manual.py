@@ -142,7 +142,7 @@ class IndeedManualParser:
                 r"^(companies|apply now|save job|report job)",
             ]
 
-            title_candidates = []
+            title_candidates: list[tuple[int, str]] = []
             for i, line in enumerate(lines[:30]):  # Check first 30 lines
                 # Skip short lines and navigation
                 if len(line) < 5 or any(re.match(pattern, line, re.IGNORECASE) for pattern in skip_patterns):

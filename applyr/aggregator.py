@@ -111,7 +111,7 @@ class JobDescriptionAggregator:
         level_counts = Counter(job_levels)
 
         tech_keywords = ["typescript", "javascript", "react", "node", "aws", "python", "java", "php", "wordpress"]
-        tech_mentions = Counter()
+        tech_mentions: Counter[str] = Counter()
 
         for job in jobs_data:
             title_lower = job["title"].lower()

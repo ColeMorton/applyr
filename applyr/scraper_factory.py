@@ -141,6 +141,7 @@ def create_scraper(
     source = detect_job_source(url_or_id)
     url = normalize_to_url(url_or_id, source)
 
+    scraper: JobScraper
     if source == "seek":
         scraper = SEEKScraper(delay_between_requests=delay, database=database)
     elif source == "employment_hero":
@@ -169,6 +170,7 @@ def create_manual_parser(url_or_id: str) -> tuple[object, str]:
     """
     source = detect_job_source(url_or_id)
 
+    parser: object
     if source == "linkedin":
         parser = LinkedInManualParser()
         return parser, "linkedin_manual"
