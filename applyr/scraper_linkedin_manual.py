@@ -169,7 +169,7 @@ class LinkedInManualParser:
             # Company name often appears near the title
             # Look for patterns like "Company Name" or "Company hiring Title"
             company_candidates = []
-            for i, line in enumerate(lines[:20]):
+            for _i, line in enumerate(lines[:20]):
                 # Skip if it's likely the title we just found
                 if line == metadata["title"]:
                     continue
@@ -192,7 +192,7 @@ class LinkedInManualParser:
 
             # Extract location: look for City, State/Country patterns
             location_candidates = []
-            for i, line in enumerate(lines[:20]):
+            for _i, line in enumerate(lines[:20]):
                 # Look for location patterns
                 if (
                     re.match(r"^[A-Z][a-z]+,\s*[A-Z][a-z]+", line)

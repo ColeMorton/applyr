@@ -32,7 +32,7 @@ class EmploymentHeroScraper(JobScraper):
             }
         )
 
-    def _get_request_headers(self, url: str) -> dict[str, str]:
+    def _get_request_headers(self, _url: str) -> dict[str, str]:
         """Get additional headers for Employment Hero requests."""
         return {"Referer": "https://jobs.employmenthero.com/"}
 

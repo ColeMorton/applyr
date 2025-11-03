@@ -192,7 +192,7 @@ class ATSAnalyzer:
         return issues
 
     def _generate_recommendations(
-        self, scores: dict, critical_issues: list[str], keyword_analysis: dict, content_analysis: dict
+        self, scores: dict, critical_issues: list[str], keyword_analysis: dict, _content_analysis: dict
     ) -> list[str]:
         """Generate specific, actionable recommendations"""
         recommendations = []

@@ -133,7 +133,7 @@ class JobScraper(ABC):
             logger.error(f"Error fetching {url}: {e}")
         return None
 
-    def _get_request_headers(self, url: str) -> dict[str, str]:
+    def _get_request_headers(self, _url: str) -> dict[str, str]:
         """Get additional headers for request. Override in subclass if needed.
 
         Args:

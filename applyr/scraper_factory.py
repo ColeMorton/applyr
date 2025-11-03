@@ -12,7 +12,7 @@ from .scraper_indeed_manual import IndeedManualParser
 from .scraper_linkedin_manual import LinkedInManualParser
 
 
-def detect_job_source(url_or_id: str) -> str:
+def detect_job_source(url_or_id: str) -> str:  # noqa: PLR0911
     """Detect which job board a URL or ID belongs to.
 
     Args:

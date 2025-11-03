@@ -345,13 +345,15 @@ class PDFConverter:
                 # Determine style based on content
                 if para_text.startswith("#"):
                     style = styles["Heading1"]
-                    para_text = para_text.lstrip("#").strip()
+                    cleaned_text = para_text.lstrip("#").strip()
                 elif para_text.strip().startswith("-") or para_text.strip().startswith("*"):
                     style = styles["Normal"]
+                    cleaned_text = para_text.strip()
                 else:
                     style = styles["Normal"]
+                    cleaned_text = para_text.strip()
 
-                para = Paragraph(para_text.strip(), style)
+                para = Paragraph(cleaned_text, style)
                 story.append(para)
                 story.append(Spacer(1, 12))
 
@@ -443,7 +445,7 @@ class PDFConverter:
         self.console.print(f"[green]✅ PDF created from HTML with WeasyPrint: {output_pdf}[/green]")
         return True
 
-    def _convert_html_with_reportlab(self, html_file: Path, html_content: str, output_pdf: Path) -> bool:
+    def _convert_html_with_reportlab(self, _html_file: Path, html_content: str, output_pdf: Path) -> bool:
         """Simple HTML conversion using ReportLab"""
 
         # Create PDF

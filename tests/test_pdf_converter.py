@@ -283,7 +283,6 @@ Unicode: 你好 مرحبا Здравствуй
         valid_file.write_text("# Valid File\n\nContent")
         invalid_file = temp_dir / "invalid.txt"  # Wrong extension
         invalid_file.write_text("Not markdown")
-        nonexistent_file = temp_dir / "nonexistent.md"  # Won't exist
 
         output_dir = temp_dir / "pdfs"
 

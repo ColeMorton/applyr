@@ -36,7 +36,7 @@ class DocumentParser:
     def __init__(self, console: Console):
         self.console = console
 
-    def parse_document(self, file_path: Path) -> Optional[dict[str, Any]]:
+    def parse_document(self, file_path: Path) -> Optional[dict[str, Any]]:  # noqa: PLR0911
         """
         Parse document based on file extension
 
@@ -279,11 +279,15 @@ class DocumentParser:
         # Look for section headers (lines that are all caps or title case)
         section_headers = []
         for i, line in enumerate(lines):
-            line = line.strip()
-            if len(line) > 3 and len(line) < 50:
+            stripped_line = line.strip()
+            if (
+                len(stripped_line) > 3
+                and len(stripped_line) < 50
+                and (stripped_line.isupper() or stripped_line.istitle())
+                and not any(char.isdigit() for char in stripped_line)
+            ):
                 # Check if line looks like a section header
-                if (line.isupper() or line.istitle()) and not any(char.isdigit() for char in line):
-                    section_headers.append((i, line))
+                section_headers.append((i, stripped_line))
 
         # Extract content for each section
         for i, (line_num, header) in enumerate(section_headers):

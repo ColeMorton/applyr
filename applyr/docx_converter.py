@@ -42,13 +42,13 @@ except ImportError:
         def __init__(self, value):
             self.value = value
 
-    class WD_ALIGN_PARAGRAPH:
+    class WD_ALIGN_PARAGRAPH:  # noqa: N801
         LEFT = 0
         CENTER = 1
         RIGHT = 2
         JUSTIFY = 3
 
-    class WD_STYLE_TYPE:
+    class WD_STYLE_TYPE:  # noqa: N801
         PARAGRAPH = 1
 
     class Document:
@@ -58,10 +58,10 @@ except ImportError:
         def save(self, path):
             pass
 
-        def add_heading(self, text, level):
+        def add_heading(self, _text, _level):
             return None
 
-        def add_paragraph(self, text, style=None):
+        def add_paragraph(self, _text, _style=None):
             return None
 
 
@@ -155,13 +155,13 @@ class CSSToDocxStyleMapper:
         matches = re.findall(pattern, css_content)
 
         for selector, properties in matches:
-            selector = selector.strip()
+            stripped_selector = selector.strip()
             style_props = {}
             for prop in properties.split(";"):
                 if ":" in prop:
                     name, value = prop.split(":", 1)
                     style_props[name.strip()] = value.strip()
-            styles[selector] = style_props
+            styles[stripped_selector] = style_props
 
         return styles
 
@@ -367,7 +367,7 @@ class DOCXConverter:
         output_docx: Path,
         style_template: str = "professional",
         css_file: Optional[Path] = None,
-        skip_lint: bool = False,
+        _skip_lint: bool = False,
     ) -> bool:
         """Convert Markdown file to DOCX with styling"""
         try:
@@ -622,7 +622,7 @@ class DOCXConverter:
             self.console.print(f"[red]❌ Basic HTML to DOCX conversion failed: {e}[/red]")
             return False
 
-    def _extract_content_to_docx(self, soup, doc: Document, style_template: str) -> None:
+    def _extract_content_to_docx(self, soup, doc: Document, _style_template: str) -> None:
         """Extract content from BeautifulSoup and add to DOCX"""
         # Find main content area
         body = soup.find("body") or soup
@@ -841,7 +841,7 @@ class DOCXConverter:
 
         return str(soup)
 
-    def _apply_smart_page_breaks(self, doc, style_template: str, html_content: str = None) -> None:
+    def _apply_smart_page_breaks(self, doc, _style_template: str, html_content: str = None) -> None:
         """
         Apply explicit page breaks and article block protection
 
@@ -936,9 +936,8 @@ class DOCXConverter:
 
         # Fuzzy match (partial overlap)
         for text_snippet in class_map:
-            if text_snippet in para_snippet or para_snippet in text_snippet:
-                if len(text_snippet) > 10:  # Avoid false positives
-                    return True
+            if (text_snippet in para_snippet or para_snippet in text_snippet) and len(text_snippet) > 10:
+                return True
 
         return False
 
@@ -954,11 +953,12 @@ class DOCXConverter:
 
         # Fuzzy match (partial overlap)
         for text_snippet, article_info in article_map.items():
-            if article_info["type"] == "article-start":
-                # Check if this paragraph contains significant portion of article start
-                if text_snippet in para_snippet or para_snippet in text_snippet:
-                    if len(text_snippet) > 15:  # Avoid false positives
-                        return article_info
+            if (
+                article_info["type"] == "article-start"
+                and (text_snippet in para_snippet or para_snippet in text_snippet)
+                and len(text_snippet) > 15
+            ):
+                return article_info
 
         return None
 
@@ -976,11 +976,7 @@ class DOCXConverter:
             return False
 
         # Check for match with article's last text
-        if last_text in para_snippet or para_snippet in last_text:
-            if len(last_text) > 15:  # Avoid false positives
-                return True
-
-        return False
+        return (last_text in para_snippet or para_snippet in last_text) and len(last_text) > 15
 
     def _apply_keep_together_to_article(self, article_paragraphs: list) -> None:
         """

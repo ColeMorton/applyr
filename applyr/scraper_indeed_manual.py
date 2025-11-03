@@ -164,7 +164,7 @@ class IndeedManualParser:
             # Company name often appears near the title
             # Look for patterns like "Company Name - Location" or standalone company line
             company_candidates = []
-            for i, line in enumerate(lines[:30]):
+            for _i, line in enumerate(lines[:30]):
                 # Skip if it's likely the title we just found
                 if line == metadata["title"]:
                     continue

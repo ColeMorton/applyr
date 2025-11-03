@@ -409,9 +409,8 @@ class HTMLProcessor:
             issues.append("JavaScript detected - not supported in PDF generation")
 
         # Check for external resources that might not load
-        if "http://" in html_content or "https://" in html_content:
-            if "background-image: url(" not in html_content:  # Allow data URIs
-                issues.append("External resources detected - may not load in PDF")
+        if ("http://" in html_content or "https://" in html_content) and "background-image: url(" not in html_content:
+            issues.append("External resources detected - may not load in PDF")
 
         return issues
 

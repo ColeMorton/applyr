@@ -94,9 +94,9 @@ def scrape_command(
 
     if failed > 0:
         console.print("\n[red]❌ Failed URLs:[/red]")
-        for url, success in results.items():
+        for job_url, success in results.items():
             if not success:
-                console.print(f"  • [red]{url}[/red]")
+                console.print(f"  • [red]{job_url}[/red]")
 
     if successful > 0:
         console.print(f"\n[green]✅ Job descriptions saved to: {output_dir}[/green]")
@@ -1194,10 +1194,10 @@ def add_job_command(
                     "TempScraper",
                     (JobScraper,),
                     {
-                        "extract_job_id": lambda self, url: None,
-                        "extract_job_metadata": lambda self, soup: {},
-                        "clean_job_description": lambda self, soup: None,
-                        "get_source_name": lambda self: "Indeed",
+                        "extract_job_id": lambda _self, _url: None,
+                        "extract_job_metadata": lambda _self, _soup: {},
+                        "clean_job_description": lambda _self, _soup: None,
+                        "get_source_name": lambda _self: "Indeed",
                     },
                 )(delay_between_requests=2.0, database=database)
 
@@ -1277,10 +1277,10 @@ def add_job_command(
                     "TempScraper",
                     (JobScraper,),
                     {
-                        "extract_job_id": lambda self, url: None,
-                        "extract_job_metadata": lambda self, soup: {},
-                        "clean_job_description": lambda self, soup: None,
-                        "get_source_name": lambda self: "LinkedIn",
+                        "extract_job_id": lambda _self, _url: None,
+                        "extract_job_metadata": lambda _self, _soup: {},
+                        "clean_job_description": lambda _self, _soup: None,
+                        "get_source_name": lambda _self: "LinkedIn",
                     },
                 )(delay_between_requests=2.0, database=database)
 

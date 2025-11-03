@@ -35,7 +35,7 @@ class SEEKScraper(JobScraper):
             }
         )
 
-    def _get_request_headers(self, url: str) -> dict[str, str]:
+    def _get_request_headers(self, _url: str) -> dict[str, str]:
         """Get additional headers for SEEK requests."""
         return {"Referer": "https://www.seek.com.au/"}
 

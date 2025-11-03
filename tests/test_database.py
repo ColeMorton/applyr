@@ -58,7 +58,7 @@ def sample_jobs():
 class TestApplicationDatabase:
     """Test cases for ApplicationDatabase class"""
 
-    def test_database_initialization(self, test_database, temp_dir):
+    def test_database_initialization(self, _test_database, temp_dir):
         """Test database initialization creates CSV with proper schema"""
         csv_path = temp_dir / "test_advertisements.csv"
 

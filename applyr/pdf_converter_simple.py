@@ -21,7 +21,7 @@ class PDFConverter:
         self.md = markdown.Markdown(extensions=["extra", "codehilite", "toc", "tables"])
 
     def convert_markdown_to_pdf(
-        self, markdown_file: Path, output_pdf: Path, css_file: Optional[Path] = None, css_string: Optional[str] = None
+        self, markdown_file: Path, output_pdf: Path, _css_file: Optional[Path] = None, _css_string: Optional[str] = None
     ) -> bool:
         """
         Convert a markdown file to PDF
@@ -69,13 +69,15 @@ class PDFConverter:
                     # Determine style based on content
                     if para_text.startswith("#"):
                         style = styles["Heading1"]
-                        para_text = para_text.lstrip("#").strip()
+                        cleaned_text = para_text.lstrip("#").strip()
                     elif para_text.strip().startswith("-") or para_text.strip().startswith("*"):
                         style = styles["Normal"]
+                        cleaned_text = para_text.strip()
                     else:
                         style = styles["Normal"]
+                        cleaned_text = para_text.strip()
 
-                    para = Paragraph(para_text.strip(), style)
+                    para = Paragraph(cleaned_text, style)
                     story.append(para)
                     story.append(Spacer(1, 12))
 
@@ -90,7 +92,7 @@ class PDFConverter:
             return False
 
     def batch_convert(
-        self, input_dir: Path, output_dir: Path, css_file: Optional[Path] = None, css_string: Optional[str] = None
+        self, input_dir: Path, output_dir: Path, _css_file: Optional[Path] = None, _css_string: Optional[str] = None
     ) -> dict:
         """
         Convert all markdown files in a directory to PDFs

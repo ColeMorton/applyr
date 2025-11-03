@@ -13,15 +13,15 @@ from applyr.scraper_base import JobScraper
 class ConcreteScraper(JobScraper):
     """Concrete implementation of JobScraper for testing"""
 
-    def extract_job_id(self, url: str):
+    def extract_job_id(self, _url: str):
         """Extract job ID from URL"""
         return "test-id"
 
-    def extract_job_metadata(self, soup: BeautifulSoup) -> dict[str, str]:
+    def extract_job_metadata(self, _soup: BeautifulSoup) -> dict[str, str]:
         """Extract job metadata"""
         return {"title": "Test Job", "company": "Test Company"}
 
-    def clean_job_description(self, soup: BeautifulSoup):
+    def clean_job_description(self, _soup: BeautifulSoup):
         """Clean job description"""
         return "Test job description content"
 
@@ -122,7 +122,7 @@ class TestFetchPage:
 
         assert soup is None
 
-    def test_fetch_page_network_error(self, mock_responses):
+    def test_fetch_page_network_error(self, _mock_responses):
         """Test page fetch with network error"""
         scraper = ConcreteScraper()
         url = "https://example.com/job"
@@ -272,7 +272,7 @@ class TestScrapeJob:
 
         # Create scraper that returns None for job ID
         class InvalidIdScraper(ConcreteScraper):
-            def extract_job_id(self, url: str):
+            def extract_job_id(self, _url: str):
                 return None
 
         scraper = InvalidIdScraper(delay_between_requests=0.1)
@@ -299,7 +299,7 @@ class TestScrapeJob:
         """Test scraping when description extraction fails"""
 
         class NoDescScraper(ConcreteScraper):
-            def clean_job_description(self, soup: BeautifulSoup):
+            def clean_job_description(self, _soup: BeautifulSoup):
                 return None
 
         scraper = NoDescScraper(delay_between_requests=0.1)

@@ -361,4 +361,4 @@ class TestLoadKeywordDatabases:
         assert isinstance(industry_keywords, dict)
         assert len(industry_keywords) > 0
         # Check for common industry categories
-        assert any("saas" in key.lower() or "fintech" in key.lower() for key in industry_keywords.keys())
+        assert any("saas" in key.lower() or "fintech" in key.lower() for key in industry_keywords)
