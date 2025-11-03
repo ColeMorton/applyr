@@ -5,7 +5,7 @@ import logging
 from pathlib import Path
 import re
 import time
-from typing import Dict, Optional, Set
+from typing import Optional
 
 from bs4 import BeautifulSoup
 import requests
@@ -16,7 +16,7 @@ from .database import ApplicationDatabase, JobStatus, Priority
 logger = logging.getLogger(__name__)
 
 # Global set to track which sources have shown ToS warnings
-_TOS_WARNINGS_SHOWN: Set[str] = set()
+_TOS_WARNINGS_SHOWN: set[str] = set()
 
 
 class JobScraper(ABC):
@@ -80,7 +80,7 @@ class JobScraper(ABC):
         """
 
     @abstractmethod
-    def extract_job_metadata(self, soup: BeautifulSoup) -> Dict[str, str]:
+    def extract_job_metadata(self, soup: BeautifulSoup) -> dict[str, str]:
         """Extract job metadata (title, company) from parsed HTML.
 
         Args:
@@ -133,7 +133,7 @@ class JobScraper(ABC):
             logger.error(f"Error fetching {url}: {e}")
         return None
 
-    def _get_request_headers(self, url: str) -> Dict[str, str]:
+    def _get_request_headers(self, url: str) -> dict[str, str]:
         """Get additional headers for request. Override in subclass if needed.
 
         Args:
@@ -164,7 +164,7 @@ class JobScraper(ABC):
 
         return text
 
-    def save_job_description(self, job_id: str, metadata: Dict[str, str], description: str, output_dir: Path) -> bool:
+    def save_job_description(self, job_id: str, metadata: dict[str, str], description: str, output_dir: Path) -> bool:
         """Save job description to markdown file.
 
         Args:

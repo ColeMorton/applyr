@@ -1,5 +1,7 @@
 """Tests for CLI commands"""
 
+from pathlib import Path
+
 import responses
 
 from applyr.cli import app
@@ -15,11 +17,15 @@ class TestAddJobCommand:
         job_id = "12345678"
         mock_responses.add(responses.GET, f"https://www.seek.com.au/job/{job_id}", body=sample_seek_html, status=200)
 
-        with runner.isolated_filesystem():
+        with runner.isolated_filesystem() as fs:
             result = runner.invoke(app, ["add-job", job_id])
 
         assert result.exit_code == 0
         assert "Successfully added" in result.output or "Saved job" in result.output
+        # Verify file was created
+        job_files = list(Path(fs).glob("**/job_descriptions/*.md"))
+        assert len(job_files) > 0
+        assert any(job_id in f.name for f in job_files)
 
     def test_add_job_seek_url(self, runner, temp_dir, mock_responses, sample_seek_html):
         """Test adding job with full SEEK URL"""
@@ -27,11 +33,15 @@ class TestAddJobCommand:
         url = f"https://www.seek.com.au/job/{job_id}"
         mock_responses.add(responses.GET, url, body=sample_seek_html, status=200)
 
-        with runner.isolated_filesystem():
+        with runner.isolated_filesystem() as fs:
             result = runner.invoke(app, ["add-job", url])
 
         assert result.exit_code == 0
         assert "Saved job" in result.output or "Successfully" in result.output
+        # Verify file was created
+        job_files = list(Path(fs).glob("**/job_descriptions/*.md"))
+        assert len(job_files) > 0
+        assert any(job_id in f.name for f in job_files)
 
     def test_add_job_employment_hero_url(self, runner, temp_dir, mock_responses, sample_eh_html):
         """Test adding job with Employment Hero URL"""
@@ -49,10 +59,14 @@ class TestAddJobCommand:
         job_id = "12345678"
         mock_responses.add(responses.GET, f"https://www.seek.com.au/job/{job_id}", body=sample_seek_html, status=200)
 
-        with runner.isolated_filesystem():
+        with runner.isolated_filesystem() as fs:
             result = runner.invoke(app, ["add-job", job_id, "--priority", "high"])
 
         assert result.exit_code == 0
+        # Verify job was added successfully
+        assert "Successfully" in result.output or "Saved job" in result.output
+        job_files = list(Path(fs).glob("**/job_descriptions/*.md"))
+        assert len(job_files) > 0
 
     def test_add_job_with_notes_flag(self, runner, temp_dir, mock_responses, sample_seek_html):
         """Test adding job with notes flag"""
@@ -60,10 +74,13 @@ class TestAddJobCommand:
         notes_text = "Great opportunity with good tech stack"
         mock_responses.add(responses.GET, f"https://www.seek.com.au/job/{job_id}", body=sample_seek_html, status=200)
 
-        with runner.isolated_filesystem():
+        with runner.isolated_filesystem() as fs:
             result = runner.invoke(app, ["add-job", job_id, "--notes", notes_text])
 
         assert result.exit_code == 0
+        assert "Successfully" in result.output or "Saved job" in result.output
+        job_files = list(Path(fs).glob("**/job_descriptions/*.md"))
+        assert len(job_files) > 0
 
     def test_add_job_with_combined_flags(self, runner, temp_dir, mock_responses, sample_seek_html):
         """Test adding job with multiple flags"""
@@ -82,13 +99,14 @@ class TestAddJobCommand:
         result = runner.invoke(app, ["add-job", "123"])  # Not 8 digits
 
         assert result.exit_code == 1
-        assert "Invalid" in result.output or "Error" in result.output
+        assert "Invalid" in result.output or "Error" in result.output or "8 digits" in result.output
 
     def test_add_job_invalid_id_non_numeric(self, runner):
         """Test rejection of non-numeric job ID"""
         result = runner.invoke(app, ["add-job", "abcd1234"])
 
         assert result.exit_code == 1
+        assert "Invalid" in result.output or "Error" in result.output or "numeric" in result.output.lower()
 
     def test_add_job_unsupported_url(self, runner):
         """Test rejection of unsupported job board URL"""
@@ -112,6 +130,7 @@ class TestAddJobCommand:
         result = runner.invoke(app, ["add-job", ""])
 
         assert result.exit_code != 0
+        assert "Error" in result.output or "required" in result.output.lower() or "Missing" in result.output
 
     # Mixed Batch Tests
 
@@ -159,7 +178,7 @@ class TestAddJobCommandErrorScenarios:
 
     def test_add_job_malformed_comma_list(self, runner):
         """Test handling of malformed comma-separated list"""
-        result = runner.invoke(app, ["add-job", "12345678,,12345679"])
+        runner.invoke(app, ["add-job", "12345678,,12345679"])
 
         # Should handle empty items in list
         # May succeed by skipping empty items or fail with error
@@ -177,7 +196,7 @@ class TestAddJobCommandErrorScenarios:
             mock_responses.add(
                 responses.GET, f"https://www.seek.com.au/job/{job_id}", body=sample_seek_html, status=200
             )
-            result2 = runner.invoke(app, ["add-job", job_id, "--force"])
+            runner.invoke(app, ["add-job", job_id, "--force"])
 
         # First should succeed
         assert result1.exit_code == 0
@@ -206,7 +225,7 @@ class TestAddJobCommandValidation:
             mock_responses.add(
                 responses.GET, f"https://www.seek.com.au/job/{job_id}", body=sample_seek_html, status=200
             )
-            result = runner.invoke(app, ["add-job", job_id, "--priority", priority])
+            runner.invoke(app, ["add-job", job_id, "--priority", priority])
             # Note: May fail if job already exists from previous iteration
             # This test validates the priority parameter is accepted
 
@@ -232,7 +251,7 @@ class TestAddJobCommandIntegration:
             output_dir = temp_dir / "job_descriptions"
             output_dir.mkdir(parents=True, exist_ok=True)
 
-            result = runner.invoke(app, ["add-job", job_id])
+            runner.invoke(app, ["add-job", job_id])
 
             # Check if file was created with correct pattern
             # Would need to check actual file system

@@ -68,7 +68,7 @@ def scrape_command(
                 urls = [line.strip() for line in f if line.strip()]
         except Exception as e:
             console.print(f"[red]❌ Error reading URLs file: {e}[/red]")
-            raise typer.Exit(1)
+            raise typer.Exit(1) from e
 
     if not urls:
         console.print("[red]❌ Error: No URLs to process[/red]")
@@ -703,7 +703,7 @@ def format_export_command(
             html_content = f.read()
     except Exception as e:
         console.print(f"[red]❌ Error reading input file: {e}[/red]")
-        raise typer.Exit(1)
+        raise typer.Exit(1) from e
 
     # Process HTML with forced WeasyPrint mode
     processor = HTMLProcessor(console, weasyprint_mode=True)
@@ -712,10 +712,10 @@ def format_export_command(
         processed_content, changes = processor.process_html(html_content, input_path, skip_lint=False)
     except RuntimeError as e:
         console.print(f"[red]❌ Processing failed: {e}[/red]")
-        raise typer.Exit(1)
+        raise typer.Exit(1) from e
     except Exception as e:
         console.print(f"[red]❌ Unexpected error during processing: {e}[/red]")
-        raise typer.Exit(1)
+        raise typer.Exit(1) from e
 
     # Write output file
     try:
@@ -723,7 +723,7 @@ def format_export_command(
             f.write(processed_content)
     except Exception as e:
         console.print(f"[red]❌ Error writing output file: {e}[/red]")
-        raise typer.Exit(1)
+        raise typer.Exit(1) from e
 
     # Report results
     if changes:
@@ -756,10 +756,10 @@ def status_command(
     if job_filter:
         try:
             status_filter = JobStatus(job_filter.lower())
-        except ValueError:
+        except ValueError as e:
             console.print(f"[red]❌ Invalid status: {job_filter}[/red]")
             console.print("Valid statuses: discovered, interested, applied, interviewed, rejected, closed")
-            raise typer.Exit(1)
+            raise typer.Exit(1) from e
 
     database.display_jobs(status_filter=status_filter, limit=limit)
 
@@ -779,10 +779,10 @@ def update_status_command(
 
     try:
         new_status = JobStatus(status.lower())
-    except ValueError:
+    except ValueError as e:
         console.print(f"[red]❌ Invalid status: {status}[/red]")
         console.print("Valid statuses: discovered, interested, applied, interviewed, rejected, closed")
-        raise typer.Exit(1)
+        raise typer.Exit(1) from e
 
     database = ApplicationDatabase(console=console)
     success = database.update_status(job_id, new_status)
@@ -830,9 +830,9 @@ def jobs_command(
         try:
             status_enum = JobStatus(status.lower())
             df = df[df["status"] == status_enum.value]
-        except ValueError:
+        except ValueError as e:
             console.print(f"[red]❌ Invalid status: {status}[/red]")
-            raise typer.Exit(1)
+            raise typer.Exit(1) from e
 
     if df.empty:
         console.print("[yellow]No jobs match the specified filters[/yellow]")
@@ -1475,7 +1475,7 @@ def add_job_command(
 
     except Exception as e:
         console.print(f"[red]❌ Error during scraping operation: {e}[/red]")
-        raise typer.Exit(1)
+        raise typer.Exit(1) from e
 
 
 @app.command("ats")
@@ -1564,7 +1564,7 @@ def ats_command(
         # Save report if requested
         if save_report:
             report_path = file_path.parent / f"{file_path.stem}_ats_report.json"
-            with open(report_path, "w", encoding="utf-8") as f:
+            with open(report_path, "w", encoding="utf-8"):
                 json.dump(
                     {
                         "file_analyzed": str(file_path),
@@ -1603,7 +1603,7 @@ def ats_command(
 
     except Exception as e:
         console.print(f"[red]❌ Analysis failed: {e}[/red]")
-        raise typer.Exit(1)
+        raise typer.Exit(1) from e
 
 
 @app.command("docx")
@@ -1689,7 +1689,7 @@ def docx_command(
 
     except Exception as e:
         console.print(f"[red]❌ Conversion failed: {e}[/red]")
-        raise typer.Exit(1)
+        raise typer.Exit(1) from e
 
 
 @app.command("txt")
@@ -1760,12 +1760,12 @@ def txt_command(
         try:
             with open(output_path, "w", encoding="utf-8") as f:
                 f.write(raw_text)
-        except PermissionError:
+        except PermissionError as e:
             console.print(f"[red]❌ Permission denied writing to: {output_path}[/red]")
-            raise typer.Exit(1)
+            raise typer.Exit(1) from e
         except Exception as write_error:
             console.print(f"[red]❌ Error writing output file: {write_error}[/red]")
-            raise typer.Exit(1)
+            raise typer.Exit(1) from write_error
 
         # Success - show file info
         file_size = output_path.stat().st_size
@@ -1788,7 +1788,7 @@ def txt_command(
         import traceback
 
         console.print(f"[dim]{traceback.format_exc()}[/dim]")
-        raise typer.Exit(1)
+        raise typer.Exit(1) from e
 
 
 if __name__ == "__main__":

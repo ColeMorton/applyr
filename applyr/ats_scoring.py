@@ -2,7 +2,6 @@
 """Scoring engine for ATS analysis"""
 
 import re
-from typing import Dict
 
 from rich.console import Console
 
@@ -14,8 +13,8 @@ class ScoringEngine:
         self.console = console
 
     def calculate_scores(
-        self, parsed_content: Dict, content_analysis: Dict, keyword_analysis: Dict, file_analysis: Dict
-    ) -> Dict[str, float]:
+        self, parsed_content: dict, content_analysis: dict, keyword_analysis: dict, file_analysis: dict
+    ) -> dict[str, float]:
         """
         Calculate comprehensive ATS scores
 
@@ -50,7 +49,7 @@ class ScoringEngine:
 
         return scores
 
-    def _score_contact_info(self, parsed_content: Dict) -> float:
+    def _score_contact_info(self, parsed_content: dict) -> float:
         """Score contact information completeness and format (15 points)"""
         score = 0.0
         contact_info = parsed_content.get("contact_info", {})
@@ -83,7 +82,7 @@ class ScoringEngine:
 
         return min(score, 15.0)
 
-    def _score_keywords(self, keyword_analysis: Dict) -> float:
+    def _score_keywords(self, keyword_analysis: dict) -> float:
         """Score keyword density and relevance (25 points)"""
         score = 0.0
 
@@ -132,7 +131,7 @@ class ScoringEngine:
 
         return min(score, 25.0)
 
-    def _score_format(self, parsed_content: Dict, content_analysis: Dict, file_analysis: Dict) -> float:
+    def _score_format(self, parsed_content: dict, content_analysis: dict, file_analysis: dict) -> float:
         """Score format and structure (20 points)"""
         score = 20.0  # Start with full points, deduct for issues
 
@@ -173,7 +172,7 @@ class ScoringEngine:
 
         return max(score, 0.0)
 
-    def _score_content_quality(self, parsed_content: Dict, content_analysis: Dict) -> float:
+    def _score_content_quality(self, parsed_content: dict, content_analysis: dict) -> float:
         """Score content quality and clarity (20 points)"""
         score = 0.0
         text = parsed_content.get("raw_text", "")
@@ -233,7 +232,7 @@ class ScoringEngine:
 
         return min(score, 20.0)
 
-    def _score_experience(self, parsed_content: Dict, content_analysis: Dict) -> float:
+    def _score_experience(self, parsed_content: dict, content_analysis: dict) -> float:
         """Score experience presentation (15 points)"""
         score = 0.0
         text = parsed_content.get("raw_text", "")
@@ -287,7 +286,7 @@ class ScoringEngine:
 
         return min(score, 15.0)
 
-    def _score_compatibility(self, file_analysis: Dict, parsed_content: Dict) -> float:
+    def _score_compatibility(self, file_analysis: dict, parsed_content: dict) -> float:
         """Score overall ATS compatibility (5 points)"""
         score = 5.0  # Start with full points
 

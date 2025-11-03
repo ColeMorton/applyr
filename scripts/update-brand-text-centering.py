@@ -7,7 +7,6 @@ Clean, maintainable implementation following software engineering best practices
 
 from pathlib import Path
 import re
-from typing import Dict, Tuple
 
 # CSS template files to update
 TEMPLATE_FILES = ["applyr/styles/ats.css"]
@@ -26,7 +25,7 @@ CSS_UPDATES = {
 }
 
 
-def update_css_property(content: str, property_name: str, old_value: str, new_value: str) -> Tuple[str, bool]:
+def update_css_property(content: str, property_name: str, old_value: str, new_value: str) -> tuple[str, bool]:
     """
     Update a specific CSS property value within .brand-text selector.
 
@@ -50,7 +49,7 @@ def update_css_property(content: str, property_name: str, old_value: str, new_va
     return updated_content, count > 0
 
 
-def update_brand_text_css(css_file: Path) -> Dict[str, bool]:
+def update_brand_text_css(css_file: Path) -> dict[str, bool]:
     """
     Update .brand-text CSS properties in a template file.
 

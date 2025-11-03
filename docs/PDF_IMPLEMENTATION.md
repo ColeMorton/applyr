@@ -36,17 +36,17 @@ Font rendering inconsistencies between browser preview and PDF output causing "t
     line-height: 0 !important;
     text-indent: -9999px !important;
     overflow: hidden !important;
-    
+
     /* Display SVG as centered background */
     background-image: url("data:image/svg+xml,%3C%3Fxml...");
     background-repeat: no-repeat;
     background-position: center center;
     background-size: contain;
-    
+
     /* 2x dimensions maintaining 7:1 aspect ratio */
     width: 280pt; /* Doubled from 140pt */
     height: 40pt; /* Doubled from 20pt */
-    
+
     /* Ensure proper display */
     display: inline-block;
     vertical-align: middle;
@@ -73,7 +73,7 @@ Font rendering inconsistencies between browser preview and PDF output causing "t
 size_ratings = {
     'minimal': '< 50KB - May lack styling',
     'optimal': '50KB-200KB - Good balance',
-    'good': '200KB-500KB - Rich styling', 
+    'good': '200KB-500KB - Rich styling',
     'large': '500KB-1MB - High quality',
     'oversized': '> 1MB - Consider optimization'
 }
@@ -117,7 +117,7 @@ applyr validate-pdf resume_ats.pdf --detailed
 
 ### Font Integration
 ```python
-# Font configuration for WeasyPrint 
+# Font configuration for WeasyPrint
 font_config = FontConfiguration()
 css_objects.append(CSS(string=css_content, font_config=font_config))
 

@@ -2,7 +2,7 @@
 
 import os
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 try:
     import yaml
@@ -14,7 +14,7 @@ class PersonalConfig:
     """Loads and provides access to personal information configuration"""
 
     _instance: Optional["PersonalConfig"] = None
-    _config_data: Optional[Dict[str, Any]] = None
+    _config_data: Optional[dict[str, Any]] = None
 
     def __new__(cls):
         if cls._instance is None:
@@ -86,7 +86,7 @@ class PersonalConfig:
         # Return provided default or placeholder
         return default or f"{{{{YOUR_{key.upper().replace('.', '_')}}}}}"
 
-    def get_personal_info(self) -> Dict[str, str]:
+    def get_personal_info(self) -> dict[str, str]:
         """Get all personal info as a dictionary"""
         return {
             "name": self.get("personal_info.name"),
@@ -98,7 +98,7 @@ class PersonalConfig:
             "location": self.get("personal_info.location"),
         }
 
-    def get_branding(self) -> Dict[str, str]:
+    def get_branding(self) -> dict[str, str]:
         """Get all branding info as a dictionary"""
         return {
             "svg_text": self.get("branding.svg_text"),

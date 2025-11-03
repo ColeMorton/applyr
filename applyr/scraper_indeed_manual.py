@@ -3,7 +3,7 @@
 import logging
 from pathlib import Path
 import re
-from typing import Dict, Optional
+from typing import Optional
 from urllib.parse import parse_qs, urlparse
 
 logger = logging.getLogger(__name__)
@@ -41,7 +41,7 @@ class IndeedManualParser:
                 return f"ind-{url_or_id}"
 
             # If it's a URL, extract jk parameter
-            if url_or_id.startswith("http://") or url_or_id.startswith("https://"):
+            if url_or_id.startswith(("http://", "https://")):
                 parsed = urlparse(url_or_id)
                 query_params = parse_qs(parsed.query)
 
@@ -76,7 +76,7 @@ class IndeedManualParser:
                 return url_or_id
 
             # If it's a URL, extract jk parameter
-            if url_or_id.startswith("http://") or url_or_id.startswith("https://"):
+            if url_or_id.startswith(("http://", "https://")):
                 parsed = urlparse(url_or_id)
                 query_params = parse_qs(parsed.query)
 
@@ -116,7 +116,7 @@ class IndeedManualParser:
             logger.error(f"Error reading text file for {raw_job_id}: {e}")
             return None
 
-    def parse_job_data(self, text_content: str) -> Dict[str, str]:
+    def parse_job_data(self, text_content: str) -> dict[str, str]:
         """Parse job title, company, and description from copied text.
 
         Uses simple heuristics to extract job information from plain text.
@@ -234,7 +234,7 @@ class IndeedManualParser:
 
         return metadata
 
-    def process_job(self, url_or_id: str) -> Optional[Dict[str, str]]:
+    def process_job(self, url_or_id: str) -> Optional[dict[str, str]]:
         """Process a manual Indeed job from text file.
 
         Args:

@@ -2,7 +2,7 @@
 
 import logging
 import re
-from typing import Dict, Optional
+from typing import Optional
 from urllib.parse import urlparse
 
 from bs4 import BeautifulSoup
@@ -32,7 +32,7 @@ class EmploymentHeroScraper(JobScraper):
             }
         )
 
-    def _get_request_headers(self, url: str) -> Dict[str, str]:
+    def _get_request_headers(self, url: str) -> dict[str, str]:
         """Get additional headers for Employment Hero requests."""
         return {"Referer": "https://jobs.employmenthero.com/"}
 
@@ -64,7 +64,7 @@ class EmploymentHeroScraper(JobScraper):
             logger.error(f"Error extracting job ID from {url}: {e}")
             return None
 
-    def extract_job_metadata(self, soup: BeautifulSoup) -> Dict[str, str]:
+    def extract_job_metadata(self, soup: BeautifulSoup) -> dict[str, str]:
         """Extract job metadata (title, company) from the page.
 
         Args:

@@ -57,7 +57,7 @@ Comprehensive PDF expert for the applyr job market analysis toolkit. Deep specia
 ```python
 # System dependencies required:
 # - pango-1.0-0 (text layout)
-# - gobject-2.0-0 (object system) 
+# - gobject-2.0-0 (object system)
 # - cairo (graphics rendering)
 # - fontconfig (font management)
 ```
@@ -72,7 +72,7 @@ Comprehensive PDF expert for the applyr job market analysis toolkit. Deep specia
 
 ## Expert Capabilities & Workflows
 
-### 1. **Diagnostic Mode** 
+### 1. **Diagnostic Mode**
 - **System Analysis**: Check WeasyPrint dependencies, ReportLab availability
 - **Error Investigation**: Parse conversion failures, identify root causes
 - **Performance Profiling**: Memory usage analysis, rendering time optimization
@@ -240,7 +240,7 @@ from applyr.pdf_converter import PDFConverter
 from pathlib import Path
 converter = PDFConverter()
 result = converter.convert_markdown_to_pdf(
-    Path('data/raw/resume.md'), 
+    Path('data/raw/resume.md'),
     Path('test_output.pdf')
 )
 print(f'Conversion successful: {result}')

@@ -11,7 +11,7 @@ from pathlib import Path
 import re
 import sys
 import time
-from typing import Dict, List, Optional
+from typing import Optional
 from urllib.parse import urlparse
 
 from bs4 import BeautifulSoup
@@ -97,7 +97,7 @@ class SEEKScraper:
 
         return None
 
-    def extract_job_metadata(self, soup: BeautifulSoup) -> Dict[str, str]:
+    def extract_job_metadata(self, soup: BeautifulSoup) -> dict[str, str]:
         """
         Extract job metadata (title, company) from the page.
 
@@ -269,7 +269,7 @@ class SEEKScraper:
 
         return text
 
-    def save_job_description(self, job_id: str, metadata: Dict[str, str], description: str, output_dir: Path) -> bool:
+    def save_job_description(self, job_id: str, metadata: dict[str, str], description: str, output_dir: Path) -> bool:
         """
         Save job description to markdown file.
 
@@ -355,7 +355,7 @@ class SEEKScraper:
 
         return success
 
-    def scrape_multiple_jobs(self, urls: List[str], output_dir: Path) -> Dict[str, bool]:
+    def scrape_multiple_jobs(self, urls: list[str], output_dir: Path) -> dict[str, bool]:
         """
         Scrape multiple job postings.
 

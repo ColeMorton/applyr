@@ -13,7 +13,7 @@ import logging
 from pathlib import Path
 import re
 import sys
-from typing import Dict, List, Optional
+from typing import Optional
 
 # Setup logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
@@ -27,7 +27,7 @@ class JobDescriptionAggregator:
         """Initialize the aggregator."""
         self.jobs_data = []
 
-    def discover_job_files(self, input_dir: Path) -> List[Path]:
+    def discover_job_files(self, input_dir: Path) -> list[Path]:
         """
         Discover all job description markdown files in the input directory.
 
@@ -58,7 +58,7 @@ class JobDescriptionAggregator:
             logger.error(f"Error discovering job files: {e}")
             return []
 
-    def parse_job_file(self, file_path: Path) -> Optional[Dict]:
+    def parse_job_file(self, file_path: Path) -> Optional[dict]:
         """
         Parse a single job description file and extract metadata and content.
 
@@ -118,7 +118,7 @@ class JobDescriptionAggregator:
             logger.error(f"Error parsing job file {file_path}: {e}")
             return None
 
-    def generate_unique_title(self, job_data: Dict) -> str:
+    def generate_unique_title(self, job_data: dict) -> str:
         """
         Generate a unique title for the job in the aggregated file.
 
@@ -150,7 +150,7 @@ class JobDescriptionAggregator:
         anchor = anchor.strip("-")
         return anchor
 
-    def generate_summary_stats(self, jobs_data: List[Dict]) -> Dict:
+    def generate_summary_stats(self, jobs_data: list[dict]) -> dict:
         """
         Generate summary statistics for the job descriptions.
 

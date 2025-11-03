@@ -3,7 +3,7 @@
 
 from pathlib import Path
 import re
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from rich.console import Console
 
@@ -36,7 +36,7 @@ class DocumentParser:
     def __init__(self, console: Console):
         self.console = console
 
-    def parse_document(self, file_path: Path) -> Optional[Dict[str, Any]]:
+    def parse_document(self, file_path: Path) -> Optional[dict[str, Any]]:
         """
         Parse document based on file extension
 
@@ -68,7 +68,7 @@ class DocumentParser:
             self.console.print(f"[red]❌ Error parsing {file_path.name}: {e}[/red]")
             return None
 
-    def _parse_html(self, file_path: Path) -> Dict[str, Any]:
+    def _parse_html(self, file_path: Path) -> dict[str, Any]:
         """Parse HTML document"""
         if not HAS_BS4:
             self.console.print("[yellow]⚠️  BeautifulSoup not available, using basic text extraction[/yellow]")
@@ -96,7 +96,7 @@ class DocumentParser:
             "html_structure": self._analyze_html_structure(soup),
         }
 
-    def _parse_pdf(self, file_path: Path) -> Dict[str, Any]:
+    def _parse_pdf(self, file_path: Path) -> dict[str, Any]:
         """Parse PDF document"""
         if not HAS_PDF_LIBS:
             self.console.print("[red]❌ PDF parsing libraries not available[/red]")
@@ -143,7 +143,7 @@ class DocumentParser:
             "parsing_issues": parsing_issues,
         }
 
-    def _parse_text(self, file_path: Path) -> Dict[str, Any]:
+    def _parse_text(self, file_path: Path) -> dict[str, Any]:
         """Parse plain text or markdown document"""
         with open(file_path, encoding="utf-8") as f:
             content = f.read()
@@ -164,7 +164,7 @@ class DocumentParser:
             "skills": skills,
         }
 
-    def _parse_docx(self, file_path: Path) -> Dict[str, Any]:
+    def _parse_docx(self, file_path: Path) -> dict[str, Any]:
         """Parse DOCX document"""
         if not HAS_DOCX:
             self.console.print("[red]❌ python-docx not available[/red]")
@@ -193,7 +193,7 @@ class DocumentParser:
             self.console.print(f"[red]❌ Error parsing DOCX: {e}[/red]")
             return None
 
-    def _extract_contact_info(self, text: str) -> Dict[str, str]:
+    def _extract_contact_info(self, text: str) -> dict[str, str]:
         """Extract contact information from text"""
         contact = {"email": "", "phone": "", "location": "", "linkedin": ""}
 
@@ -236,7 +236,7 @@ class DocumentParser:
 
         return contact
 
-    def _extract_sections(self, soup: BeautifulSoup) -> Dict[str, str]:
+    def _extract_sections(self, soup: BeautifulSoup) -> dict[str, str]:
         """Extract sections from HTML using BeautifulSoup"""
         sections = {}
 
@@ -269,7 +269,7 @@ class DocumentParser:
 
         return sections
 
-    def _extract_sections_from_text(self, text: str) -> Dict[str, str]:
+    def _extract_sections_from_text(self, text: str) -> dict[str, str]:
         """Extract sections from plain text"""
         sections = {}
 
@@ -305,7 +305,7 @@ class DocumentParser:
 
         return sections
 
-    def _extract_skills(self, text: str) -> List[str]:
+    def _extract_skills(self, text: str) -> list[str]:
         """Extract skills from text"""
         # Common technical skills patterns
         skill_patterns = [
@@ -322,7 +322,7 @@ class DocumentParser:
 
         return list(skills)
 
-    def _analyze_html_structure(self, soup: BeautifulSoup) -> Dict[str, Any]:
+    def _analyze_html_structure(self, soup: BeautifulSoup) -> dict[str, Any]:
         """Analyze HTML structure for ATS compatibility"""
         structure = {
             "has_tables": bool(soup.find("table")),

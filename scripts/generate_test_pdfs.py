@@ -79,7 +79,7 @@ def main():
             try:
                 file_size_kb = round(output_pdf.stat().st_size / 1024, 1)
                 file_size_str = f"{file_size_kb} KB"
-            except:
+            except (OSError, ValueError, AttributeError):
                 file_size_str = "Unknown"
 
             results.append(

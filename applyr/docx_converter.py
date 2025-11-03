@@ -2,7 +2,7 @@
 
 from pathlib import Path
 import tempfile
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 from rich.console import Console
 
@@ -21,7 +21,6 @@ try:
     from docx import Document
     from docx.enum.style import WD_STYLE_TYPE
     from docx.enum.text import WD_ALIGN_PARAGRAPH
-    from docx.oxml.shared import OxmlElement, qn
     from docx.shared import Inches, Pt, RGBColor
 
     PYTHON_DOCX_AVAILABLE = True
@@ -88,7 +87,7 @@ class CSSToDocxStyleMapper:
     def __init__(self, console: Optional[Console] = None):
         self.console = console or Console()
 
-    def parse_css_file(self, css_file: Path) -> Dict[str, Dict[str, Any]]:
+    def parse_css_file(self, css_file: Path) -> dict[str, dict[str, Any]]:
         """Parse CSS file and extract style rules"""
         if not css_file.exists():
             return {}
@@ -101,9 +100,8 @@ class CSSToDocxStyleMapper:
             self.console.print(f"[red]❌ Error parsing CSS file {css_file}: {e}[/red]")
             return {}
 
-    def _parse_css_content(self, css_content: str) -> Dict[str, Dict[str, Any]]:
+    def _parse_css_content(self, css_content: str) -> dict[str, dict[str, Any]]:
         """Parse CSS content and return style mappings"""
-        styles = {}
 
         if CSSUTILS_AVAILABLE:
             return self._parse_with_cssutils(css_content)
@@ -113,7 +111,7 @@ class CSSToDocxStyleMapper:
             # Basic regex parsing as fallback
             return self._parse_with_regex(css_content)
 
-    def _parse_with_cssutils(self, css_content: str) -> Dict[str, Dict[str, Any]]:
+    def _parse_with_cssutils(self, css_content: str) -> dict[str, dict[str, Any]]:
         """Parse CSS using cssutils library"""
         styles = {}
         try:
@@ -129,7 +127,7 @@ class CSSToDocxStyleMapper:
             self.console.print(f"[yellow]⚠️  CSS parsing error: {e}[/yellow]")
         return styles
 
-    def _parse_with_tinycss2(self, css_content: str) -> Dict[str, Dict[str, Any]]:
+    def _parse_with_tinycss2(self, css_content: str) -> dict[str, dict[str, Any]]:
         """Parse CSS using tinycss2 library"""
         styles = {}
         try:
@@ -146,7 +144,7 @@ class CSSToDocxStyleMapper:
             self.console.print(f"[yellow]⚠️  CSS parsing error: {e}[/yellow]")
         return styles
 
-    def _parse_with_regex(self, css_content: str) -> Dict[str, Dict[str, Any]]:
+    def _parse_with_regex(self, css_content: str) -> dict[str, dict[str, Any]]:
         """Basic regex-based CSS parsing as fallback"""
         import re
 
@@ -167,7 +165,7 @@ class CSSToDocxStyleMapper:
 
         return styles
 
-    def map_css_to_docx_styles(self, css_styles: Dict[str, Dict[str, Any]]) -> Dict[str, Any]:
+    def map_css_to_docx_styles(self, css_styles: dict[str, dict[str, Any]]) -> dict[str, Any]:
         """Convert CSS styles to DOCX-compatible format"""
         docx_styles = {}
 
@@ -500,7 +498,7 @@ class DOCXConverter:
             self.console.print(f"[yellow]⚠️  Could not generate reference.docx: {e}[/yellow]")
             return None
 
-    def _apply_styles_to_document(self, doc: Document, docx_styles: Dict[str, Any]) -> None:
+    def _apply_styles_to_document(self, doc: Document, docx_styles: dict[str, Any]) -> None:
         """Apply DOCX styles to document"""
         try:
             # Create custom styles based on CSS
@@ -516,7 +514,7 @@ class DOCXConverter:
         except Exception as e:
             self.console.print(f"[yellow]⚠️  Error applying styles: {e}[/yellow]")
 
-    def _create_heading_style(self, doc: Document, style_name: str, style_props: Dict[str, Any]) -> None:
+    def _create_heading_style(self, doc: Document, style_name: str, style_props: dict[str, Any]) -> None:
         """Create heading style"""
         try:
             style = doc.styles.add_style(style_name, WD_STYLE_TYPE.PARAGRAPH)
@@ -531,7 +529,7 @@ class DOCXConverter:
         except Exception:
             pass  # Style might already exist
 
-    def _create_paragraph_style(self, doc: Document, style_name: str, style_props: Dict[str, Any]) -> None:
+    def _create_paragraph_style(self, doc: Document, style_name: str, style_props: dict[str, Any]) -> None:
         """Create paragraph style"""
         try:
             style = doc.styles.add_style(style_name, WD_STYLE_TYPE.PARAGRAPH)
@@ -633,7 +631,7 @@ class DOCXConverter:
             if element.name in ["h1", "h2", "h3", "h4", "h5", "h6"]:
                 # Add heading
                 level = int(element.name[1])
-                heading = doc.add_heading(element.get_text(strip=True), level=level)
+                doc.add_heading(element.get_text(strip=True), level=level)
 
             elif element.name == "p":
                 # Add paragraph
@@ -872,7 +870,7 @@ class DOCXConverter:
         current_article = None
         article_paragraphs = []
 
-        for i, para in enumerate(paragraphs):
+        for _i, para in enumerate(paragraphs):
             if not para.text.strip():
                 continue
 

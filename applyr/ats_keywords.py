@@ -3,7 +3,7 @@
 
 from pathlib import Path
 import re
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from rich.console import Console
 
@@ -17,7 +17,7 @@ class KeywordAnalyzer:
         self.soft_skills = self._load_soft_skills()
         self.industry_keywords = self._load_industry_keywords()
 
-    def analyze_keywords(self, parsed_content: Dict, job_description_path: Optional[Path] = None) -> Dict[str, Any]:
+    def analyze_keywords(self, parsed_content: dict, job_description_path: Optional[Path] = None) -> dict[str, Any]:
         """
         Analyze keywords in document
 
@@ -56,7 +56,7 @@ class KeywordAnalyzer:
             "missing_keywords": self._identify_missing_keywords(found_keywords, job_match_analysis),
         }
 
-    def _extract_keywords(self, text: str) -> Dict[str, List[str]]:
+    def _extract_keywords(self, text: str) -> dict[str, list[str]]:
         """Extract keywords from text"""
         keywords = {"technical": [], "soft_skills": [], "industry": [], "tools": [], "frameworks": []}
 
@@ -79,14 +79,14 @@ class KeywordAnalyzer:
                 keywords["soft_skills"].append(skill)
 
         # Industry keywords
-        for industry, words in self.industry_keywords.items():
+        for _industry, words in self.industry_keywords.items():
             for word in words:
                 if re.search(r"\b" + re.escape(word.lower()) + r"\b", text):
                     keywords["industry"].append(word)
 
         return keywords
 
-    def _calculate_keyword_density(self, text: str, keywords: Dict[str, List[str]]) -> Dict[str, float]:
+    def _calculate_keyword_density(self, text: str, keywords: dict[str, list[str]]) -> dict[str, float]:
         """Calculate keyword density"""
         word_count = len(text.split())
         density = {}
@@ -100,7 +100,7 @@ class KeywordAnalyzer:
 
         return density
 
-    def _analyze_keyword_distribution(self, text: str, keywords: Dict[str, List[str]]) -> Dict[str, Any]:
+    def _analyze_keyword_distribution(self, text: str, keywords: dict[str, list[str]]) -> dict[str, Any]:
         """Analyze how keywords are distributed across sections"""
         # Split text into sections (basic approach)
         sections = {
@@ -120,7 +120,7 @@ class KeywordAnalyzer:
 
         return distribution
 
-    def _analyze_job_match(self, text: str, job_description_path: Path) -> Dict[str, Any]:
+    def _analyze_job_match(self, text: str, job_description_path: Path) -> dict[str, Any]:
         """Analyze keyword match with job description"""
         try:
             with open(job_description_path, encoding="utf-8") as f:
@@ -136,7 +136,7 @@ class KeywordAnalyzer:
         total_job_keywords = sum(len(words) for words in job_keywords.values())
         matched_keywords = 0
 
-        for category, words in job_keywords.items():
+        for _category, words in job_keywords.items():
             for word in words:
                 if re.search(r"\b" + re.escape(word.lower()) + r"\b", text):
                     matched_keywords += 1
@@ -145,7 +145,7 @@ class KeywordAnalyzer:
 
         # Identify missing keywords
         missing_keywords = []
-        for category, words in job_keywords.items():
+        for _category, words in job_keywords.items():
             for word in words:
                 if not re.search(r"\b" + re.escape(word.lower()) + r"\b", text):
                     missing_keywords.append(word)
@@ -159,8 +159,8 @@ class KeywordAnalyzer:
         }
 
     def _generate_keyword_recommendations(
-        self, found_keywords: Dict, keyword_density: Dict, job_match: Dict
-    ) -> List[str]:
+        self, found_keywords: dict, keyword_density: dict, job_match: dict
+    ) -> list[str]:
         """Generate keyword-specific recommendations"""
         recommendations = []
 
@@ -190,7 +190,7 @@ class KeywordAnalyzer:
 
         return recommendations
 
-    def _identify_missing_keywords(self, found_keywords: Dict, job_match: Dict) -> List[str]:
+    def _identify_missing_keywords(self, found_keywords: dict, job_match: dict) -> list[str]:
         """Identify missing keywords"""
         missing = []
 
@@ -206,7 +206,7 @@ class KeywordAnalyzer:
 
         return missing[:15]  # Limit to 15 missing keywords
 
-    def _load_tech_keywords(self) -> Dict[str, List[str]]:
+    def _load_tech_keywords(self) -> dict[str, list[str]]:
         """Load technical keywords database"""
         return {
             "programming_languages": [
@@ -300,7 +300,7 @@ class KeywordAnalyzer:
             ],
         }
 
-    def _load_soft_skills(self) -> List[str]:
+    def _load_soft_skills(self) -> list[str]:
         """Load soft skills database"""
         return [
             "Leadership",
@@ -327,7 +327,7 @@ class KeywordAnalyzer:
             "Cross Functional",
         ]
 
-    def _load_industry_keywords(self) -> Dict[str, List[str]]:
+    def _load_industry_keywords(self) -> dict[str, list[str]]:
         """Load industry-specific keywords"""
         return {
             "fintech": [

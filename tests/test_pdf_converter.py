@@ -195,3 +195,160 @@ class TestPDFConverter:
         assert result is True
         assert nested_output.exists()
         assert nested_output.parent.exists()
+
+    def test_convert_empty_file(self, pdf_converter, temp_dir):
+        """Test conversion with empty markdown file"""
+        empty_file = temp_dir / "empty.md"
+        empty_file.write_text("")
+        output_pdf = temp_dir / "output.pdf"
+
+        result = pdf_converter.convert_markdown_to_pdf(empty_file, output_pdf)
+
+        # Should still create PDF (may be empty or minimal)
+        assert result is True
+        assert output_pdf.exists()
+
+    def test_convert_large_file(self, pdf_converter, temp_dir):
+        """Test conversion with large markdown file"""
+        large_file = temp_dir / "large.md"
+        # Create large content
+        large_content = "# Large Document\n\n" + ("This is a test paragraph. " * 1000)
+        large_file.write_text(large_content)
+        output_pdf = temp_dir / "output.pdf"
+
+        result = pdf_converter.convert_markdown_to_pdf(large_file, output_pdf)
+
+        assert result is True
+        assert output_pdf.exists()
+        assert output_pdf.stat().st_size > 0
+
+    def test_convert_special_characters(self, pdf_converter, temp_dir):
+        """Test conversion with special characters"""
+        special_file = temp_dir / "special.md"
+        special_content = """# Special Characters Test
+
+Text with special characters: © ® ™ € £ ¥ § ¶ † ‡ • … — –
+
+Emoji: 😀 🚀 🎉 ⚡
+
+Unicode: 你好 مرحبا Здравствуй
+"""
+        special_file.write_text(special_content)
+        output_pdf = temp_dir / "output.pdf"
+
+        result = pdf_converter.convert_markdown_to_pdf(special_file, output_pdf)
+
+        assert result is True
+        assert output_pdf.exists()
+
+    def test_convert_invalid_css_file(self, pdf_converter, sample_markdown_file, temp_dir):
+        """Test conversion with invalid CSS file"""
+        invalid_css = temp_dir / "invalid.css"
+        invalid_css.write_text("invalid css { syntax error }")
+        output_pdf = temp_dir / "output.pdf"
+
+        # Should handle invalid CSS gracefully
+        result = pdf_converter.convert_markdown_to_pdf(sample_markdown_file, output_pdf, css_file=invalid_css)
+
+        # May succeed with default CSS or fail gracefully
+        assert isinstance(result, bool)
+
+    def test_convert_missing_css_file(self, pdf_converter, sample_markdown_file, temp_dir):
+        """Test conversion with non-existent CSS file"""
+        nonexistent_css = temp_dir / "nonexistent.css"
+        output_pdf = temp_dir / "output.pdf"
+
+        # Should fall back to default CSS or handle gracefully
+        result = pdf_converter.convert_markdown_to_pdf(sample_markdown_file, output_pdf, css_file=nonexistent_css)
+
+        # Should still create PDF
+        assert result is True
+        assert output_pdf.exists()
+
+    def test_convert_invalid_css_string(self, pdf_converter, sample_markdown_file, temp_dir):
+        """Test conversion with invalid CSS string"""
+        invalid_css = "invalid { css syntax }"
+        output_pdf = temp_dir / "output.pdf"
+
+        # Should handle invalid CSS gracefully
+        result = pdf_converter.convert_markdown_to_pdf(sample_markdown_file, output_pdf, css_string=invalid_css)
+
+        # May succeed with default CSS or fail gracefully
+        assert isinstance(result, bool)
+
+    def test_batch_convert_with_failures(self, pdf_converter, temp_dir):
+        """Test batch conversion with some files that fail"""
+        # Create valid and invalid files
+        valid_file = temp_dir / "valid.md"
+        valid_file.write_text("# Valid File\n\nContent")
+        invalid_file = temp_dir / "invalid.txt"  # Wrong extension
+        invalid_file.write_text("Not markdown")
+        nonexistent_file = temp_dir / "nonexistent.md"  # Won't exist
+
+        output_dir = temp_dir / "pdfs"
+
+        results = pdf_converter.batch_convert(temp_dir, output_dir)
+
+        # Should handle failures gracefully
+        assert isinstance(results, dict)
+        assert len(results) >= 1  # At least valid file should be processed
+
+    def test_pdf_content_validation(self, pdf_converter, sample_markdown_file, temp_dir):
+        """Test that PDF contains expected content structure"""
+        output_pdf = temp_dir / "output.pdf"
+
+        result = pdf_converter.convert_markdown_to_pdf(sample_markdown_file, output_pdf)
+
+        assert result is True
+        assert output_pdf.exists()
+        # Verify PDF is a valid file (not corrupted)
+        assert output_pdf.stat().st_size > 100  # Should be more than minimal size
+        # Check PDF header (should start with %PDF)
+        with open(output_pdf, "rb") as f:
+            header = f.read(4)
+            assert header.startswith(b"%PDF")
+
+    def test_convert_with_images_reference(self, pdf_converter, temp_dir):
+        """Test conversion with image references in markdown"""
+        image_file = temp_dir / "with_images.md"
+        image_content = """# Document with Images
+
+![Alt text](image.png)
+
+<img src="logo.svg" alt="Logo">
+"""
+        image_file.write_text(image_content)
+        output_pdf = temp_dir / "output.pdf"
+
+        # Should handle missing images gracefully
+        result = pdf_converter.convert_markdown_to_pdf(image_file, output_pdf)
+
+        assert result is True
+        assert output_pdf.exists()
+
+    def test_convert_html_entities(self, pdf_converter, temp_dir):
+        """Test conversion with HTML entities"""
+        html_file = temp_dir / "html_entities.md"
+        html_content = """# HTML Entities
+
+&amp; &lt; &gt; &quot; &apos; &copy; &reg;
+"""
+        html_file.write_text(html_content)
+        output_pdf = temp_dir / "output.pdf"
+
+        result = pdf_converter.convert_markdown_to_pdf(html_file, output_pdf)
+
+        assert result is True
+        assert output_pdf.exists()
+
+    def test_convert_very_long_line(self, pdf_converter, temp_dir):
+        """Test conversion with very long line (should wrap properly)"""
+        long_line_file = temp_dir / "long_line.md"
+        long_line = "# Long Line\n\n" + ("A" * 500) + " " + ("B" * 500)
+        long_line_file.write_text(long_line)
+        output_pdf = temp_dir / "output.pdf"
+
+        result = pdf_converter.convert_markdown_to_pdf(long_line_file, output_pdf)
+
+        assert result is True
+        assert output_pdf.exists()

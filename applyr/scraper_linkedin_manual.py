@@ -3,7 +3,7 @@
 import logging
 from pathlib import Path
 import re
-from typing import Dict, Optional
+from typing import Optional
 from urllib.parse import urlparse
 
 logger = logging.getLogger(__name__)
@@ -41,7 +41,7 @@ class LinkedInManualParser:
                 return f"li-{url_or_id}"
 
             # If it's a URL, extract job ID from path
-            if url_or_id.startswith("http://") or url_or_id.startswith("https://"):
+            if url_or_id.startswith(("http://", "https://")):
                 parsed = urlparse(url_or_id)
                 # Match pattern: /jobs/view/{job_id}/
                 match = re.search(r"/jobs/view/(\d+)/?", parsed.path)
@@ -72,7 +72,7 @@ class LinkedInManualParser:
                 return url_or_id
 
             # If it's a URL, extract job ID from path
-            if url_or_id.startswith("http://") or url_or_id.startswith("https://"):
+            if url_or_id.startswith(("http://", "https://")):
                 parsed = urlparse(url_or_id)
                 match = re.search(r"/jobs/view/(\d+)/?", parsed.path)
                 if match:
@@ -111,7 +111,7 @@ class LinkedInManualParser:
             logger.error(f"Error reading text file for {raw_job_id}: {e}")
             return None
 
-    def parse_job_data(self, text_content: str) -> Dict[str, str]:
+    def parse_job_data(self, text_content: str) -> dict[str, str]:
         """Parse job title, company, location, and description from copied text.
 
         Uses LinkedIn-specific heuristics to extract job information from plain text.
@@ -262,7 +262,7 @@ class LinkedInManualParser:
 
         return metadata
 
-    def process_job(self, url_or_id: str) -> Optional[Dict[str, str]]:
+    def process_job(self, url_or_id: str) -> Optional[dict[str, str]]:
         """Process a manual LinkedIn job from text file.
 
         Args:

@@ -28,14 +28,14 @@ module.exports = {
     "@html-eslint/no-accesskey-attrs": "off",
     "@html-eslint/no-aria-hidden-body": "off",
     "@html-eslint/require-frame-title": "off",
-    
+
     "@html-eslint/indent": ["error", 2],
     "@html-eslint/element-newline": ["warn", {
         skip: ["pre", "code", "span", "a", "strong", "em"],
         inline: ["$inline"]
     }],
     "@html-eslint/no-extra-spacing-attrs": "warn",
-    "@html-eslint/no-extra-spacing-text": "off", 
+    "@html-eslint/no-extra-spacing-text": "off",
     "@html-eslint/no-multiple-empty-lines": ["error", {max: 2}],
     "@html-eslint/no-trailing-spaces": "error"
   },

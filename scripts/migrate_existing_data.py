@@ -5,7 +5,7 @@ from datetime import datetime
 from pathlib import Path
 import re
 import sys
-from typing import Dict, List, Optional, Set
+from typing import Optional
 
 # Add parent directory to path to import applyr modules
 sys.path.insert(0, str(Path(__file__).parent.parent))
@@ -43,7 +43,7 @@ class DataMigrator:
             "cover_letters_found": 0,
         }
 
-    def extract_job_metadata(self, md_file: Path) -> Optional[Dict]:
+    def extract_job_metadata(self, md_file: Path) -> Optional[dict]:
         """Extract job metadata from markdown file"""
         try:
             with open(md_file, encoding="utf-8") as f:
@@ -135,7 +135,7 @@ class DataMigrator:
 
         return normalized
 
-    def find_cover_letter_files(self) -> Set[str]:
+    def find_cover_letter_files(self) -> set[str]:
         """Find all cover letter files and extract company names"""
         cover_letter_companies = set()
 
@@ -163,7 +163,7 @@ class DataMigrator:
         self.stats["cover_letters_found"] = len(cover_letter_companies)
         return cover_letter_companies
 
-    def determine_job_status(self, company_name: str, cover_letter_companies: Set[str]) -> JobStatus:
+    def determine_job_status(self, company_name: str, cover_letter_companies: set[str]) -> JobStatus:
         """Determine job status based on cover letter existence"""
         normalized_company = self.normalize_company_name(company_name)
 
@@ -187,7 +187,7 @@ class DataMigrator:
 
         return JobStatus.DISCOVERED
 
-    def process_job_descriptions(self) -> List[Dict]:
+    def process_job_descriptions(self) -> list[dict]:
         """Process all job description files and extract metadata"""
         all_jobs = []
         job_ids_seen = set()
@@ -226,7 +226,7 @@ class DataMigrator:
 
         return all_jobs
 
-    def migrate_jobs_to_database(self, jobs: List[Dict], cover_letter_companies: Set[str]) -> None:
+    def migrate_jobs_to_database(self, jobs: list[dict], cover_letter_companies: set[str]) -> None:
         """Migrate extracted jobs to the application database"""
         self.console.print("[blue]💾 Migrating jobs to database...[/blue]")
 
@@ -355,7 +355,7 @@ def main():
         print("4. Update job statuses with 'applyr update-status <job_id> <status>'")
         print("=" * 60)
     else:
-        exit(1)
+        sys.exit(1)
 
 
 if __name__ == "__main__":

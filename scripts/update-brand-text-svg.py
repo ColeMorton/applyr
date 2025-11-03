@@ -47,7 +47,6 @@ def update_brand_text_css(css_file: Path) -> bool:
         content = css_file.read_text()
 
         # Pattern to match .brand-text CSS block (including comments and properties)
-        brand_text_pattern = r"\/\*[^*]*\*\/\s*\.brand-text\s*\{[^}]*\}"
 
         # More flexible pattern that looks for .brand-text selector and its block
         pattern = r"(\/\*[^*]*Brand Typography[^*]*\*\/\s*)?\.brand-text\s*\{[^}]*\}"

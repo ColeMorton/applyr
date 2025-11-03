@@ -39,7 +39,7 @@ def detect_job_source(url_or_id: str) -> str:
         return "linkedin"
 
     # Check if it's a URL
-    if url_or_id.startswith("http://") or url_or_id.startswith("https://"):
+    if url_or_id.startswith(("http://", "https://")):
         parsed = urlparse(url_or_id)
         domain = parsed.netloc.lower()
 
@@ -68,7 +68,7 @@ def normalize_to_url(url_or_id: str, source: str) -> str:
         Full URL to the job posting
     """
     # If already a URL, return as-is
-    if url_or_id.startswith("http://") or url_or_id.startswith("https://"):
+    if url_or_id.startswith(("http://", "https://")):
         return url_or_id
 
     # Convert SEEK job ID to URL

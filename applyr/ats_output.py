@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 """Rich output formatter for ATS analysis results"""
 
-from typing import List
-
 from rich import box
 from rich.columns import Columns
 from rich.console import Console
@@ -108,7 +106,7 @@ class ATSOutputFormatter:
 
         self.console.print(table)
 
-    def _display_critical_issues(self, issues: List[str]):
+    def _display_critical_issues(self, issues: list[str]):
         """Display critical issues that block ATS parsing"""
         if not issues:
             return
@@ -119,7 +117,7 @@ class ATSOutputFormatter:
             Panel(issue_text, title="[bold red]🚨 Critical Issues[/bold red]", border_style="red", padding=(1, 2))
         )
 
-    def _display_recommendations(self, recommendations: List[str]):
+    def _display_recommendations(self, recommendations: list[str]):
         """Display actionable recommendations"""
         if not recommendations:
             return

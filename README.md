@@ -1,5 +1,14 @@
 # applyr
 
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![Python](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
+[![Poetry](https://img.shields.io/badge/poetry-1.0+-blue.svg)](https://python-poetry.org/)
+[![CI Tests](https://github.com/ColeMorton/applyr/actions/workflows/tests.yml/badge.svg)](https://github.com/ColeMorton/applyr/actions/workflows/tests.yml)
+[![Ruff](https://img.shields.io/badge/code%20style-ruff-000000.svg)](https://github.com/astral-sh/ruff)
+[![mypy](https://img.shields.io/badge/type%20checker-mypy-blue.svg)](https://github.com/python/mypy)
+[![bandit](https://img.shields.io/badge/security-bandit-yellow.svg)](https://github.com/PyCQA/bandit)
+[![pytest](https://img.shields.io/badge/test-pytest-green.svg)](https://docs.pytest.org/)
+
 **Intelligent Job Market Analysis Toolkit** — Scrape job postings, generate market insights, and build targeted cover letters. Extract structured data from job boards, analyze hiring trends, and optimize your job search with data-driven intelligence.
 
 Perfect for developers and job seekers looking to gain competitive advantage through market intelligence and personalized application strategies.
@@ -110,7 +119,7 @@ Before using applyr, you need to configure it with your personal information:
 
 3. **The `config.yaml` file is gitignored** - your personal information stays private.
 
-See `TEMPLATE_SETUP.md` for detailed personalization instructions.
+See `docs/TEMPLATE_SETUP.md` for detailed personalization instructions.
 
 **Additional Dependencies:**
 - `pandas>=2.0.0`
@@ -556,7 +565,7 @@ johnsmith.dev
 ```
 applyr/
 ├── README.md                   # This comprehensive documentation
-├── CLAUDE.md                   # AI assistant guidance with PDF implementation details
+├── docs/CLAUDE.md             # AI assistant guidance with PDF implementation details
 ├── LICENSE                     # Project license
 ├── pyproject.toml              # Poetry configuration
 ├── poetry.lock                 # Poetry lock file
@@ -571,10 +580,28 @@ applyr/
 │   └── styles/                 # Professional CSS templates with SVG brand integration
 │       ├── ats.css             # ATS-optimized format
 │       └── technical.css       # Technical documentation style (if exists)
-├── tests/                      # Test suite
+├── tests/                      # Comprehensive test suite
 │   ├── __init__.py
+│   ├── conftest.py             # Shared fixtures and test utilities
+│   ├── test_utils.py            # Helper functions for test data
 │   ├── test_database.py        # Database operation tests
-│   └── test_pdf_converter.py   # PDF converter tests
+│   ├── test_cli.py             # CLI command tests
+│   ├── test_pdf_converter.py   # PDF converter tests
+│   ├── test_ats_analyzer.py    # ATS analyzer comprehensive tests
+│   ├── test_ats_scoring.py      # ATS scoring engine tests
+│   ├── test_ats_parsers.py     # Document parser tests
+│   ├── test_ats_keywords.py    # Keyword analyzer tests
+│   ├── test_ats_output.py      # ATS output formatter tests
+│   ├── test_scraper.py         # SEEK scraper tests
+│   ├── test_scraper_base.py    # Base scraper tests
+│   ├── test_scraper_factory.py # Scraper factory tests
+│   ├── test_scraper_linkedin_manual.py  # LinkedIn parser tests
+│   ├── test_employment_hero_scraper.py  # Employment Hero tests
+│   ├── test_indeed_manual_parser.py     # Indeed parser tests
+│   ├── test_aggregator.py      # Job aggregator tests
+│   ├── test_batch.py            # Batch processing tests
+│   ├── test_config.py           # Configuration tests
+│   └── test_integration.py      # End-to-end integration tests
 ├── data/                       # All output data
 │   └── outputs/
 │       ├── job_descriptions/   # Latest job analysis
@@ -605,22 +632,41 @@ applyr/
 9. **Validate PDF quality**: `applyr validate-pdf <pdf-file> --detailed`
 
 ### Testing
+
+applyr has a comprehensive test suite covering all core modules. See [docs/TESTING.md](docs/TESTING.md) for detailed testing documentation.
+
+**Quick Test Commands:**
 ```bash
-# Run all tests with pytest
+# Run all tests with coverage
 pytest
 
-# Test PDF converter specifically
+# Run tests with verbose output
+pytest -v
+
+# Run specific test file
+pytest tests/test_ats_analyzer.py -v
+
+# Run with coverage report
+pytest --cov=applyr --cov-report=html
+
+# Test specific module
 pytest tests/test_pdf_converter.py -v
-
-# Test database operations
-pytest tests/test_database.py
-
-# Test single job processing
-python scripts/job_scraper/test_single_job.py
-
-# Test aggregation functionality  
-python scripts/job_scraper/test_aggregator.py
+pytest tests/test_database.py -v
 ```
+
+**Test Coverage:**
+- **Target**: 50%+ overall coverage
+- **Coverage Reports**: Generated in HTML, terminal, and XML formats
+- **CI Integration**: Tests run automatically on every push via GitHub Actions
+- **Test Suite**: Comprehensive coverage of ATS modules, scrapers, utilities, and integration workflows
+
+**Test Organization:**
+- **ATS Tests**: `test_ats_*.py` (analyzer, scoring, parsers, keywords, output)
+- **Scraper Tests**: `test_scraper*.py` (SEEK, base, factory, LinkedIn, Employment Hero, Indeed)
+- **Core Tests**: `test_database.py`, `test_cli.py`, `test_pdf_converter.py`, `test_aggregator.py`, `test_batch.py`, `test_config.py`
+- **Integration Tests**: `test_integration.py` (end-to-end workflows)
+
+See [docs/TESTING.md](docs/TESTING.md) for complete test documentation and [docs/CI_CD.md](docs/CI_CD.md) for CI workflow details.
 
 ### Code Quality & Formatting
 

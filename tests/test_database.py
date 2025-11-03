@@ -303,7 +303,7 @@ class TestApplicationDatabase:
         console = Console()
 
         # Should create directory structure automatically
-        db = ApplicationDatabase(csv_path=invalid_path, console=console)
+        ApplicationDatabase(csv_path=invalid_path, console=console)
         assert invalid_path.exists()
         assert invalid_path.parent.exists()
 

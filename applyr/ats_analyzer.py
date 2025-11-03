@@ -4,7 +4,7 @@
 from dataclasses import dataclass
 from pathlib import Path
 import re
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from rich.console import Console
 
@@ -25,11 +25,11 @@ class ATSAnalysisResult:
     content_score: float
     experience_score: float
     compatibility_score: float
-    critical_issues: List[str]
-    recommendations: List[str]
-    keyword_analysis: Dict[str, Any]
-    parsed_content: Dict[str, Any]
-    file_analysis: Dict[str, Any]
+    critical_issues: list[str]
+    recommendations: list[str]
+    keyword_analysis: dict[str, Any]
+    parsed_content: dict[str, Any]
+    file_analysis: dict[str, Any]
 
 
 class ATSAnalyzer:
@@ -97,7 +97,7 @@ class ATSAnalyzer:
             file_analysis=file_analysis,
         )
 
-    def _analyze_file_format(self, file_path: Path, parsed_content: Dict) -> Dict[str, Any]:
+    def _analyze_file_format(self, file_path: Path, parsed_content: dict) -> dict[str, Any]:
         """Analyze file format and ATS compatibility"""
         analysis = {
             "file_type": file_path.suffix.lower(),
@@ -127,7 +127,7 @@ class ATSAnalyzer:
 
         return analysis
 
-    def _analyze_content_sections(self, parsed_content: Dict) -> Dict[str, Any]:
+    def _analyze_content_sections(self, parsed_content: dict) -> dict[str, Any]:
         """Analyze content sections and structure"""
         analysis = {
             "has_contact_info": False,
@@ -165,7 +165,7 @@ class ATSAnalyzer:
 
         return analysis
 
-    def _identify_critical_issues(self, parsed_content: Dict, content_analysis: Dict, file_analysis: Dict) -> List[str]:
+    def _identify_critical_issues(self, parsed_content: dict, content_analysis: dict, file_analysis: dict) -> list[str]:
         """Identify critical issues that would block ATS parsing"""
         issues = []
 
@@ -192,8 +192,8 @@ class ATSAnalyzer:
         return issues
 
     def _generate_recommendations(
-        self, scores: Dict, critical_issues: List[str], keyword_analysis: Dict, content_analysis: Dict
-    ) -> List[str]:
+        self, scores: dict, critical_issues: list[str], keyword_analysis: dict, content_analysis: dict
+    ) -> list[str]:
         """Generate specific, actionable recommendations"""
         recommendations = []
 
@@ -238,7 +238,7 @@ class ATSAnalyzer:
 
         return recommendations
 
-    def _calculate_overall_score(self, scores: Dict) -> float:
+    def _calculate_overall_score(self, scores: dict) -> float:
         """Calculate overall score as sum of category scores"""
         # Scores are already out of their maximum values:
         # contact_info: out of 15, keywords: out of 25, format: out of 20
@@ -294,7 +294,7 @@ class ATSAnalyzer:
         ]
         return any(re.search(pattern, text, re.IGNORECASE) for pattern in complex_elements)
 
-    def _assess_content_quality(self, parsed_content: Dict) -> str:
+    def _assess_content_quality(self, parsed_content: dict) -> str:
         """Assess overall content quality"""
         text = parsed_content.get("raw_text", "")
 
@@ -312,7 +312,7 @@ class ATSAnalyzer:
         else:
             return "needs_improvement"
 
-    def _extract_achievement_metrics(self, text: str) -> List[str]:
+    def _extract_achievement_metrics(self, text: str) -> list[str]:
         """Extract quantified achievements from text"""
         metrics = re.findall(r"\b\d+%|\b\d+\+|\$\d+|\d+x\b|\d+\s*(years?|months?)", text)
         return metrics[:10]  # Limit to first 10 metrics

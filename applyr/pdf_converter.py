@@ -31,9 +31,8 @@ except ImportError:
 try:
     import html
 
-    from reportlab.lib.pagesizes import A4, letter
+    from reportlab.lib.pagesizes import A4
     from reportlab.lib.styles import getSampleStyleSheet
-    from reportlab.lib.units import inch
     from reportlab.platypus import Paragraph, SimpleDocTemplate, Spacer
 
     REPORTLAB_AVAILABLE = True
@@ -789,7 +788,7 @@ class PDFConverter:
         """Generate optimization recommendations based on metrics"""
         recommendations = []
 
-        size_mb = metrics.get("file_size_mb", 0)
+        metrics.get("file_size_mb", 0)
         size_rating = metrics.get("size_rating", "")
 
         if size_rating == "oversized":

@@ -5,7 +5,6 @@ Analyzes job opportunities against personal profile and updates CSV with ranking
 """
 
 from pathlib import Path
-from typing import Dict, Tuple
 
 import pandas as pd
 
@@ -40,7 +39,7 @@ def load_job_description(job_id: str) -> str:
     return ""
 
 
-def score_technical_alignment(job_desc: str) -> Tuple[float, str]:
+def score_technical_alignment(job_desc: str) -> tuple[float, str]:
     """Score technical stack alignment (40% weight)"""
     job_lower = job_desc.lower()
 
@@ -75,7 +74,7 @@ def score_technical_alignment(job_desc: str) -> Tuple[float, str]:
     return score, reason
 
 
-def score_career_alignment(job_desc: str, job_title: str) -> Tuple[float, str]:
+def score_career_alignment(job_desc: str, job_title: str) -> tuple[float, str]:
     """Score career goals alignment (25% weight)"""
     job_lower = job_desc.lower()
     title_lower = job_title.lower()
@@ -88,7 +87,7 @@ def score_career_alignment(job_desc: str, job_title: str) -> Tuple[float, str]:
     # Culture indicators
     collaborative = any(word in job_lower for word in ["collaborate", "team", "agile", "pair programming"])
     growth = any(word in job_lower for word in ["growth", "learning", "mentorship", "career development"])
-    modern_culture = any(word in job_lower for word in ["innovation", "modern", "cutting-edge"])
+    any(word in job_lower for word in ["innovation", "modern", "cutting-edge"])
 
     # Scoring
     if is_senior and collaborative and growth:
@@ -105,7 +104,7 @@ def score_career_alignment(job_desc: str, job_title: str) -> Tuple[float, str]:
     return score, reason
 
 
-def score_compensation(job_desc: str, salary_min: float, salary_max: float) -> Tuple[float, str]:
+def score_compensation(job_desc: str, salary_min: float, salary_max: float) -> tuple[float, str]:
     """Score compensation and benefits (20% weight)"""
     job_lower = job_desc.lower()
 
@@ -133,7 +132,7 @@ def score_compensation(job_desc: str, salary_min: float, salary_max: float) -> T
     return score, reason
 
 
-def score_risk_assessment(job_desc: str, company_name: str) -> Tuple[float, str]:
+def score_risk_assessment(job_desc: str, company_name: str) -> tuple[float, str]:
     """Score risk factors - INVERSE (15% weight)"""
     job_lower = job_desc.lower()
 
@@ -173,7 +172,7 @@ def calculate_weighted_score(tech: float, career: float, comp: float, risk: floa
     return (tech * 0.40) + (career * 0.25) + (comp * 0.20) + (risk * 0.15)
 
 
-def analyze_job(job_id: str, company: str, title: str, salary_min: float, salary_max: float) -> Dict:
+def analyze_job(job_id: str, company: str, title: str, salary_min: float, salary_max: float) -> dict:
     """Comprehensive job analysis"""
     job_desc = load_job_description(job_id)
 
@@ -235,7 +234,7 @@ def main():
     print(f"\n🔍 Analyzing {len(discovered)} job opportunities...")
     results = []
 
-    for idx, row in discovered.iterrows():
+    for _idx, row in discovered.iterrows():
         job_id = str(row["job_id"])
         company = row["company_name"]
         title = row["job_title"]
@@ -272,7 +271,7 @@ def main():
     print("TOP 10 RANKED OPPORTUNITIES")
     print(f"{'=' * 80}\n")
 
-    for idx, row in results_df.head(10).iterrows():
+    for _idx, row in results_df.head(10).iterrows():
         print(f"RANK {row['rank']}: {row['company']} - {row['title']}")
         print(f"  Total Score: {row['total_score']:.1f}%")
         print(f"  • Tech ({row['tech_score']:.0f}%): {row['tech_reason']}")
@@ -294,7 +293,7 @@ def main():
     top_3 = results_df.head(3)
 
     print("🎯 TOP 3 PRIORITY APPLICATIONS:\n")
-    for idx, row in top_3.iterrows():
+    for _idx, row in top_3.iterrows():
         print(f"{row['rank']}. {row['company']} - {row['title']} ({row['total_score']:.1f}%)")
 
     print("\n💡 RECOMMENDATIONS:")

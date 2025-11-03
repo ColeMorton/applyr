@@ -3,7 +3,7 @@
 from datetime import datetime
 from enum import Enum
 from pathlib import Path
-from typing import Dict, Optional, Union
+from typing import Optional, Union
 
 import pandas as pd
 from rich.console import Console
@@ -215,7 +215,7 @@ class ApplicationDatabase:
         df = self.load_data()
         return not df.empty and str(job_id) in df["job_id"].astype(str).values
 
-    def get_job(self, job_id: str) -> Optional[Dict]:
+    def get_job(self, job_id: str) -> Optional[dict]:
         """Get job record by ID"""
         df = self.load_data()
 
@@ -239,7 +239,7 @@ class ApplicationDatabase:
             return df
         return df[df["company_name"].str.contains(company_name, case=False, na=False)]
 
-    def get_statistics(self) -> Dict:
+    def get_statistics(self) -> dict:
         """Get application statistics"""
         df = self.load_data()
 

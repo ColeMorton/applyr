@@ -53,7 +53,7 @@ def batch_scrape_jobs():
 
     if failed > 0:
         print("\nFailed URLs:")
-        for url, success in results.items():
+        for _url, success in results.items():
             if not success:
                 print("  ❌ {url}")
 

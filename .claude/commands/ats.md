@@ -193,12 +193,12 @@ Leadership, Communication, Teamwork, Problem Solving, Time Management, Adaptabil
 **Natural Integration Examples:**
 ```
 ❌ BAD (Keyword Stuffing):
-"Skilled in JavaScript, React, Node.js, Python, Django, AWS, Docker, Kubernetes, 
+"Skilled in JavaScript, React, Node.js, Python, Django, AWS, Docker, Kubernetes,
 Git, Agile, Scrum, CI/CD, REST APIs."
 
 ✅ GOOD (Natural Context):
-"Developed scalable React and Node.js applications deployed on AWS using Docker 
-and Kubernetes. Implemented CI/CD pipelines and followed Agile/Scrum methodologies 
+"Developed scalable React and Node.js applications deployed on AWS using Docker
+and Kubernetes. Implemented CI/CD pipelines and followed Agile/Scrum methodologies
 to deliver REST APIs serving 100K+ daily users."
 ```
 
@@ -286,12 +286,12 @@ Examples:
 
 ```
 ❌ WEAK (No Metrics):
-"Improved application performance and user experience. 
+"Improved application performance and user experience.
 Developed new features for the platform."
 
 ✅ STRONG (Quantified):
-"Improved application performance by 50%, reducing page load time from 4s to 2s, 
-enhancing user experience for 100K+ daily users. Delivered 15+ new features across 
+"Improved application performance by 50%, reducing page load time from 4s to 2s,
+enhancing user experience for 100K+ daily users. Delivered 15+ new features across
 6 months, increasing user engagement by 25%."
 ```
 
@@ -365,7 +365,7 @@ Three years
 ## Senior Software Engineer | Company Name
 **Jan 2020 - Present** | Brisbane, Australia
 
-• Developed React and Node.js applications serving 500K+ users, improving 
+• Developed React and Node.js applications serving 500K+ users, improving
   performance by 40% through code optimization and caching strategies
 • Led team of 5 engineers across 3 major projects, delivering $1M+ in value
 • Implemented CI/CD pipelines reducing deployment time from 2 hours to 15 minutes
@@ -572,13 +572,13 @@ Projects (if relevant)
 **Example Enhancement:**
 ```
 ❌ LOW DENSITY (0.5%):
-"Worked on web applications. Fixed bugs and added features. 
+"Worked on web applications. Fixed bugs and added features.
 Collaborated with team members."
 
 ✅ OPTIMAL DENSITY (2.5%):
-"Developed responsive React web applications with TypeScript and Node.js backend. 
-Implemented RESTful APIs serving 50K+ daily users. Optimized MySQL database queries, 
-reducing load time by 40%. Collaborated cross-functionally using Agile methodologies 
+"Developed responsive React web applications with TypeScript and Node.js backend.
+Implemented RESTful APIs serving 50K+ daily users. Optimized MySQL database queries,
+reducing load time by 40%. Collaborated cross-functionally using Agile methodologies
 and Git version control."
 ```
 
@@ -676,10 +676,10 @@ Priority order:
 - Use industry-specific terminology
 
 ```
-Senior Software Engineer with 8+ years developing scalable web applications 
-using React, Node.js, and AWS. Led teams delivering $2M+ in value through 
-performance optimization and cloud architecture. Expert in Agile methodologies, 
-CI/CD, and microservices architecture. Passionate about mentoring and driving 
+Senior Software Engineer with 8+ years developing scalable web applications
+using React, Node.js, and AWS. Led teams delivering $2M+ in value through
+performance optimization and cloud architecture. Expert in Agile methodologies,
+CI/CD, and microservices architecture. Passionate about mentoring and driving
 technical excellence.
 ```
 
@@ -698,15 +698,15 @@ Format: `Action Verb + Technical Detail + Quantified Result`
 ```
 Senior Software Engineer | Tech Company | Jan 2020 - Present
 
-• Architected and developed React/TypeScript SPA serving 500K+ monthly users, 
+• Architected and developed React/TypeScript SPA serving 500K+ monthly users,
   improving performance by 60% through lazy loading and code splitting
-• Led team of 5 engineers implementing microservices architecture on AWS, 
+• Led team of 5 engineers implementing microservices architecture on AWS,
   reducing deployment time from 2 hours to 15 minutes via CI/CD automation
-• Optimized PostgreSQL database queries and implemented Redis caching, 
+• Optimized PostgreSQL database queries and implemented Redis caching,
   decreasing API response time by 45% and supporting 3x traffic growth
-• Mentored 3 junior developers in React best practices and testing strategies, 
+• Mentored 3 junior developers in React best practices and testing strategies,
   accelerating their productivity by 50% within 6 months
-• Collaborated cross-functionally with product and design using Agile/Scrum, 
+• Collaborated cross-functionally with product and design using Agile/Scrum,
   delivering 20+ features across 4 quarters with 98% on-time completion
 ```
 
@@ -861,14 +861,14 @@ No critical issues! ✅
 
 ```
 ❌ KEYWORD STUFFING (Obvious, Poor UX):
-"Experienced in JavaScript, React, Node.js, Python, Django, AWS, Docker, 
+"Experienced in JavaScript, React, Node.js, Python, Django, AWS, Docker,
 Kubernetes, MySQL, PostgreSQL, MongoDB, Redis, Git, Jira, Agile, Scrum, CI/CD."
 
 ✅ NATURAL INTEGRATION (Same keywords, better flow):
-"Developed full-stack applications using JavaScript/React frontend and 
-Node.js/Python backend, deployed on AWS with Docker and Kubernetes. Managed 
-data across MySQL, PostgreSQL, MongoDB, and Redis databases. Led Agile/Scrum 
-teams using Jira for project tracking and Git for version control. Implemented 
+"Developed full-stack applications using JavaScript/React frontend and
+Node.js/Python backend, deployed on AWS with Docker and Kubernetes. Managed
+data across MySQL, PostgreSQL, MongoDB, and Redis databases. Led Agile/Scrum
+teams using Jira for project tracking and Git for version control. Implemented
 CI/CD pipelines for automated testing and deployment."
 ```
 
@@ -1108,4 +1108,3 @@ As an ATS specialist, your role is to:
 ---
 
 You have comprehensive mastery of ATS systems and the `applyr ats` command. Help users optimize their documents for maximum ATS compatibility while maintaining professional quality and readability.
-

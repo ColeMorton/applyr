@@ -111,3 +111,151 @@ def sample_job_data() -> dict:
         "source": "SEEK",
         "url": "https://www.seek.com.au/job/12345678",
     }
+
+
+@pytest.fixture
+def sample_html_resume(temp_dir: Path) -> Path:
+    """Create a sample HTML resume file"""
+    resume_content = """<!DOCTYPE html>
+<html>
+<head>
+    <title>John Doe - Software Engineer</title>
+</head>
+<body>
+    <h1>John Doe</h1>
+    <p>Email: john.doe@example.com</p>
+    <p>Phone: 555-123-4567</p>
+    <p>Location: San Francisco, CA</p>
+    <p>LinkedIn: linkedin.com/in/johndoe</p>
+
+    <h2>Experience</h2>
+    <h3>Senior Software Engineer</h3>
+    <p>Tech Company Inc. - Jan 2020 - Present</p>
+    <ul>
+        <li>Developed scalable web applications using Python and React</li>
+        <li>Increased system performance by 40% through optimization</li>
+        <li>Led team of 5 developers</li>
+    </ul>
+
+    <h2>Skills</h2>
+    <ul>
+        <li>Python, JavaScript, TypeScript</li>
+        <li>React, Node.js, Django</li>
+        <li>AWS, Docker, Kubernetes</li>
+    </ul>
+
+    <h2>Education</h2>
+    <p>BS Computer Science, University of California, 2015</p>
+</body>
+</html>"""
+    resume_file = temp_dir / "resume.html"
+    resume_file.write_text(resume_content)
+    return resume_file
+
+
+@pytest.fixture
+def sample_text_resume(temp_dir: Path) -> Path:
+    """Create a sample text/markdown resume file"""
+    resume_content = """# John Doe
+
+Email: john.doe@example.com
+Phone: 555-123-4567
+Location: San Francisco, CA
+LinkedIn: linkedin.com/in/johndoe
+
+## Experience
+
+### Senior Software Engineer
+Tech Company Inc. - Jan 2020 - Present
+
+- Developed scalable web applications using Python and React
+- Increased system performance by 40% through optimization
+- Led team of 5 developers
+- Managed $2M+ budget projects
+
+## Skills
+
+- Python, JavaScript, TypeScript
+- React, Node.js, Django
+- AWS, Docker, Kubernetes
+- Agile, Scrum, TDD
+
+## Education
+
+BS Computer Science, University of California, 2015
+"""
+    resume_file = temp_dir / "resume.txt"
+    resume_file.write_text(resume_content)
+    return resume_file
+
+
+@pytest.fixture
+def sample_resume_with_emojis(temp_dir: Path) -> Path:
+    """Create a sample resume with emojis"""
+    resume_content = """# John Doe 😊
+
+Email: john.doe@example.com 📧
+Phone: 555-123-4567
+
+## Experience ✨
+
+Senior Software Engineer at Tech Company
+"""
+    resume_file = temp_dir / "resume_emoji.txt"
+    resume_file.write_text(resume_content)
+    return resume_file
+
+
+@pytest.fixture
+def sample_resume_missing_sections(temp_dir: Path) -> Path:
+    """Create a sample resume missing critical sections"""
+    resume_content = """# John Doe
+
+Some basic information here.
+No contact info, no experience section, no skills.
+"""
+    resume_file = temp_dir / "resume_incomplete.txt"
+    resume_file.write_text(resume_content)
+    return resume_file
+
+
+@pytest.fixture
+def sample_resume_complex_html(temp_dir: Path) -> Path:
+    """Create a sample resume with complex HTML structure"""
+    resume_content = """<!DOCTYPE html>
+<html>
+<head><title>Resume</title></head>
+<body>
+    <div class="skills-grid">
+        <span class="skill-tag">Python</span>
+        <span class="skill-tag">JavaScript</span>
+    </div>
+    <table>
+        <tr><td>Experience</td><td>5 years</td></tr>
+    </table>
+    <div class="grid">
+        <div>Complex layout</div>
+    </div>
+</body>
+</html>"""
+    resume_file = temp_dir / "resume_complex.html"
+    resume_file.write_text(resume_content)
+    return resume_file
+
+
+@pytest.fixture
+def sample_job_description(temp_dir: Path) -> Path:
+    """Create a sample job description file"""
+    job_desc = """Software Engineer Position
+
+Requirements:
+- Python, JavaScript, React
+- 5+ years of experience
+- AWS, Docker experience
+- Agile methodologies
+- Strong communication skills
+- Team leadership
+"""
+    job_file = temp_dir / "job_description.txt"
+    job_file.write_text(job_desc)
+    return job_file

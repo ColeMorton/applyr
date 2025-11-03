@@ -1,10 +1,11 @@
 """HTML processing module for auto-formatting and validation before PDF conversion"""
 
+import contextlib
 import json
 from pathlib import Path
 import subprocess
 import tempfile
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 from rich.console import Console
 
@@ -132,7 +133,7 @@ class HTMLProcessor:
 
     def process_html(
         self, html_content: str, source_path: Optional[Path] = None, skip_lint: bool = False
-    ) -> Tuple[str, List[str]]:
+    ) -> tuple[str, list[str]]:
         """
         Process HTML content with auto-formatting and validation using professional tools
 
@@ -194,7 +195,7 @@ class HTMLProcessor:
 
     def _format_with_prettier(
         self, html_content: str, source_path: Optional[Path], weasyprint_context: bool = False
-    ) -> Tuple[str, List[str]]:
+    ) -> tuple[str, list[str]]:
         """Format HTML using Prettier with context-appropriate configuration"""
         changes = []
 
@@ -260,10 +261,8 @@ class HTMLProcessor:
         finally:
             # Clean up temp file
             if "tmp_path" in locals():
-                try:
+                with contextlib.suppress(Exception):
                     tmp_path.unlink()
-                except:
-                    pass
 
     def _is_html_fragment(self, html_content: str) -> bool:
         """Detect if HTML content is a fragment (missing DOCTYPE, html, body structure)"""
@@ -319,7 +318,7 @@ class HTMLProcessor:
 
     def _lint_with_html_eslint(
         self, html_content: str, source_path: Optional[Path], weasyprint_context: bool = False
-    ) -> Tuple[str, List[str]]:
+    ) -> tuple[str, list[str]]:
         """Lint and auto-fix HTML using html-eslint"""
         changes = []
 
@@ -391,12 +390,10 @@ class HTMLProcessor:
             # Clean up temp files
             for path_var in ["tmp_path", "config_path"]:
                 if path_var in locals():
-                    try:
+                    with contextlib.suppress(Exception):
                         locals()[path_var].unlink()
-                    except:
-                        pass
 
-    def _validate_weasyprint_compatibility(self, html_content: str) -> List[str]:
+    def _validate_weasyprint_compatibility(self, html_content: str) -> list[str]:
         """Validate HTML for WeasyPrint-specific compatibility issues"""
         issues = []
 
@@ -418,7 +415,7 @@ class HTMLProcessor:
 
         return issues
 
-    def get_processing_capabilities(self) -> Dict[str, Any]:
+    def get_processing_capabilities(self) -> dict[str, Any]:
         """Get information about available processing capabilities"""
         return {
             "node_js": self.node_available,

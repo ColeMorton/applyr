@@ -3,7 +3,7 @@
 import logging
 from pathlib import Path
 import re
-from typing import Dict, List, Optional
+from typing import Optional
 from urllib.parse import urlparse
 
 from bs4 import BeautifulSoup
@@ -35,7 +35,7 @@ class SEEKScraper(JobScraper):
             }
         )
 
-    def _get_request_headers(self, url: str) -> Dict[str, str]:
+    def _get_request_headers(self, url: str) -> dict[str, str]:
         """Get additional headers for SEEK requests."""
         return {"Referer": "https://www.seek.com.au/"}
 
@@ -53,7 +53,7 @@ class SEEKScraper(JobScraper):
             logger.error(f"Error extracting job ID from {url}: {e}")
             return None
 
-    def extract_job_metadata(self, soup: BeautifulSoup) -> Dict[str, str]:
+    def extract_job_metadata(self, soup: BeautifulSoup) -> dict[str, str]:
         """Extract job metadata (title, company) from the page."""
         metadata = {
             "title": "Unknown Job",
@@ -172,8 +172,8 @@ class SEEKScraper(JobScraper):
 
 
 def scrape_jobs(
-    urls: List[str], output_dir: Path, delay: float, console: Console, database: Optional[ApplicationDatabase] = None
-) -> Dict[str, bool]:
+    urls: list[str], output_dir: Path, delay: float, console: Console, database: Optional[ApplicationDatabase] = None
+) -> dict[str, bool]:
     """Scrape multiple jobs with Rich progress tracking.
 
     Automatically detects job board source and uses appropriate scraper.

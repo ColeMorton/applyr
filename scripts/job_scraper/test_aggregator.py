@@ -39,8 +39,8 @@ def test_aggregator():
             with open(output_file, encoding="utf-8") as f:
                 content = f.read()
 
-            lines = len(content.split("\n"))
-            chars = len(content)
+            len(content.split("\n"))
+            len(content)
 
             print("📄 Generated file stats:")
             print("   - Lines: {lines:,}")

@@ -5,7 +5,7 @@ from datetime import datetime
 import logging
 from pathlib import Path
 import re
-from typing import Dict, List, Optional, Tuple
+from typing import Optional
 
 from rich.console import Console
 from rich.progress import track
@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 class JobDescriptionAggregator:
     """Aggregates individual job description files into a single markdown file."""
 
-    def discover_job_files(self, input_dir: Path) -> List[Path]:
+    def discover_job_files(self, input_dir: Path) -> list[Path]:
         """Discover all job description markdown files in the input directory."""
         try:
             if not input_dir.exists():
@@ -34,7 +34,7 @@ class JobDescriptionAggregator:
             logger.error(f"Error discovering job files: {e}")
             raise
 
-    def parse_job_file(self, file_path: Path) -> Optional[Dict]:
+    def parse_job_file(self, file_path: Path) -> Optional[dict]:
         """Parse a single job description file and extract metadata and content."""
         try:
             with open(file_path, encoding="utf-8") as f:
@@ -78,7 +78,7 @@ class JobDescriptionAggregator:
             logger.error(f"Error parsing job file {file_path}: {e}")
             return None
 
-    def generate_unique_title(self, job_data: Dict) -> str:
+    def generate_unique_title(self, job_data: dict) -> str:
         """Generate a unique title for the job in the aggregated file."""
         return f"{job_data['title']} at {job_data['company']} (ID: {job_data['job_id']})"
 
@@ -88,7 +88,7 @@ class JobDescriptionAggregator:
         anchor = re.sub(r"[\s_]+", "-", anchor)
         return anchor.strip("-")
 
-    def generate_summary_stats(self, jobs_data: List[Dict]) -> Dict:
+    def generate_summary_stats(self, jobs_data: list[dict]) -> dict:
         """Generate summary statistics for the job descriptions."""
         if not jobs_data:
             return {}
@@ -130,7 +130,7 @@ class JobDescriptionAggregator:
             "technology_mentions": dict(tech_mentions.most_common(10)),
         }
 
-    def generate_aggregate_content(self, jobs_data: List[Dict], stats: Dict) -> str:
+    def generate_aggregate_content(self, jobs_data: list[dict], stats: dict) -> str:
         """Generate the aggregated markdown content."""
         current_date = datetime.now()
         date_str = current_date.strftime("%Y-%m-%d")
@@ -227,7 +227,7 @@ class JobDescriptionAggregator:
 
         return "\n".join(markdown_content)
 
-    def aggregate_jobs(self, input_dir: Path, output_file: Path, console: Console) -> Tuple[bool, Dict]:
+    def aggregate_jobs(self, input_dir: Path, output_file: Path, console: Console) -> tuple[bool, dict]:
         """Aggregate all job descriptions into a single markdown file with Rich output."""
         try:
             job_files = self.discover_job_files(input_dir)
