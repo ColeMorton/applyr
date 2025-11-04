@@ -1,1 +1,2 @@
 job_id,company_name,job_title,source,status,priority,date_discovered,date_applied,date_closed,notes,salary_min,salary_max,location,url,rank
+12345678,Test Company Pty Ltd,Software Engineer,SEEK,discovered,high,2025-11-04,,,,,,,https://www.seek.com.au/job/12345678,

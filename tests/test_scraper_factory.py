@@ -60,9 +60,10 @@ class TestDetectJobSource:
 
     def test_detect_unsupported_domain(self):
         """Test unsupported domain raises ValueError"""
-        with pytest.raises(ValueError, match="Unsupported job board domain"):
-            detect_job_source("https://linkedin.com/job/12345")
+        # LinkedIn is detected but requires manual import (error raised in create_scraper)
+        assert detect_job_source("https://linkedin.com/job/12345") == "linkedin"
 
+        # Truly unsupported domains should raise ValueError
         with pytest.raises(ValueError, match="Unsupported job board domain"):
             detect_job_source("https://glassdoor.com/job/abc123")
 

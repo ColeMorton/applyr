@@ -122,7 +122,7 @@ class TestFetchPage:
 
         assert soup is None
 
-    def test_fetch_page_network_error(self, _mock_responses):  # noqa: ARG002
+    def test_fetch_page_network_error(self, mock_responses):  # noqa: ARG002
         """Test page fetch with network error"""
         scraper = ConcreteScraper()
         url = "https://example.com/job"
@@ -133,12 +133,16 @@ class TestFetchPage:
 
         assert soup is None
 
-    def test_fetch_page_timeout(self):
+    def test_fetch_page_timeout(self, mocker):
         """Test page fetch timeout handling"""
-        scraper = ConcreteScraper()
-        url = "https://httpbin.org/delay/10"  # This would timeout
+        import requests
 
-        # Note: This test might be slow, but tests timeout handling
+        scraper = ConcreteScraper()
+
+        # Mock requests to raise Timeout exception
+        mocker.patch.object(scraper.session, "get", side_effect=requests.Timeout("Connection timeout"))
+
+        url = "https://httpbin.org/delay/10"
         soup = scraper.fetch_page(url)
 
         # Should return None on timeout

@@ -139,23 +139,44 @@ class ATSAnalyzer:
             "achievement_metrics": [],
         }
 
-        text = parsed_content.get("raw_text", "").lower()
+        text = parsed_content.get("raw_text", "")
+        text_lower = text.lower()
+        sections_dict = parsed_content.get("sections", {})
 
-        # Check for standard sections
-        section_patterns = {
-            "contact_info": [r"email", r"phone", r"@", r"linkedin"],
-            "skills_section": [r"skills?", r"technologies?", r"competencies?"],
-            "experience_section": [r"experience", r"employment", r"work history", r"professional"],
-            "education_section": [r"education", r"degree", r"university", r"college"],
-        }
+        # Check contact info from parsed data or patterns
+        contact_info = parsed_content.get("contact_info", {})
+        if any(contact_info.values()):
+            analysis["has_contact_info"] = True
+        else:
+            # Fall back to pattern matching
+            contact_patterns = [r"email\s*:", r"phone\s*:", r"\b\w+@\w+\.\w+", r"linkedin\.com/in/"]
+            if any(re.search(pattern, text_lower) for pattern in contact_patterns):
+                analysis["has_contact_info"] = True
 
-        for section, patterns in section_patterns.items():
-            if any(re.search(pattern, text) for pattern in patterns):
-                analysis[f"has_{section}"] = True
+        # Check for skills section - presence of key indicates section exists
+        if "skills" in sections_dict:
+            analysis["has_skills_section"] = True
 
-        # Extract section headers
-        headers = re.findall(r"<h[1-6][^>]*>(.*?)</h[1-6]>", parsed_content.get("raw_text", ""), re.IGNORECASE)
-        analysis["section_headers"] = [h.strip() for h in headers]
+        # Check for experience section - presence of key indicates section exists
+        if any(key in sections_dict for key in ["experience", "work_experience", "employment"]):
+            analysis["has_experience_section"] = True
+
+        # Check for education section - presence of key indicates section exists
+        if "education" in sections_dict:
+            analysis["has_education_section"] = True
+
+        # Extract section headers - check if we have HTML structure
+        headers = []
+        if "html_structure" in parsed_content and parsed_content["file_type"] == "html":
+            # For HTML files, we might need to extract from file or use sections dict
+            # The sections dict keys are effectively the headers
+            headers = list(sections_dict.keys())
+        else:
+            # Try to extract from raw text (markdown or other formats might have headers)
+            headers = re.findall(r"<h[1-6][^>]*>(.*?)</h[1-6]>", text, re.IGNORECASE)
+            headers = [h.strip() for h in headers]
+
+        analysis["section_headers"] = headers
 
         # Analyze content quality
         analysis["content_quality"] = self._assess_content_quality(parsed_content)

@@ -1,31 +1,12 @@
 """Tests for the application database module"""
 
 from datetime import datetime, timedelta
-from pathlib import Path
-import shutil
-import tempfile
 
 import pandas as pd
 import pytest
 from rich.console import Console
 
 from applyr.database import ApplicationDatabase, JobStatus, Priority
-
-
-@pytest.fixture
-def temp_dir():
-    """Create a temporary directory for test files"""
-    temp_dir = tempfile.mkdtemp()
-    yield Path(temp_dir)
-    shutil.rmtree(temp_dir)
-
-
-@pytest.fixture
-def test_database(temp_dir):
-    """Create a test database instance"""
-    csv_path = temp_dir / "test_advertisements.csv"
-    console = Console()
-    return ApplicationDatabase(csv_path=csv_path, console=console)
 
 
 @pytest.fixture
@@ -58,7 +39,7 @@ def sample_jobs():
 class TestApplicationDatabase:
     """Test cases for ApplicationDatabase class"""
 
-    def test_database_initialization(self, _test_database, temp_dir):
+    def test_database_initialization(self, test_database, temp_dir):  # noqa: ARG002
         """Test database initialization creates CSV with proper schema"""
         csv_path = temp_dir / "test_advertisements.csv"
 

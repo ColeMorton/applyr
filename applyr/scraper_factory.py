@@ -34,9 +34,13 @@ def detect_job_source(url_or_id: str) -> str:  # noqa: PLR0911
     if re.match(r"^[a-f0-9]{16}$", url_or_id):
         return "indeed"
 
-    # Check if it's a LinkedIn job ID (numeric, longer than 8 digits)
+    # Check if it's a LinkedIn job ID (numeric, typically 10+ digits)
     if re.match(r"^\d+$", url_or_id):
-        if len(url_or_id) > 8:
+        if len(url_or_id) == 9:
+            # 9 digits is ambiguous - not SEEK (8), not typical LinkedIn (10+)
+            raise ValueError(f"Could not determine job board source from: {url_or_id}")
+        elif len(url_or_id) > 9:
+            # LinkedIn job IDs are typically 10+ digits
             return "linkedin"
         elif len(url_or_id) < 8:
             raise ValueError(f"Could not determine job board source from: {url_or_id}")

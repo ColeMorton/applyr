@@ -153,7 +153,7 @@ class SEEKScraper(JobScraper):
                     elem.decompose()
 
             warning_texts = ["be careful", "what can i earn", "company profile", "scam", "fraud"]
-            for elem in job_desc_elem.find_all(text=True):
+            for elem in job_desc_elem.find_all(string=True):
                 if elem and isinstance(elem, str) and any(warning in elem.lower() for warning in warning_texts):
                     parent = elem.parent
                     if parent:

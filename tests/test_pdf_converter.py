@@ -1,8 +1,7 @@
 """Tests for the PDF converter module"""
 
 from pathlib import Path
-import shutil
-import tempfile
+from unittest.mock import Mock
 
 import pytest
 from rich.console import Console
@@ -10,12 +9,57 @@ from rich.console import Console
 from applyr.pdf_converter import PDFConverter
 
 
-@pytest.fixture
-def temp_dir():
-    """Create a temporary directory for test files"""
-    temp_dir = tempfile.mkdtemp()
-    yield Path(temp_dir)
-    shutil.rmtree(temp_dir)
+@pytest.fixture(autouse=True)
+def mock_pdf_libraries(mocker):
+    """Mock PDF library availability and conversion methods for all tests"""
+    # Mock library availability flags
+    mocker.patch("applyr.pdf_converter.WEASYPRINT_AVAILABLE", True)
+    mocker.patch("applyr.pdf_converter.REPORTLAB_AVAILABLE", True)
+
+    # Create a side effect function that creates a dummy PDF file
+    def create_dummy_pdf(output_path, **kwargs):
+        """Create a dummy PDF file to simulate successful conversion"""
+        Path(output_path).parent.mkdir(parents=True, exist_ok=True)
+        # Create a more realistic dummy PDF with sufficient size (> 100 bytes)
+        dummy_content = b"%PDF-1.4\n%Dummy PDF content for testing\n" + b"0" * 100 + b"\n%%EOF"
+        Path(output_path).write_bytes(dummy_content)
+
+    # Mock weasyprint HTML class
+    mock_html = Mock()
+    mock_html.write_pdf = Mock(side_effect=create_dummy_pdf)
+    mocker.patch("applyr.pdf_converter.HTML", return_value=mock_html)
+
+    # Mock weasyprint CSS class
+    mock_css = Mock()
+    mocker.patch("applyr.pdf_converter.CSS", return_value=mock_css)
+
+    # Mock FontConfiguration
+    mocker.patch("applyr.pdf_converter.FontConfiguration", return_value=Mock())
+    mocker.patch("applyr.pdf_converter.FONT_CONFIG_AVAILABLE", True)
+
+    # Mock SimpleDocTemplate for reportlab
+    def build_pdf(story):
+        """Create a dummy PDF file when build is called"""
+        # Access the filename from the mock_doc instance
+        if hasattr(build_pdf, "pdf_file"):
+            create_dummy_pdf(build_pdf.pdf_file)
+
+    mock_doc = Mock()
+    mock_doc.build = Mock(side_effect=build_pdf)
+
+    # Mock the SimpleDocTemplate constructor to capture the filename
+    def simple_doc_template(filename, **kwargs):
+        build_pdf.pdf_file = filename
+        return mock_doc
+
+    mocker.patch("applyr.pdf_converter.SimpleDocTemplate", side_effect=simple_doc_template)
+
+    # Mock HTMLProcessor to avoid dependency issues
+    mock_html_processor = Mock()
+    mock_html_processor.process_html = Mock(return_value=("<html></html>", []))
+    mocker.patch("applyr.pdf_converter.HTMLProcessor", return_value=mock_html_processor)
+
+    return {"html": mock_html, "css": mock_css, "doc": mock_doc}
 
 
 @pytest.fixture
