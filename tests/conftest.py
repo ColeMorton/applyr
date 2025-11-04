@@ -280,14 +280,14 @@ def mock_pdf_libraries(mocker):
     # Mock weasyprint HTML class
     mock_html = Mock()
     mock_html.write_pdf = Mock(side_effect=create_dummy_pdf)
-    mocker.patch("applyr.pdf_converter.HTML", return_value=mock_html)
+    mocker.patch("applyr.pdf_converter.HTML", return_value=mock_html, create=True)
 
     # Mock weasyprint CSS class
     mock_css = Mock()
-    mocker.patch("applyr.pdf_converter.CSS", return_value=mock_css)
+    mocker.patch("applyr.pdf_converter.CSS", return_value=mock_css, create=True)
 
     # Mock FontConfiguration
-    mocker.patch("applyr.pdf_converter.FontConfiguration", return_value=Mock())
+    mocker.patch("applyr.pdf_converter.FontConfiguration", return_value=Mock(), create=True)
     mocker.patch("applyr.pdf_converter.FONT_CONFIG_AVAILABLE", True)
 
     # Mock SimpleDocTemplate for reportlab
@@ -305,7 +305,7 @@ def mock_pdf_libraries(mocker):
         build_pdf.pdf_file = filename
         return mock_doc
 
-    mocker.patch("applyr.pdf_converter.SimpleDocTemplate", side_effect=simple_doc_template)
+    mocker.patch("applyr.pdf_converter.SimpleDocTemplate", side_effect=simple_doc_template, create=True)
 
     # Mock HTMLProcessor to avoid dependency issues
     mock_html_processor = Mock()
