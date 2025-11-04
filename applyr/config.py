@@ -10,7 +10,7 @@ if TYPE_CHECKING:
 try:
     import yaml
 except ImportError:
-    yaml = None
+    yaml: Any = None  # type: ignore[no-redef]
 
 
 class PersonalConfig:

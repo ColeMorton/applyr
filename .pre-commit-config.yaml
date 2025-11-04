@@ -32,7 +32,6 @@ repos:
           types-beautifulsoup4,
           types-PyYAML,
         ]
-        args: [--ignore-missing-imports, --no-strict-optional]
         exclude: ^(tests/|scripts/|node_modules/)
 
   - repo: https://github.com/PyCQA/bandit

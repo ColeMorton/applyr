@@ -389,7 +389,7 @@ class DOCXConverter:
                 success = self._convert_markdown_with_pandoc(md_content, reference_docx, output_docx)
             else:
                 # Convert markdown to HTML first, then to DOCX
-                import markdown  # type: ignore[import-untyped]
+                import markdown
 
                 md = markdown.Markdown(extensions=["extra", "codehilite", "toc", "tables"])
                 html_content = md.convert(md_content)
@@ -508,7 +508,7 @@ class DOCXConverter:
             self.console.print(f"[yellow]⚠️  Could not generate reference.docx: {e}[/yellow]")
             return None
 
-    def _apply_styles_to_document(self, doc: DocumentType, docx_styles: dict[str, Any]) -> None:
+    def _apply_styles_to_document(self, doc: DocumentType, docx_styles: dict[str, Any]) -> None:  # type: ignore[valid-type]
         """Apply DOCX styles to document"""
         try:
             # Create custom styles based on CSS
@@ -524,10 +524,10 @@ class DOCXConverter:
         except Exception as e:
             self.console.print(f"[yellow]⚠️  Error applying styles: {e}[/yellow]")
 
-    def _create_heading_style(self, doc: DocumentType, style_name: str, style_props: dict[str, Any]) -> None:
+    def _create_heading_style(self, doc: DocumentType, style_name: str, style_props: dict[str, Any]) -> None:  # type: ignore[valid-type]
         """Create heading style"""
         try:
-            style = doc.styles.add_style(style_name, WD_STYLE_TYPE.PARAGRAPH)
+            style = doc.styles.add_style(style_name, WD_STYLE_TYPE.PARAGRAPH)  # type: ignore[attr-defined]
             if "font_name" in style_props:
                 style.font.name = style_props["font_name"]
             if "font_size" in style_props:
@@ -539,10 +539,10 @@ class DOCXConverter:
         except Exception:
             pass  # Style might already exist
 
-    def _create_paragraph_style(self, doc: DocumentType, style_name: str, style_props: dict[str, Any]) -> None:
+    def _create_paragraph_style(self, doc: DocumentType, style_name: str, style_props: dict[str, Any]) -> None:  # type: ignore[valid-type]
         """Create paragraph style"""
         try:
-            style = doc.styles.add_style(style_name, WD_STYLE_TYPE.PARAGRAPH)
+            style = doc.styles.add_style(style_name, WD_STYLE_TYPE.PARAGRAPH)  # type: ignore[attr-defined]
             if "font_name" in style_props:
                 style.font.name = style_props["font_name"]
             if "font_size" in style_props:
@@ -632,7 +632,7 @@ class DOCXConverter:
             self.console.print(f"[red]❌ Basic HTML to DOCX conversion failed: {e}[/red]")
             return False
 
-    def _extract_content_to_docx(self, soup, doc: DocumentType, _style_template: str) -> None:
+    def _extract_content_to_docx(self, soup, doc: DocumentType, _style_template: str) -> None:  # type: ignore[valid-type]
         """Extract content from BeautifulSoup and add to DOCX"""
         # Find main content area
         body = soup.find("body") or soup
@@ -641,20 +641,20 @@ class DOCXConverter:
             if element.name in ["h1", "h2", "h3", "h4", "h5", "h6"]:
                 # Add heading
                 level = int(element.name[1])
-                doc.add_heading(element.get_text(strip=True), level=level)
+                doc.add_heading(element.get_text(strip=True), level=level)  # type: ignore[attr-defined]
 
             elif element.name == "p":
                 # Add paragraph
                 text = element.get_text(strip=True)
                 if text:
-                    doc.add_paragraph(text)
+                    doc.add_paragraph(text)  # type: ignore[attr-defined]
 
             elif element.name in ["ul", "ol"]:
                 # Add list
                 for li in element.find_all("li"):
                     text = li.get_text(strip=True)
                     if text:
-                        doc.add_paragraph(text, style="List Bullet" if element.name == "ul" else "List Number")
+                        doc.add_paragraph(text, style="List Bullet" if element.name == "ul" else "List Number")  # type: ignore[attr-defined]
 
     def _post_process_docx(self, docx_path: Path, style_template: str) -> None:
         """Post-process DOCX for final refinements"""
@@ -686,10 +686,10 @@ class DOCXConverter:
         except Exception as e:
             self.console.print(f"[yellow]⚠️  Post-processing failed: {e}[/yellow]")
 
-    def _apply_ats_optimizations(self, doc: DocumentType) -> None:
+    def _apply_ats_optimizations(self, doc: DocumentType) -> None:  # type: ignore[valid-type]
         """Apply ATS-specific optimizations"""
         # Ensure simple formatting for ATS compatibility
-        for paragraph in doc.paragraphs:
+        for paragraph in doc.paragraphs:  # type: ignore[attr-defined]
             # Remove complex formatting that might confuse ATS
             if paragraph.runs:
                 for run in paragraph.runs:
@@ -699,15 +699,15 @@ class DOCXConverter:
                     if run.italic is None:
                         run.italic = False
 
-    def _apply_executive_optimizations(self, doc: DocumentType) -> None:
+    def _apply_executive_optimizations(self, doc: DocumentType) -> None:  # type: ignore[valid-type]
         """Apply executive-style optimizations"""
         # Add executive formatting touches
 
-    def _apply_sensylate_optimizations(self, doc: DocumentType) -> None:
+    def _apply_sensylate_optimizations(self, doc: DocumentType) -> None:  # type: ignore[valid-type]
         """Apply Sensylate-style optimizations"""
         # Add Sensylate branding touches
 
-    def _apply_professional_optimizations(self, doc: DocumentType) -> None:
+    def _apply_professional_optimizations(self, doc: DocumentType) -> None:  # type: ignore[valid-type]
         """Apply professional-style optimizations"""
         # Standard professional formatting
 

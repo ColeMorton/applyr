@@ -5,7 +5,7 @@ from pathlib import Path
 import re
 from typing import Optional
 
-import markdown  # type: ignore[import-untyped]
+import markdown
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.platypus import Paragraph, SimpleDocTemplate, Spacer

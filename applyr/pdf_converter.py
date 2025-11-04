@@ -3,7 +3,7 @@
 from pathlib import Path
 from typing import Any, Optional
 
-import markdown  # type: ignore[import-untyped]
+import markdown
 from rich.console import Console
 
 from .config import get_config, get_css_variables
