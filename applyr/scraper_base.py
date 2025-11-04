@@ -124,6 +124,9 @@ class JobScraper(ABC):
             response.raise_for_status()
             soup = BeautifulSoup(response.content, "html.parser")
             return soup
+        except requests.exceptions.Timeout:
+            logger.error(f"Request timeout for {url}")
+            return None
         except requests.exceptions.HTTPError as e:
             if e.response.status_code == 403:
                 logger.error(f"Access forbidden (403) for {url}. Site may be blocking the request.")

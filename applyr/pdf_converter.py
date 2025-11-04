@@ -309,59 +309,67 @@ class PDFConverter:
         self, markdown_file: Path, markdown_content: str, output_pdf: Path, skip_lint: bool = False
     ) -> bool:
         """Simple conversion using ReportLab"""
-        # Convert markdown to HTML first
-        html_content = self.md.convert(markdown_content)
+        try:
+            # Convert markdown to HTML first
+            html_content = self.md.convert(markdown_content)
 
-        # Process HTML with validation if not skipped
-        if not skip_lint:
-            self.console.print("[blue]🔧 Processing generated HTML for validation...[/blue]")
-            processed_html, changes = self.html_processor.process_html(html_content, markdown_file, skip_lint)
-            if changes:
-                self.console.print("[green]✨ HTML processing completed with ReportLab fallback[/green]")
-            html_content = processed_html
+            # Process HTML with validation if not skipped
+            if not skip_lint:
+                self.console.print("[blue]🔧 Processing generated HTML for validation...[/blue]")
+                try:
+                    processed_html, changes = self.html_processor.process_html(html_content, markdown_file, skip_lint)
+                    if changes:
+                        self.console.print("[green]✨ HTML processing completed with ReportLab fallback[/green]")
+                    html_content = processed_html
+                except Exception as e:
+                    self.console.print(f"[yellow]⚠️  HTML processing skipped: {e}[/yellow]")
+                    # Continue with unprocessed HTML
 
-        # Create PDF
-        output_pdf.parent.mkdir(parents=True, exist_ok=True)
-        doc = SimpleDocTemplate(
-            str(output_pdf), pagesize=A4, rightMargin=72, leftMargin=72, topMargin=72, bottomMargin=18
-        )
+            # Create PDF
+            output_pdf.parent.mkdir(parents=True, exist_ok=True)
+            doc = SimpleDocTemplate(
+                str(output_pdf), pagesize=A4, rightMargin=72, leftMargin=72, topMargin=72, bottomMargin=18
+            )
 
-        # Get styles
-        styles = getSampleStyleSheet()
-        story = []
+            # Get styles
+            styles = getSampleStyleSheet()
+            story = []
 
-        # Parse HTML and convert to reportlab paragraphs
-        # This is a simple implementation - strip HTML tags and create paragraphs
-        import re
+            # Parse HTML and convert to reportlab paragraphs
+            # This is a simple implementation - strip HTML tags and create paragraphs
+            import re
 
-        # Remove HTML tags for simple text extraction
-        text_content = re.sub("<[^<]+?>", "", html_content)
-        text_content = html.unescape(text_content)
+            # Remove HTML tags for simple text extraction
+            text_content = re.sub("<[^<]+?>", "", html_content)
+            text_content = html.unescape(text_content)
 
-        # Split into paragraphs and add to story
-        paragraphs = text_content.split("\n\n")
-        for para_text in paragraphs:
-            if para_text.strip():
-                # Determine style based on content
-                if para_text.startswith("#"):
-                    style = styles["Heading1"]
-                    cleaned_text = para_text.lstrip("#").strip()
-                elif para_text.strip().startswith("-") or para_text.strip().startswith("*"):
-                    style = styles["Normal"]
-                    cleaned_text = para_text.strip()
-                else:
-                    style = styles["Normal"]
-                    cleaned_text = para_text.strip()
+            # Split into paragraphs and add to story
+            paragraphs = text_content.split("\n\n")
+            for para_text in paragraphs:
+                if para_text.strip():
+                    # Determine style based on content
+                    if para_text.startswith("#"):
+                        style = styles["Heading1"]
+                        cleaned_text = para_text.lstrip("#").strip()
+                    elif para_text.strip().startswith("-") or para_text.strip().startswith("*"):
+                        style = styles["Normal"]
+                        cleaned_text = para_text.strip()
+                    else:
+                        style = styles["Normal"]
+                        cleaned_text = para_text.strip()
 
-                para = Paragraph(cleaned_text, style)
-                story.append(para)
-                story.append(Spacer(1, 12))
+                    para = Paragraph(cleaned_text, style)
+                    story.append(para)
+                    story.append(Spacer(1, 12))
 
-        # Build PDF
-        doc.build(story)
+            # Build PDF
+            doc.build(story)
 
-        self.console.print(f"[green]✅ PDF created with ReportLab: {output_pdf}[/green]")
-        return True
+            self.console.print(f"[green]✅ PDF created with ReportLab: {output_pdf}[/green]")
+            return True
+        except Exception as e:
+            self.console.print(f"[red]❌ ReportLab conversion failed: {e}[/red]")
+            return False
 
     def _convert_html_with_weasyprint(
         self,

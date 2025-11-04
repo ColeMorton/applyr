@@ -314,5 +314,16 @@ class ATSAnalyzer:
 
     def _extract_achievement_metrics(self, text: str) -> list[str]:
         """Extract quantified achievements from text"""
-        metrics = re.findall(r"\b\d+%|\b\d+\+|\$\d+|\d+x\b|\d+\s*(years?|months?)", text)
+        metrics = []
+        # Percentage metrics: 40%, 25%
+        metrics.extend(re.findall(r"\b\d+%", text))
+        # Plus metrics: 10+, 5+
+        metrics.extend(re.findall(r"\b\d+\+", text))
+        # Dollar metrics: $2M, $500K, $1000000
+        metrics.extend(re.findall(r"\$\d+[KMB]?", text))
+        # Multiplier metrics: 3x, 2x
+        metrics.extend(re.findall(r"\b\d+x\b", text))
+        # Time metrics: 5 years, 2 months
+        time_metrics = re.findall(r"\b\d+\s*(?:years?|months?)", text)
+        metrics.extend(time_metrics)
         return metrics[:10]  # Limit to first 10 metrics

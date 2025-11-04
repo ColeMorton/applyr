@@ -12,7 +12,7 @@ class TestAddJobCommand:
 
     # Happy Path Tests
 
-    def test_add_job_seek_id(self, runner, _temp_dir, mock_responses, sample_seek_html):
+    def test_add_job_seek_id(self, runner, _temp_dir, mock_responses, sample_seek_html):  # noqa: ARG002
         """Test adding job with SEEK 8-digit ID"""
         job_id = "12345678"
         mock_responses.add(responses.GET, f"https://www.seek.com.au/job/{job_id}", body=sample_seek_html, status=200)
@@ -27,7 +27,7 @@ class TestAddJobCommand:
         assert len(job_files) > 0
         assert any(job_id in f.name for f in job_files)
 
-    def test_add_job_seek_url(self, runner, _temp_dir, mock_responses, sample_seek_html):
+    def test_add_job_seek_url(self, runner, _temp_dir, mock_responses, sample_seek_html):  # noqa: ARG002
         """Test adding job with full SEEK URL"""
         job_id = "12345678"
         url = f"https://www.seek.com.au/job/{job_id}"
@@ -43,7 +43,7 @@ class TestAddJobCommand:
         assert len(job_files) > 0
         assert any(job_id in f.name for f in job_files)
 
-    def test_add_job_employment_hero_url(self, runner, _temp_dir, mock_responses, sample_eh_html):
+    def test_add_job_employment_hero_url(self, runner, _temp_dir, mock_responses, sample_eh_html):  # noqa: ARG002
         """Test adding job with Employment Hero URL"""
         url = "https://jobs.employmenthero.com/AU/job/test-job-slug"
         mock_responses.add(responses.GET, url, body=sample_eh_html, status=200)
@@ -54,7 +54,7 @@ class TestAddJobCommand:
         assert result.exit_code == 0
         assert "eh-test-job-slug" in result.output or "Saved job" in result.output
 
-    def test_add_job_with_priority_flag(self, runner, _temp_dir, mock_responses, sample_seek_html):
+    def test_add_job_with_priority_flag(self, runner, _temp_dir, mock_responses, sample_seek_html):  # noqa: ARG002
         """Test adding job with priority flag"""
         job_id = "12345678"
         mock_responses.add(responses.GET, f"https://www.seek.com.au/job/{job_id}", body=sample_seek_html, status=200)
@@ -68,7 +68,7 @@ class TestAddJobCommand:
         job_files = list(Path(fs).glob("**/job_descriptions/*.md"))
         assert len(job_files) > 0
 
-    def test_add_job_with_notes_flag(self, runner, _temp_dir, mock_responses, sample_seek_html):
+    def test_add_job_with_notes_flag(self, runner, _temp_dir, mock_responses, sample_seek_html):  # noqa: ARG002
         """Test adding job with notes flag"""
         job_id = "12345678"
         notes_text = "Great opportunity with good tech stack"
@@ -82,7 +82,7 @@ class TestAddJobCommand:
         job_files = list(Path(fs).glob("**/job_descriptions/*.md"))
         assert len(job_files) > 0
 
-    def test_add_job_with_combined_flags(self, runner, _temp_dir, mock_responses, sample_seek_html):
+    def test_add_job_with_combined_flags(self, runner, _temp_dir, mock_responses, sample_seek_html):  # noqa: ARG002
         """Test adding job with multiple flags"""
         job_id = "12345678"
         mock_responses.add(responses.GET, f"https://www.seek.com.au/job/{job_id}", body=sample_seek_html, status=200)
@@ -134,7 +134,7 @@ class TestAddJobCommand:
 
     # Mixed Batch Tests
 
-    def test_add_job_mixed_batch(self, runner, _temp_dir, mock_responses, sample_seek_html, sample_eh_html):
+    def test_add_job_mixed_batch(self, runner, _temp_dir, mock_responses, sample_seek_html, sample_eh_html):  # noqa: ARG002
         """Test adding mixed SEEK and Employment Hero jobs"""
         seek_id = "12345678"
         eh_url = "https://jobs.employmenthero.com/AU/job/test-position"
@@ -148,7 +148,7 @@ class TestAddJobCommand:
         # Should process both jobs - may have exit code 0 or report mixed results
         assert "Scraping" in result.output or "Processing" in result.output
 
-    def test_add_job_multiple_seek_ids(self, runner, _temp_dir, mock_responses, sample_seek_html):
+    def test_add_job_multiple_seek_ids(self, runner, _temp_dir, mock_responses, sample_seek_html):  # noqa: ARG002
         """Test adding multiple SEEK job IDs"""
         job_id1 = "12345678"
         job_id2 = "12345679"
@@ -165,7 +165,7 @@ class TestAddJobCommand:
 class TestAddJobCommandErrorScenarios:
     """Additional error scenario tests for add-job command"""
 
-    def test_add_job_network_failure(self, runner, _temp_dir, mock_responses):
+    def test_add_job_network_failure(self, runner, _temp_dir, mock_responses):  # noqa: ARG002
         """Test handling of network failure"""
         job_id = "12345678"
         mock_responses.add(responses.GET, f"https://www.seek.com.au/job/{job_id}", body="Error", status=500)
@@ -183,7 +183,7 @@ class TestAddJobCommandErrorScenarios:
         # Should handle empty items in list
         # May succeed by skipping empty items or fail with error
 
-    def test_add_job_with_force_flag(self, runner, _temp_dir, mock_responses, sample_seek_html):
+    def test_add_job_with_force_flag(self, runner, _temp_dir, mock_responses, sample_seek_html):  # noqa: ARG002
         """Test adding job with force flag"""
         job_id = "12345678"
         mock_responses.add(responses.GET, f"https://www.seek.com.au/job/{job_id}", body=sample_seek_html, status=200)
@@ -256,7 +256,7 @@ class TestAddJobCommandIntegration:
             # Check if file was created with correct pattern
             # Would need to check actual file system
 
-    def test_job_id_format_employment_hero(self, runner, _temp_dir, mock_responses, sample_eh_html):
+    def test_job_id_format_employment_hero(self, runner, _temp_dir, mock_responses, sample_eh_html):  # noqa: ARG002
         """Test Employment Hero job ID has correct prefix"""
         url = "https://jobs.employmenthero.com/AU/job/test-slug"
         mock_responses.add(responses.GET, url, body=sample_eh_html, status=200)

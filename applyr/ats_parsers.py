@@ -222,10 +222,10 @@ class DocumentParser:
         if linkedin_match:
             contact["linkedin"] = linkedin_match.group()
 
-        # Location pattern (basic)
+        # Location pattern (handles multi-word city names)
         location_patterns = [
-            r"\b[A-Z][a-z]+,\s*[A-Z]{2}\s*\d{5}\b",  # City, State ZIP
-            r"\b[A-Z][a-z]+,\s*[A-Z]{2}\b",  # City, State
+            r"\b(?:[A-Z][a-z]+(?:\s+[A-Z][a-z]+)*),\s*[A-Z]{2}\s*\d{5}\b",  # City, State ZIP
+            r"\b(?:[A-Z][a-z]+(?:\s+[A-Z][a-z]+)*),\s*[A-Z]{2}\b",  # City, State
         ]
 
         for pattern in location_patterns:

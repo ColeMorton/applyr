@@ -34,9 +34,13 @@ def detect_job_source(url_or_id: str) -> str:  # noqa: PLR0911
     if re.match(r"^[a-f0-9]{16}$", url_or_id):
         return "indeed"
 
-    # Check if it's a LinkedIn job ID (numeric)
-    if re.match(r"^\d+$", url_or_id) and len(url_or_id) > 8:
-        return "linkedin"
+    # Check if it's a LinkedIn job ID (numeric, longer than 8 digits)
+    if re.match(r"^\d+$", url_or_id):
+        if len(url_or_id) > 8:
+            return "linkedin"
+        elif len(url_or_id) < 8:
+            raise ValueError(f"Could not determine job board source from: {url_or_id}")
+        # Exactly 8 digits is SEEK (already handled above)
 
     # Check if it's a URL
     if url_or_id.startswith(("http://", "https://")):
@@ -54,6 +58,7 @@ def detect_job_source(url_or_id: str) -> str:  # noqa: PLR0911
         else:
             raise ValueError(f"Unsupported job board domain: {domain}")
 
+    # If we get here, it's not a valid format
     raise ValueError(f"Could not determine job board source from: {url_or_id}")
 
 

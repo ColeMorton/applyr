@@ -1072,17 +1072,22 @@ def add_job_command(
             url = job_info["url"]
             from .scraper_factory import create_scraper
 
-            scraper, _ = create_scraper(identifier, delay=2.0, database=database)
-            job_id = scraper.extract_job_id(url)
+            try:
+                scraper, _ = create_scraper(identifier, delay=2.0, database=database)
+                job_id = scraper.extract_job_id(url)
 
-            if job_id and database.job_exists(job_id) and not force:
-                existing_job = database.get_job(job_id)
-                if existing_job:
-                    duplicate_jobs.append(
-                        (job_id, existing_job["company_name"], existing_job["job_title"], existing_job["status"])
-                    )
-            else:
-                scraping_jobs_to_process.append(url)
+                if job_id and database.job_exists(job_id) and not force:
+                    existing_job = database.get_job(job_id)
+                    if existing_job:
+                        duplicate_jobs.append(
+                            (job_id, existing_job["company_name"], existing_job["job_title"], existing_job["status"])
+                        )
+                else:
+                    scraping_jobs_to_process.append(url)
+            except ValueError as e:
+                # Handle unsupported sources (e.g., LinkedIn without manual file)
+                console.print(f"[red]❌ Error: {str(e)}[/red]")
+                raise typer.Exit(1) from e
 
     # Handle duplicates confirmation for multiple jobs
     if duplicate_jobs and not force:

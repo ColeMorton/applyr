@@ -94,12 +94,13 @@ class KeywordAnalyzer:
 
     def _calculate_keyword_density(self, text: str, keywords: dict[str, list[str]]) -> dict[str, float]:
         """Calculate keyword density"""
+        text_lower = text.lower()
         word_count = len(text.split())
         density = {}
 
         for category, words in keywords.items():
             if words:
-                total_occurrences = sum(text.count(word.lower()) for word in words)
+                total_occurrences = sum(text_lower.count(word.lower()) for word in words)
                 density[category] = (total_occurrences / word_count) * 100 if word_count > 0 else 0
             else:
                 density[category] = 0.0

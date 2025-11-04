@@ -46,7 +46,11 @@ class SEEKScraper(JobScraper):
     def extract_job_id(self, url: str) -> Optional[str]:
         """Extract job ID from SEEK URL."""
         try:
-            path = urlparse(url).path
+            parsed = urlparse(url)
+            # Only extract from SEEK URLs
+            if "seek.com.au" not in parsed.netloc.lower():
+                return None
+            path = parsed.path
             match = re.search(r"/job/(\d+)", path)
             return match.group(1) if match else None
         except (AttributeError, ValueError, TypeError, re.error) as e:
@@ -110,16 +114,16 @@ class SEEKScraper(JobScraper):
                     break
 
             if not job_desc_elem:
-                content_areas = soup.find_all(
-                    ["div", "section"],
-                    string=lambda text: text
-                    and any(
-                        keyword in text.lower()
-                        for keyword in ["responsibilities", "requirements", "experience", "role", "position"]
-                    ),
-                )
-                if content_areas:
-                    job_desc_elem = content_areas[0].parent
+                # Content-based fallback: search for divs/sections containing job-related keywords
+                content_areas = soup.find_all(["div", "section"])
+                for area in content_areas:
+                    area_text = area.get_text().lower()
+                    if any(
+                        keyword in area_text
+                        for keyword in ["responsibilities", "requirements", "experience", "role", "position", "about"]
+                    ):
+                        job_desc_elem = area
+                        break
 
             if not job_desc_elem:
                 logger.error("Could not find job description content")

@@ -122,7 +122,7 @@ class TestFetchPage:
 
         assert soup is None
 
-    def test_fetch_page_network_error(self, _mock_responses):
+    def test_fetch_page_network_error(self, _mock_responses):  # noqa: ARG002
         """Test page fetch with network error"""
         scraper = ConcreteScraper()
         url = "https://example.com/job"

@@ -162,7 +162,7 @@ Job description content here.
 
         assert stats == {}
 
-    def test_generate_aggregate_content(self, _temp_dir: Path):
+    def test_generate_aggregate_content(self, _temp_dir: Path):  # noqa: ARG002
         """Test generation of aggregate content"""
         aggregator = JobDescriptionAggregator()
         jobs_data = [
