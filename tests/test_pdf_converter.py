@@ -71,6 +71,7 @@ def pdf_converter():
     return PDFConverter(console)
 
 
+@pytest.mark.usefixtures("mock_pdf_libraries")
 class TestPDFConverter:
     """Test cases for PDFConverter class"""
 

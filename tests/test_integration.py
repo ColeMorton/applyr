@@ -119,7 +119,7 @@ class TestBatchProcessingWorkflow:
 class TestPDFGenerationWorkflow:
     """Integration tests for PDF generation workflow"""
 
-    def test_generate_markdown_convert_pdf_workflow(self, test_console: Console, temp_dir: Path):
+    def test_generate_markdown_convert_pdf_workflow(self, test_console: Console, temp_dir: Path, mock_pdf_libraries):  # noqa: ARG002
         """Test workflow: generate markdown → convert to PDF → validate PDF → check formatting"""
         # Create markdown file
         md_file = temp_dir / "test.md"
@@ -157,7 +157,13 @@ class TestMultiModuleIntegration:
     """Integration tests for multi-module workflows"""
 
     def test_scrape_analyze_generate_convert_workflow(
-        self, test_console: Console, temp_dir: Path, mock_responses, sample_seek_html: str, sample_text_resume: Path
+        self,
+        test_console: Console,
+        temp_dir: Path,
+        mock_responses,
+        sample_seek_html: str,
+        sample_text_resume: Path,
+        mock_pdf_libraries,  # noqa: ARG002
     ):
         """Test full pipeline: Scrape → Analyze → Generate → Convert"""
         # Step 1: Scrape job

@@ -262,7 +262,7 @@ Requirements:
     return job_file
 
 
-@pytest.fixture(autouse=True)
+@pytest.fixture
 def mock_pdf_libraries(mocker):
     """Mock PDF library availability and conversion methods for all tests"""
     # Mock library availability flags
